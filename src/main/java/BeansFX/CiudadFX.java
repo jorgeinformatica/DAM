@@ -15,30 +15,30 @@ import javafx.collections.FXCollections;
  * @author Jorge Sempere Jimenez
  */
 public class CiudadFX extends BaseFX{
-
+        
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Short> codCiudad;
     @SuppressWarnings("FieldMayBeFinal")
     private StringProperty nombre;
     @SuppressWarnings("FieldMayBeFinal")
-    private SetProperty<CiudadConcp> codigos;
+    private SetProperty<CiudadConcp> ciudadConcp;
 
     public CiudadFX() {
         this.codCiudad = new SimpleObjectProperty<>();
         this.nombre = new SimpleStringProperty();
         this.beanFX = new SimpleObjectProperty<>(this);
-        this.codigos = new SimpleSetProperty<>(FXCollections.observableSet());
+        this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet());
     }
 
     public CiudadFX(Ciudad ciudad) {
         this.codCiudad = new SimpleObjectProperty<>(ciudad.getCodCiudad());
         this.nombre = new SimpleStringProperty(ciudad.getNombre());
         this.beanFX = new SimpleObjectProperty<>(this);
-        this.codigos = new SimpleSetProperty<>(FXCollections.observableSet(ciudad.getCiudadConcps()));
+        this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet(ciudad.getCiudadConcps()));
         this.bean=ciudad;
     }
 
-    public int getCodCiudad() {
+    public Short getCodCiudad() {
         return codCiudad.get();
     }
 
@@ -62,17 +62,17 @@ public class CiudadFX extends BaseFX{
         return nombre;
     }
 
-    public Set getCodigos() {
-        return codigos.get();
+    public Set getCiudadConcp() {
+        return ciudadConcp.get();
     }
 
-    public void setCodigos(Set codigos) {
-        this.codigos.clear();
-        this.codigos.addAll(codigos);
+    public void setCiudadConcp(Set codigos) {
+        this.ciudadConcp.clear();
+        this.ciudadConcp.addAll(codigos);
     }
 
-    public SetProperty<CiudadConcp> codigosProperty() {
-        return codigos;
+    public SetProperty<CiudadConcp> ciudadConcpProperty() {
+        return ciudadConcp;
     }
 
     @Override

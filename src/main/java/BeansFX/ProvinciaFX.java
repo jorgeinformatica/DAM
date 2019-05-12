@@ -21,18 +21,18 @@ public class ProvinciaFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private StringProperty nombre;
     @SuppressWarnings("FieldMayBeFinal")
-    private SetProperty<CiudadConcp> ciudades;
+    private SetProperty<CiudadConcp> ciudadConcp;
 
     public ProvinciaFX() {
         this.beanFX = new SimpleObjectProperty<>(this);
-        this.ciudades = new SimpleSetProperty<>(FXCollections.observableSet());
+        this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet());
         this.nombre = new SimpleStringProperty();
         this.codProvincia = new SimpleObjectProperty<>();
     }
 
     public ProvinciaFX(Provincia provincia) {
         this.beanFX = new SimpleObjectProperty<>(this);
-        this.ciudades = new SimpleSetProperty<>(FXCollections.observableSet(provincia.getCiudadConcps()));
+        this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet(provincia.getCiudadConcps()));
         this.codProvincia = new SimpleObjectProperty<>(provincia.getCodProv());
         this.nombre = new SimpleStringProperty(provincia.getNombre());
         this.bean = provincia;
@@ -62,20 +62,20 @@ public class ProvinciaFX extends BaseFX {
         return nombre;
     }
 
-    public Set getCiudades() {
-        return ciudades.get();
+    public Set getCiudadConcp() {
+        return ciudadConcp.get();
     }
 
-    public void setCiudades(Set<CiudadConcp> ciudades) {
-        this.ciudades.clear();
+    public void setCiudadConcp(Set<CiudadConcp> ciudades) {
+        this.ciudadConcp.clear();
         ciudades.forEach((ciu) -> {
-            this.ciudades.add(ciu);
+            this.ciudadConcp.add(ciu);
         });
 
     }
 
-    public SetProperty<CiudadConcp> ciudadesProperty() {
-        return ciudades;
+    public SetProperty<CiudadConcp> ciudadConcpProperty() {
+        return ciudadConcp;
     }
 
     @Override
