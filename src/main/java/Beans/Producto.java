@@ -1,6 +1,7 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.ProductoFX;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
@@ -115,7 +116,10 @@ public class Producto implements java.io.Serializable, BaseBean {
 
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        nombre = ((ProductoFX) o).getNombre();
+        precio = ((ProductoFX) o).getPrecio();
+        tipoIva = ((ProductoFX) o).getTipoIva();
+        descripcion = ((ProductoFX) o).getDescripcion();
     }
 
     @Override

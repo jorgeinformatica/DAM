@@ -172,8 +172,10 @@ public class LogicController {
                 alert.initOwner(viewControl.getStage());
                 Optional<ButtonType> resol = alert.showAndWait();
                 if (resol.get() == ButtonType.OK) {
+                    hibControl.initTransaction();
                     elem.getBean().actualizarDatos(elem);
                     hibControl.UpdateElement(elem.getBean());
+                    hibControl.goCommit();
                     return false;
                 } else {
                     elem.sinCambios();

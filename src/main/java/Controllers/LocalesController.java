@@ -15,7 +15,6 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -232,7 +231,9 @@ public class LocalesController implements Initializable {
         txtCalle.setText(local.getDireccion().getNombre());
         txtNum.setText(local.getDireccion().getNumero() + "");
         cbProv.getSelectionModel().select(viewControl.getLogic().getProvFX(local.getDireccion().getCiudadConcp().getProvincia()));
+        filterCiudad.setPredicate(f -> true);
         cbCiudad.getSelectionModel().select(viewControl.getLogic().getCiuFX(local.getDireccion().getCiudadConcp().getCiudad()));
+        filterCP.setPredicate(f -> true);
         cbCP.getSelectionModel().select(viewControl.getLogic().getCPFX(local.getDireccion().getCiudadConcp().getCodigoPostal()));
     }
 
@@ -250,8 +251,10 @@ public class LocalesController implements Initializable {
                         cbCP.setDisable(false);
                         Ciudad c = local.getDireccion().getCiudadConcp().getCiudad();
                         if (c != null) {
-                            filterCP.setPredicate((cp) -> {
-                                return recorrerCCP(cp, viewControl.getLogic().getCiuFX(c));
+                            Platform.runLater(() -> {
+                                filterCP.setPredicate((cp) -> {
+                                    return recorrerCCP(cp, viewControl.getLogic().getCiuFX(c));
+                                });
                             });
                         } else {
                             filterCP.setPredicate(f -> true);
@@ -261,8 +264,10 @@ public class LocalesController implements Initializable {
                         cbCiudad.setDisable(false);
                         Provincia p = local.getDireccion().getCiudadConcp().getProvincia();
                         if (p != null) {
-                            filterCiudad.setPredicate((ci) -> {
-                                return recorrerCCP(ci, viewControl.getLogic().getProvFX(p));
+                            Platform.runLater(() -> {
+                                filterCiudad.setPredicate((ci) -> {
+                                    return recorrerCCP(ci, viewControl.getLogic().getProvFX(p));
+                                });
                             });
                         } else {
                             filterCiudad.setPredicate(f -> true);

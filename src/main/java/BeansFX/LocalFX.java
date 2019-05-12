@@ -6,6 +6,7 @@ import Beans.Local;
 import Beans.Pedido;
 import Beans.Stock;
 import Beans.Ticket;
+import java.util.Objects;
 import java.util.Set;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -148,11 +149,31 @@ public class LocalFX extends BaseFX {
     
     @Override
     public boolean comprobarCambios() {
-        return false;
+        if (((Local) bean).getDireccion().getCiudadConcp().getProvincia().getCodProv()
+                != getDireccion().getCiudadConcp().getProvincia().getCodProv()) {
+            return true;
+        }
+        if (!Objects.equals(((Local) bean).getDireccion().getCiudadConcp().getCiudad().getCodCiudad(),
+                getDireccion().getCiudadConcp().getCiudad().getCodCiudad())) {
+            return true;
+        }
+        if (!Objects.equals(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal().getCodPostal(),
+                getDireccion().getCiudadConcp().getCodigoPostal().getCodPostal())) {
+            return true;
+        }
+        if (((Local) bean).getDireccion().getNombre().equals(getDireccion().getNombre())) {
+            return true;
+        }
+        return ((Local) bean).getDireccion().getNumero() == getDireccion().getNumero();
     }
     
     @Override
     public void sinCambios() {
+        getDireccion().getCiudadConcp().setCiudad(((Local) bean).getDireccion().getCiudadConcp().getCiudad());
+        getDireccion().getCiudadConcp().setCodigoPostal(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal());
+        getDireccion().getCiudadConcp().setProvincia(((Local) bean).getDireccion().getCiudadConcp().getProvincia());
+        getDireccion().setNombre(((Local) bean).getDireccion().getNombre());
+        getDireccion().setNumero(((Local) bean).getDireccion().getNumero());
     }
     
     @Override

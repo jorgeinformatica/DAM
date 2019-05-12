@@ -1,6 +1,7 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.LocalFX;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,7 +9,7 @@ import java.util.Set;
  * @author Jorge Sempere Jimenez
  */
 public class Local implements java.io.Serializable, BaseBean {
-
+    
     private Short codLocal;
     private Direccion direccion;
     private boolean estado;
@@ -16,15 +17,15 @@ public class Local implements java.io.Serializable, BaseBean {
     private Set stocks = new HashSet(0);
     private Set tickets = new HashSet(0);
     private Set pedidos = new HashSet(0);
-
+    
     public Local() {
     }
-
+    
     public Local(Direccion direccion, boolean estado) {
         this.direccion = direccion;
         this.estado = estado;
     }
-
+    
     public Local(Direccion direccion, boolean estado, Set empleados, Set stocks, Set tickets, Set pedidos) {
         this.direccion = direccion;
         this.estado = estado;
@@ -33,71 +34,75 @@ public class Local implements java.io.Serializable, BaseBean {
         this.tickets = tickets;
         this.pedidos = pedidos;
     }
-
+    
     public Short getCodLocal() {
         return this.codLocal;
     }
-
+    
     public void setCodLocal(Short codLocal) {
         this.codLocal = codLocal;
     }
-
+    
     public Direccion getDireccion() {
         return this.direccion;
     }
-
+    
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }
-
+    
     public boolean getEstado() {
         return this.estado;
     }
-
+    
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
+    
     public Set getEmpleados() {
         return this.empleados;
     }
-
+    
     public void setEmpleados(Set empleados) {
         this.empleados = empleados;
     }
-
+    
     public Set getStocks() {
         return this.stocks;
     }
-
+    
     public void setStocks(Set stocks) {
         this.stocks = stocks;
     }
-
+    
     public Set getTickets() {
         return this.tickets;
     }
-
+    
     public void setTickets(Set tickets) {
         this.tickets = tickets;
     }
-
+    
     public Set getPedidos() {
         return this.pedidos;
     }
-
+    
     public void setPedidos(Set pedidos) {
         this.pedidos = pedidos;
     }
-
+    
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        direccion.setNombre(((LocalFX) o).getDireccion().getNombre());
+        direccion.setNumero(((LocalFX) o).getDireccion().getNumero());
+        direccion.getCiudadConcp().setCiudad(((LocalFX) o).getDireccion().getCiudadConcp().getCiudad());
+        direccion.getCiudadConcp().setCodigoPostal(((LocalFX) o).getDireccion().getCiudadConcp().getCodigoPostal());
+        direccion.getCiudadConcp().setProvincia(((LocalFX) o).getDireccion().getCiudadConcp().getProvincia());
     }
-
+    
     @Override
     public String toString() {
         return "Local: " + codLocal + " " + direccion;
     }
-
+    
 }//fin de clase
