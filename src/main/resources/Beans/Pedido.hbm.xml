@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.Pedido" table="PEDIDO" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <id name="numPed" type="java.lang.Integer">
+            <column name="Num_Ped" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="local" class="Beans.Local" fetch="select">
+            <column name="Cod_Local" not-null="true" />
+        </many-to-one>
+        <property name="fechaPed" type="timestamp">
+            <column name="Fecha_Ped" length="26" not-null="true" />
+        </property>
+        <property name="fechaEntrega" type="date">
+            <column name="Fecha_Entrega" length="10" not-null="true" />
+        </property>
+        <property name="estado" type="string">
+            <column name="Estado" length="10" not-null="true" />
+        </property>
+        <set name="lineaPedidos" table="LINEA_PEDIDO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Num_Ped" not-null="true" />
+            </key>
+            <one-to-many class="Beans.LineaPedido" />
+        </set>
+    </class>
+</hibernate-mapping>

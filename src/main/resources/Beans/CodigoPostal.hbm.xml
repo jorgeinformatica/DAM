@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.CodigoPostal" table="CODIGO_POSTAL" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <id name="codPostal" type="string">
+            <column name="Cod_Postal" length="5" />
+            <generator class="assigned" />
+        </id>
+        <set name="ciudadConcps" table="CIUDAD_CONCP" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Postal" length="5" not-null="true" />
+            </key>
+            <one-to-many class="Beans.CiudadConcp" />
+        </set>
+    </class>
+</hibernate-mapping>

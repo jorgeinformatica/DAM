@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.octicons.OctIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.PedidosAMController">
+   <children>
+      <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <VBox alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="TOP_CENTER">
+               <children>
+                  <Label text="PANEL DE PEDIDOS">
+                     <font>
+                        <Font name="Noto Sans Bold" size="24.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Label>
+                  <Separator blendMode="EXCLUSION" prefHeight="5.0" prefWidth="200.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Separator>
+                  <GridPane alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" percentWidth="0.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
+                        <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button fx:id="nuevoBTN1" mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="Noto Sans Bold" size="12.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="100.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <Button fx:id="borrarBTN1" mnemonicParsing="false" onAction="#borrarProducto" prefWidth="120.0" text="BORRAR" GridPane.columnIndex="2">
+                           <font>
+                              <Font name="Noto Sans Bold" size="12.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="10.0" right="10.0" />
+                           </GridPane.margin>
+                        </Button>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <Label contentDisplay="RIGHT" text="PEDIDOS: ">
+                                 <font>
+                                    <Font name="Noto Sans Bold" size="14.0" />
+                                 </font>
+                                 <graphic>
+                                    <ComboBox fx:id="cbElementos" />
+                                 </graphic>
+                              </Label>
+                              <TextField fx:id="txtFiltro" prefHeight="27.0" prefWidth="100.0" />
+                              <Label fx:id="infoFiltro" alignment="CENTER" prefHeight="27.0" prefWidth="24.0">
+                                 <graphic>
+                                    <OctIconView fill="#3cb478" glyphName="INFO" size="22" />
+                                 </graphic>
+                              </Label>
+                           </children>
+                           <GridPane.margin>
+                              <Insets right="200.0" />
+                           </GridPane.margin>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" top="5.0" />
+                     </padding>
+                  </GridPane>
+                  <Separator prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="200.0">
+                     <children>
+                        <Label contentDisplay="RIGHT" prefHeight="30.0" prefWidth="500.0" text="BUSCAR:">
+                           <font>
+                              <Font name="Noto Sans Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ComboBox fx:id="cbBuscar" prefHeight="30.0" prefWidth="430.0" />
+                           </graphic>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <GridPane alignment="CENTER">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="60.0" percentHeight="0.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label contentDisplay="BOTTOM" text="ESTADO" GridPane.columnIndex="3">
+                           <font>
+                              <Font name="Noto Sans Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <ChoiceBox fx:id="estadoCB" nodeOrientation="RIGHT_TO_LEFT" prefWidth="150.0" />
+                           </graphic>
+                           <GridPane.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="BOTTOM" prefWidth="200.0" text="FECHA DE ENTREGA" GridPane.columnIndex="2">
+                           <graphic>
+                              <DatePicker fx:id="fechaEntregaDP" prefWidth="190.0" />
+                           </graphic>
+                           <font>
+                              <Font name="Noto Sans Bold" size="14.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label alignment="CENTER" contentDisplay="BOTTOM" prefWidth="200.0" text="FECHA DEL PEDIDO" GridPane.columnIndex="1">
+                           <graphic>
+                              <DatePicker fx:id="fechaPedidoDP" prefWidth="190.0" />
+                           </graphic>
+                           <font>
+                              <Font name="Noto Sans Bold" size="14.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </GridPane.margin>
+                        </Label>
+                        <Label contentDisplay="BOTTOM" text="NUM PEDIDO">
+                           <font>
+                              <Font name="Noto Sans Bold" size="14.0" />
+                           </font>
+                           <graphic>
+                              <TextField fx:id="numPedido" editable="false" prefWidth="100.0" />
+                           </graphic>
+                           <GridPane.margin>
+                              <Insets left="20.0" right="20.0" />
+                           </GridPane.margin>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                     </padding>
+                  </GridPane>
+                  <Separator prefWidth="200.0" />
+                  <Label text="Lineas del pedido">
+                     <font>
+                        <Font name="Noto Sans Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TableView fx:id="lineasTV" VBox.vgrow="ALWAYS">
+                     <columns>
+                        <TableColumn fx:id="lineaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="LINEA" />
+                        <TableColumn fx:id="productoTC" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="PRODUCTO" />
+                        <TableColumn fx:id="cantidadTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CANTIDAD" />
+                        <TableColumn fx:id="estadoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ESTADO" />
+                        <TableColumn fx:id="accionesTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ACCIONES" />
+                     </columns>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
+                     </VBox.margin>
+                  </TableView>
+               </children>
+            </VBox>
+         </center>
+         <left>
+            <Separator maxWidth="300.0" minWidth="100.0" prefWidth="200.0" visible="false" BorderPane.alignment="CENTER" />
+         </left>
+         <right>
+            <Separator maxWidth="300.0" minWidth="100.0" prefWidth="200.0" visible="false" BorderPane.alignment="CENTER" />
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

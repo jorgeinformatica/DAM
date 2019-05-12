@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="450.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ListarPedidosController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="LISTADO DE PEDIDOS" textAlignment="CENTER">
+         <font>
+            <Font name="Noto Sans Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin>
+      </Label>
+      <Label contentDisplay="RIGHT" text="BUSCAR: ">
+         <graphic>
+            <TextField fx:id="txtBuscar" />
+         </graphic>
+         <font>
+            <Font name="Noto Sans Bold" size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" top="5.0" />
+         </VBox.margin>
+      </Label>
+      <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
+         <items>
+            <TableView fx:id="pedidosTV">
+               <columns>
+                  <TableColumn fx:id="accionesPedidosTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ACCIONES" />
+                  <TableColumn fx:id="localTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="LOCAL" />
+                  <TableColumn fx:id="pedidoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="PEDIDO" />
+                  <TableColumn fx:id="fechaPedidoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="FECHA PEDIDO" />
+                  <TableColumn fx:id="fechaEntregaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="FECHA ENTREGA" />
+                  <TableColumn fx:id="estadoPedidoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ESTADO" />
+               </columns>
+            </TableView>
+            <TableView fx:id="lineasTV">
+              <columns>
+                  <TableColumn fx:id="accionesLineasTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ACCIONES" />
+                <TableColumn fx:id="lineaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="LINEA" />
+                <TableColumn fx:id="productoTC" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="PRODUCTO" />
+                  <TableColumn fx:id="cantidadTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CANTIDAD" />
+                  <TableColumn fx:id="estadoLineaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ESTADO" />
+              </columns>
+            </TableView>
+         </items>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </SplitPane>
+   </children>
+</VBox>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ListarProductosController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" text="LISTADO DE PRODUCTOS" textAlignment="CENTER">
+         <font>
+            <Font name="Noto Sans Bold" size="24.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin>
+      </Label>
+      <Label contentDisplay="RIGHT" text="BUSCAR: ">
+         <graphic>
+            <TextField fx:id="txtBuscar" />
+         </graphic>
+         <font>
+            <Font name="Noto Sans Bold" size="14.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="5.0" left="5.0" top="5.0" />
+         </VBox.margin>
+      </Label>
+      <TableView fx:id="productosTV" prefHeight="500.0" prefWidth="200.0">
+        <columns>
+            <TableColumn fx:id="accionesTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="ACCIONES" />
+            <TableColumn fx:id="nombreTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="NOMBRE" />
+          <TableColumn fx:id="precioTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="PRECIO" />
+          <TableColumn fx:id="ivaTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="IVA" />
+            <TableColumn fx:id="descripcionTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="DESCRIPCION" />
+        </columns>
+         <VBox.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </VBox.margin>
+      </TableView>
+   </children>
+</VBox>

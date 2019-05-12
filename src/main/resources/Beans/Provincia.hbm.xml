@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.Provincia" table="PROVINCIA" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <id name="codProv" type="short">
+            <column name="Cod_Prov" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="Nombre" length="50" not-null="true" />
+        </property>
+        <set name="ciudadConcps" table="CIUDAD_CONCP" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Prov" not-null="true" />
+            </key>
+            <one-to-many class="Beans.CiudadConcp" />
+        </set>
+    </class>
+</hibernate-mapping>

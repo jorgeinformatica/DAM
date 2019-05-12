@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.CiudadConcp" table="CIUDAD_CONCP" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <composite-id name="id" class="Beans.CiudadConcpId">
+            <key-property name="codCiudad" type="short">
+                <column name="Cod_Ciudad" />
+            </key-property>
+            <key-property name="codPostal" type="string">
+                <column name="Cod_Postal" length="5" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="ciudad" class="Beans.Ciudad" update="false" insert="false" fetch="select">
+            <column name="Cod_Ciudad" not-null="true" />
+        </many-to-one>
+        <many-to-one name="codigoPostal" class="Beans.CodigoPostal" update="false" insert="false" fetch="select">
+            <column name="Cod_Postal" length="5" not-null="true" />
+        </many-to-one>
+        <many-to-one name="provincia" class="Beans.Provincia" fetch="select">
+            <column name="Cod_Prov" not-null="true" />
+        </many-to-one>
+        <set name="direccions" table="DIRECCION" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Ciudad" not-null="true" />
+                <column name="Cod_Postal" length="5" not-null="true" />
+            </key>
+            <one-to-many class="Beans.Direccion" />
+        </set>
+    </class>
+</hibernate-mapping>

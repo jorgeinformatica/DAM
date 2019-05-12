@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.AAController">
+   <children>
+      <MenuBar fx:id="Barra" nodeOrientation="LEFT_TO_RIGHT" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu fx:id="Inicio" mnemonicParsing="false" text="Inicio">
+            <items>
+                <Menu fx:id="Productos" mnemonicParsing="false" text="Productos">
+                  <items>
+                    <MenuItem fx:id="mItListProd" mnemonicParsing="false" onAction="#mitList" text="Listar Productos" />
+                        <MenuItem fx:id="mItModProd" mnemonicParsing="false" onAction="#mitModProd" text="Añadir/Modificar" />
+                  </items>
+                </Menu>
+                  <MenuItem fx:id="mItUser" mnemonicParsing="false" onAction="#mitUser" text="Cambiar Usuario" />
+              <MenuItem fx:id="mItSalir" mnemonicParsing="false" onAction="#mitSalir" text="Salir" />
+            </items>
+          </Menu>
+            <Menu fx:id="Pedidos" mnemonicParsing="false" text="Pedidos">
+              <items>
+                <MenuItem fx:id="mItListPed" mnemonicParsing="false" onAction="#mitPedido" text="Listar pedidos" />
+                  <MenuItem fx:id="mItModPed" mnemonicParsing="false" onAction="#mitModPedido" text="Añadir/Modificar" />
+              </items>
+            </Menu>
+            <Menu fx:id="Preparacion" mnemonicParsing="false" text="Preparación">
+              <items>
+                <MenuItem fx:id="mItDash" mnemonicParsing="false" onAction="#mitDash" text="Dashboard" />
+                  <Menu mnemonicParsing="false" text="Configuracion">
+                    <items>
+                      <MenuItem fx:id="mItLocal" mnemonicParsing="false" onAction="#mitLocal" text="Locales" />
+                        <MenuItem fx:id="mItEmpleado" mnemonicParsing="false" onAction="#mitEmpleado" text="Empleados" />
+                        <MenuItem fx:id="mItConfig" mnemonicParsing="false" onAction="#mitConfig" text="Opciones" />
+                    </items>
+                  </Menu>
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
+      <AnchorPane fx:id="Base" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.Producto" table="PRODUCTO" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <id name="codProd" type="java.lang.Short">
+            <column name="Cod_Prod" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="Nombre" length="60" not-null="true" />
+        </property>
+        <property name="precio" type="big_decimal">
+            <column name="Precio" precision="5" not-null="true" />
+        </property>
+        <property name="tipoIva" type="string">
+            <column name="Tipo_Iva" length="13" not-null="true" />
+        </property>
+        <property name="descripcion" type="string">
+            <column name="Descripcion" />
+        </property>
+        <property name="estado" type="boolean">
+            <column name="Estado" not-null="true" />
+        </property>
+        <set name="lineaTickets" table="LINEA_TICKET" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Prod" not-null="true" />
+            </key>
+            <one-to-many class="Beans.LineaTicket" />
+        </set>
+        <set name="stocks" table="STOCK" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Prod" not-null="true" />
+            </key>
+            <one-to-many class="Beans.Stock" />
+        </set>
+        <set name="lineaPedidos" table="LINEA_PEDIDO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Prod" not-null="true" />
+            </key>
+            <one-to-many class="Beans.LineaPedido" />
+        </set>
+    </class>
+</hibernate-mapping>

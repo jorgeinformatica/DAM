@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.Stock" table="STOCK" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <composite-id name="id" class="Beans.StockId">
+            <key-property name="codLocal" type="short">
+                <column name="Cod_Local" />
+            </key-property>
+            <key-property name="codProd" type="short">
+                <column name="Cod_Prod" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="local" class="Beans.Local" update="false" insert="false" fetch="select">
+            <column name="Cod_Local" not-null="true" />
+        </many-to-one>
+        <many-to-one name="producto" class="Beans.Producto" update="false" insert="false" fetch="select">
+            <column name="Cod_Prod" not-null="true" />
+        </many-to-one>
+        <property name="cantidad" type="short">
+            <column name="Cantidad" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="Beans.Local" table="LOCAL" catalog="2aDISTRIBUCION" optimistic-lock="version">
+        <id name="codLocal" type="java.lang.Short">
+            <column name="Cod_Local" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="direccion" class="Beans.Direccion" fetch="select">
+            <column name="Cod_Direc" not-null="true" />
+        </many-to-one>
+        <property name="estado" type="boolean">
+            <column name="Estado" not-null="true" />
+        </property>
+        <set name="empleados" table="EMPLEADO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Local" />
+            </key>
+            <one-to-many class="Beans.Empleado" />
+        </set>
+        <set name="stocks" table="STOCK" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Local" not-null="true" />
+            </key>
+            <one-to-many class="Beans.Stock" />
+        </set>
+        <set name="tickets" table="TICKET" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Local" not-null="true" />
+            </key>
+            <one-to-many class="Beans.Ticket" />
+        </set>
+        <set name="pedidos" table="PEDIDO" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="Cod_Local" not-null="true" />
+            </key>
+            <one-to-many class="Beans.Pedido" />
+        </set>
+    </class>
+</hibernate-mapping>
