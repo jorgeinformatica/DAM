@@ -70,7 +70,7 @@
                                     <Font name="Noto Sans Bold" size="14.0" />
                                  </font>
                                  <graphic>
-                                    <ComboBox fx:id="cbElementos" />
+                                    <ComboBox fx:id="cbLocales" />
                                  </graphic>
                               </Label>
                               <TextField fx:id="txtFiltro" prefHeight="27.0" prefWidth="100.0" />
