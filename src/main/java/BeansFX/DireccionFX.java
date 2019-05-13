@@ -1,6 +1,5 @@
 package BeansFX;
 
-import Beans.CiudadConcp;
 import Beans.Direccion;
 import Beans.Empleado;
 import Beans.Local;
@@ -21,7 +20,7 @@ public class DireccionFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Short> codDirec;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<CiudadConcp> relCpCiu;
+    private ObjectProperty<CiudadConcpFX> relCpCiu;
     @SuppressWarnings("FieldMayBeFinal")
     private StringProperty nombre;
     @SuppressWarnings("FieldMayBeFinal")
@@ -43,7 +42,7 @@ public class DireccionFX extends BaseFX {
 
     public DireccionFX(Direccion direccion) {
         this.codDirec = new SimpleObjectProperty<>(direccion.getCodDirec());
-        this.relCpCiu = new SimpleObjectProperty<>(direccion.getCiudadConcp());
+        this.relCpCiu = new SimpleObjectProperty<>(new CiudadConcpFX(direccion.getCiudadConcp()));
         this.nombre = new SimpleStringProperty(direccion.getNombre());
         this.numero = new SimpleObjectProperty<>(direccion.getNumero());
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet());
@@ -64,15 +63,15 @@ public class DireccionFX extends BaseFX {
         return codDirec;
     }
 
-    public CiudadConcp getCodigoPostal() {
+    public CiudadConcpFX getRelCpCiu() {
         return relCpCiu.get();
     }
 
-    public void setCodigoPostal(CiudadConcp codigoPostal) {
-        this.relCpCiu.set(codigoPostal);
+    public void setRelCpCiu(CiudadConcpFX relCpCiu) {
+        this.relCpCiu.set(relCpCiu);
     }
 
-    public ObjectProperty<CiudadConcp> relCpCiuProperty() {
+    public ObjectProperty<CiudadConcpFX> relCpCiuProperty() {
         return relCpCiu;
     }
 

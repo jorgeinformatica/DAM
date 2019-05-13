@@ -95,9 +95,9 @@ public class Local implements java.io.Serializable, BaseBean {
     public void actualizarDatos(BaseFX o) {
         direccion.setNombre(((LocalFX) o).getDireccion().getNombre());
         direccion.setNumero(((LocalFX) o).getDireccion().getNumero());
-        direccion.getCiudadConcp().setCiudad(((LocalFX) o).getDireccion().getCiudadConcp().getCiudad());
-        direccion.getCiudadConcp().setCodigoPostal(((LocalFX) o).getDireccion().getCiudadConcp().getCodigoPostal());
-        direccion.getCiudadConcp().setProvincia(((LocalFX) o).getDireccion().getCiudadConcp().getProvincia());
+        direccion.getCiudadConcp().setCiudad((Ciudad) ((LocalFX) o).getDireccion().getRelCpCiu().getCiudad().getBean());
+        direccion.getCiudadConcp().setCodigoPostal((CodigoPostal) ((LocalFX) o).getDireccion().getRelCpCiu().getCodigoPostal().getBean());
+        direccion.getCiudadConcp().setProvincia((Provincia) ((LocalFX) o).getDireccion().getRelCpCiu().getProvincia().getBean());
     }
     
     @Override

@@ -6,6 +6,7 @@ import Beans.Local;
 import Beans.Pedido;
 import Beans.Stock;
 import Beans.Ticket;
+import dam.proyecto.LogicController;
 import java.util.Objects;
 import java.util.Set;
 import javafx.beans.property.BooleanProperty;
@@ -24,7 +25,7 @@ public class LocalFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Short> codLocal;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<Direccion> direccion;
+    private ObjectProperty<DireccionFX> direccion;
     @SuppressWarnings("FieldMayBeFinal")
     private BooleanProperty estado;
     @SuppressWarnings("FieldMayBeFinal")
@@ -50,7 +51,7 @@ public class LocalFX extends BaseFX {
     public LocalFX(Local local) {
         this.estado = new SimpleBooleanProperty(local.getEstado());
         this.codLocal = new SimpleObjectProperty<>(local.getCodLocal());
-        this.direccion = new SimpleObjectProperty<>(local.getDireccion());
+        this.direccion = new SimpleObjectProperty<>(new DireccionFX(local.getDireccion()));
         this.pedidos = new SimpleSetProperty<>(FXCollections.observableSet(local.getPedidos()));
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet(local.getEmpleados()));
         this.tickets = new SimpleSetProperty<>(FXCollections.observableSet(local.getTickets()));
@@ -83,15 +84,15 @@ public class LocalFX extends BaseFX {
         return estado;
     }
     
-    public Direccion getDireccion() {
+    public DireccionFX getDireccion() {
         return direccion.get();
     }
     
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(DireccionFX direccion) {
         this.direccion.set(direccion);
     }
     
-    public ObjectProperty<Direccion> direccionProperty() {
+    public ObjectProperty<DireccionFX> direccionProperty() {
         return direccion;
     }
     
@@ -150,28 +151,28 @@ public class LocalFX extends BaseFX {
     @Override
     public boolean comprobarCambios() {
         if (((Local) bean).getDireccion().getCiudadConcp().getProvincia().getCodProv()
-                != getDireccion().getCiudadConcp().getProvincia().getCodProv()) {
+                != getDireccion().getRelCpCiu().getProvincia().getCodProvincia()) {
             return true;
         }
         if (!Objects.equals(((Local) bean).getDireccion().getCiudadConcp().getCiudad().getCodCiudad(),
-                getDireccion().getCiudadConcp().getCiudad().getCodCiudad())) {
+                getDireccion().getRelCpCiu().getCiudad().getCodCiudad())) {
             return true;
         }
         if (!Objects.equals(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal().getCodPostal(),
-                getDireccion().getCiudadConcp().getCodigoPostal().getCodPostal())) {
+                getDireccion().getRelCpCiu().getCodigoPostal().getCodPostal())) {
             return true;
         }
-        if (((Local) bean).getDireccion().getNombre().equals(getDireccion().getNombre())) {
+        if (!((Local) bean).getDireccion().getNombre().equalsIgnoreCase(getDireccion().getNombre())) {
             return true;
         }
-        return ((Local) bean).getDireccion().getNumero() == getDireccion().getNumero();
+        return ((Local) bean).getDireccion().getNumero() != getDireccion().getNumero();
     }
     
     @Override
     public void sinCambios() {
-        getDireccion().getCiudadConcp().setCiudad(((Local) bean).getDireccion().getCiudadConcp().getCiudad());
-        getDireccion().getCiudadConcp().setCodigoPostal(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal());
-        getDireccion().getCiudadConcp().setProvincia(((Local) bean).getDireccion().getCiudadConcp().getProvincia());
+        getDireccion().getRelCpCiu().setCiudad(LogicController.getCiuFX(((Local) bean).getDireccion().getCiudadConcp().getCiudad()));
+        getDireccion().getRelCpCiu().setCodigoPostal(LogicController.getCPFX(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal()));
+        getDireccion().getRelCpCiu().setProvincia(LogicController.getProvFX(((Local) bean).getDireccion().getCiudadConcp().getProvincia()));
         getDireccion().setNombre(((Local) bean).getDireccion().getNombre());
         getDireccion().setNumero(((Local) bean).getDireccion().getNumero());
     }

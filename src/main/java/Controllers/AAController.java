@@ -78,7 +78,7 @@ public class AAController implements Initializable {
         logic.setNodo(loader);
         ProductosAMController controller = loader.getController();
         ((ProductosAMController) sceneActiva).setViewControl(this);
-        controller.init(logic.getProducto());
+        controller.init(logic.getProducto(), getBase().getChildren());
     }
 
     @FXML
@@ -146,7 +146,7 @@ public class AAController implements Initializable {
         logic.setNodo(loader);
         LocalesController controller = loader.getController();
         ((LocalesController) sceneActiva).setViewControl(this);
-        controller.init();
+        controller.init(getBase().getChildren());
     }
 
     @FXML

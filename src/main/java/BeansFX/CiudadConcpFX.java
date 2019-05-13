@@ -1,11 +1,9 @@
 package BeansFX;
 
-import Beans.Ciudad;
 import Beans.CiudadConcp;
 import Beans.CiudadConcpId;
 import Beans.CodigoPostal;
 import Beans.Direccion;
-import Beans.Provincia;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -18,9 +16,9 @@ import javafx.collections.FXCollections;
 public class CiudadConcpFX extends BaseFX {
 
     private ObjectProperty<CiudadConcpId> id;
-    private ObjectProperty<Ciudad> ciudad;
-    private ObjectProperty<CodigoPostal> codigoPostal;
-    private ObjectProperty<Provincia> provincia;
+    private ObjectProperty<CiudadFX> ciudad;
+    private ObjectProperty<CodigoPostalFX> codigoPostal;
+    private ObjectProperty<ProvinciaFX> provincia;
     private SetProperty<Direccion> direcciones;
 
     public CiudadConcpFX() {
@@ -35,9 +33,9 @@ public class CiudadConcpFX extends BaseFX {
     public CiudadConcpFX(CiudadConcp cccp) {
         this.beanFX = new SimpleObjectProperty<>(this);
         this.id = new SimpleObjectProperty<>(cccp.getId());
-        this.ciudad = new SimpleObjectProperty<>(cccp.getCiudad());
-        this.codigoPostal = new SimpleObjectProperty<>(cccp.getCodigoPostal());
-        this.provincia = new SimpleObjectProperty<>(cccp.getProvincia());
+        this.ciudad = new SimpleObjectProperty<>(new CiudadFX(cccp.getCiudad()));
+        this.codigoPostal = new SimpleObjectProperty<>(new CodigoPostalFX(cccp.getCodigoPostal()));
+        this.provincia = new SimpleObjectProperty<>(new ProvinciaFX(cccp.getProvincia()));
         this.direcciones = new SimpleSetProperty<>(FXCollections.observableSet(cccp.getDireccions()));
         this.bean = cccp;
     }
@@ -54,39 +52,39 @@ public class CiudadConcpFX extends BaseFX {
         return id;
     }
 
-    public ObjectProperty<Ciudad> getCiudad() {
+    public CiudadFX getCiudad() {
+        return ciudad.get();
+    }
+
+    public void setCiudad(CiudadFX ciudad) {
+        this.ciudad.set(ciudad);
+    }
+
+    public ObjectProperty<CiudadFX> ciudadProperty() {
         return ciudad;
     }
 
-    public void setCiudad(ObjectProperty<Ciudad> ciudad) {
-        this.ciudad = ciudad;
+    public CodigoPostalFX getCodigoPostal() {
+        return codigoPostal.get();
     }
 
-    public ObjectProperty<Ciudad> ciudadProperty() {
-        return ciudad;
+    public void setCodigoPostal(CodigoPostalFX codigoPostal) {
+        this.codigoPostal.set(codigoPostal);
     }
 
-    public ObjectProperty<CodigoPostal> getCodigoPostal() {
+    public ObjectProperty<CodigoPostalFX> codigoPostalProperty() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(ObjectProperty<CodigoPostal> codigoPostal) {
-        this.codigoPostal = codigoPostal;
+    public ProvinciaFX getProvincia() {
+        return provincia.get();
     }
 
-    public ObjectProperty<CodigoPostal> codigoPostalProperty() {
-        return codigoPostal;
+    public void setProvincia(ProvinciaFX provincia) {
+        this.provincia.set(provincia);
     }
 
-    public ObjectProperty<Provincia> getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(ObjectProperty<Provincia> provincia) {
-        this.provincia = provincia;
-    }
-
-    public ObjectProperty<Provincia> provinciaProperty() {
+    public ObjectProperty<ProvinciaFX> provinciaProperty() {
         return provincia;
     }
 

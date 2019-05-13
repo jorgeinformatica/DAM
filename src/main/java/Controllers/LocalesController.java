@@ -1,10 +1,8 @@
 package Controllers;
 
-import Beans.Ciudad;
 import Beans.CiudadConcp;
-import Beans.CodigoPostal;
+import Beans.Direccion;
 import Beans.Local;
-import Beans.Provincia;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
 import BeansFX.EmpleadoFX;
@@ -17,20 +15,19 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
 
 /**
@@ -64,16 +61,9 @@ public class LocalesController implements Initializable {
     private TextField txtFiltro;
     @FXML
     private Label infoFiltro;
-    @FXML
-    private RadioButton rbCP;
-    @FXML
-    private RadioButton rbProv;
-    @FXML
-    private RadioButton rbCiu;
 
     private LocalFX local;
     private AAController viewControl;
-    private ToggleGroup grupo;
     private FilteredList<ProvinciaFX> filterProv;
     private FilteredList<CiudadFX> filterCiudad;
     private FilteredList<CodigoPostalFX> filterCP;
@@ -89,7 +79,7 @@ public class LocalesController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void init() {
+    public void init(ObservableList<Node> base) {
         initValues();
         configurarComboLocal();
         configurarComboProv();
@@ -98,34 +88,23 @@ public class LocalesController implements Initializable {
         configurarTxtCalle();
         configurarTxtNum();
         configurarTxtFiltro();
-        configurarGrupo();
         configurarTablaEmpl();
+        configurarBase(base);
     }
 
     private void initValues() {
-        grupo = new ToggleGroup();
-        rbCP.setToggleGroup(grupo);
-        rbCP.setUserData("CP");
-        rbCiu.setToggleGroup(grupo);
-        rbCiu.setUserData("ciudad");
-        rbProv.setToggleGroup(grupo);
-        rbProv.setUserData("provincia");
-
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         listaEmpleados = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "1=1")).forEach((lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "1=1")).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
         cbElementos.setItems(filterLocal.sorted());
-
         filterProv = new FilteredList<>(viewControl.getLogic().getProvincias(), p -> true);
         cbProv.setItems(filterProv.sorted());
-
         filterCiudad = new FilteredList<>(viewControl.getLogic().getCiudades(), p -> true);
         cbCiudad.setItems(filterCiudad.sorted());
-
         filterCP = new FilteredList<>(viewControl.getLogic().getCps(), p -> true);
         cbCP.setItems(filterCP.sorted());
     }
@@ -136,7 +115,19 @@ public class LocalesController implements Initializable {
 
     @FXML
     private void nuevoProducto(ActionEvent event) {
-
+        viewControl.getLogic().getHibControl().initTransaction();
+        Direccion direc = new Direccion();
+        direc.setNumero((short)1);
+        direc.setNombre("CALLE");
+        viewControl.getLogic().getHibControl().save(direc);
+        viewControl.getLogic().getHibControl().goCommit();
+        viewControl.getLogic().getHibControl().initTransaction();
+        Local tempo = new Local(direc, true);
+        viewControl.getLogic().getHibControl().save(tempo);
+        viewControl.getLogic().getHibControl().goCommit();
+        local = new LocalFX(tempo);
+        listaLocal.add(local);
+        cbElementos.getSelectionModel().select(local);
     }
 
     @FXML
@@ -150,24 +141,30 @@ public class LocalesController implements Initializable {
 
     private void configurarComboProv() {
         cbProv.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (local != null && oV && !nV) {
-                local.getDireccion().getCiudadConcp().setProvincia(((Provincia) cbProv.getValue().getBean()));
+            if (local != null && !nV) {
+                local.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
+                filterCiudad.setPredicate(ciu -> {
+                    return recorrerCCP(ciu, local.getDireccion().getRelCpCiu().getProvincia());
+                });
             }
         });
     }
 
     private void configurarComboCiudad() {
         cbCiudad.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (local != null && oV && !nV) {
-                local.getDireccion().getCiudadConcp().setCiudad(((Ciudad) cbCiudad.getValue().getBean()));
+            if (local != null && !nV) {
+                local.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
+                filterCP.setPredicate(cp -> {
+                    return recorrerCCP(cp, local.getDireccion().getRelCpCiu().getCiudad());
+                });
             }
         });
     }
 
     private void configurarComboCP() {
         cbCP.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (local != null && oV && !nV) {
-                local.getDireccion().getCiudadConcp().setCodigoPostal(((CodigoPostal) cbCP.getValue().getBean()));
+            if (local != null && !nV) {
+                local.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
             }
         });
     }
@@ -189,7 +186,7 @@ public class LocalesController implements Initializable {
     private void configurarTxtCalle() {
         txtNum.setTextFormatter(MetodosEstaticos.soloNumeros());
         txtNum.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (local != null && oV && !nV) {
+            if (local != null && !nV) {
                 local.getDireccion().setNumero(Short.valueOf(txtNum.getText().isEmpty() ? "" : txtNum.getText().toUpperCase()));
             }
             if (txtNum.getText().isEmpty()) {
@@ -201,7 +198,7 @@ public class LocalesController implements Initializable {
 
     private void configurarTxtNum() {
         txtCalle.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (local != null && oV && !nV) {
+            if (local != null && !nV) {
                 local.getDireccion().setNombre(txtCalle.getText().isEmpty() ? "1" : txtCalle.getText().toUpperCase());
             }
             if (txtCalle.getText().isEmpty()) {
@@ -230,70 +227,15 @@ public class LocalesController implements Initializable {
     private void refrescarVista() {
         txtCalle.setText(local.getDireccion().getNombre());
         txtNum.setText(local.getDireccion().getNumero() + "");
-        cbProv.getSelectionModel().select(viewControl.getLogic().getProvFX(local.getDireccion().getCiudadConcp().getProvincia()));
-        filterCiudad.setPredicate(f -> true);
-        cbCiudad.getSelectionModel().select(viewControl.getLogic().getCiuFX(local.getDireccion().getCiudadConcp().getCiudad()));
-        filterCP.setPredicate(f -> true);
-        cbCP.getSelectionModel().select(viewControl.getLogic().getCPFX(local.getDireccion().getCiudadConcp().getCodigoPostal()));
+        cbProv.getSelectionModel().select(local.getDireccion().getRelCpCiu().getProvincia());
+        cbCiudad.getSelectionModel().select(local.getDireccion().getRelCpCiu().getCiudad());
+        cbCP.getSelectionModel().select(local.getDireccion().getRelCpCiu().getCodigoPostal());
     }
 
     private void actualizarLocal(LocalFX lo) {
         if (viewControl.getLogic().actualizarMsg(lo)) {
             refrescarVista();
         }
-    }
-
-    private void configurarGrupo() {
-        grupo.selectedToggleProperty().addListener((ObservableValue<? extends Toggle> o, Toggle oV, Toggle nV) -> {
-            if (grupo.getSelectedToggle() != null) {
-                switch ((String) nV.getUserData()) {
-                    case "CP":
-                        cbCP.setDisable(false);
-                        Ciudad c = local.getDireccion().getCiudadConcp().getCiudad();
-                        if (c != null) {
-                            Platform.runLater(() -> {
-                                filterCP.setPredicate((cp) -> {
-                                    return recorrerCCP(cp, viewControl.getLogic().getCiuFX(c));
-                                });
-                            });
-                        } else {
-                            filterCP.setPredicate(f -> true);
-                        }
-                        break;
-                    case "ciudad":
-                        cbCiudad.setDisable(false);
-                        Provincia p = local.getDireccion().getCiudadConcp().getProvincia();
-                        if (p != null) {
-                            Platform.runLater(() -> {
-                                filterCiudad.setPredicate((ci) -> {
-                                    return recorrerCCP(ci, viewControl.getLogic().getProvFX(p));
-                                });
-                            });
-                        } else {
-                            filterCiudad.setPredicate(f -> true);
-                        }
-                        break;
-                    case "provincia":
-                        cbProv.setDisable(false);
-                        break;
-                }
-                if (oV != null) {
-                    switch ((String) oV.getUserData()) {
-                        case "CP":
-                            filterCP.setPredicate(f -> true);
-                            cbCP.setDisable(true);
-                            break;
-                        case "ciudad":
-                            filterCiudad.setPredicate(f -> true);
-                            cbCiudad.setDisable(true);
-                            break;
-                        case "provincia":
-                            cbProv.setDisable(true);
-                            break;
-                    }
-                }
-            }
-        });
     }
 
     private boolean recorrerCCP(CodigoPostalFX cpFX, CiudadFX nV) {
@@ -303,4 +245,12 @@ public class LocalesController implements Initializable {
     private boolean recorrerCCP(CiudadFX cFX, ProvinciaFX nV) {
         return nV.getCiudadConcp().stream().anyMatch((o) -> (Objects.equals(((CiudadConcp) o).getCiudad().getCodCiudad(), cFX.getCodCiudad())));
     }
+
+    private void configurarBase(ObservableList<Node> base) {
+        ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
+            actualizarLocal(local);
+        };
+        base.addListener(changeList);
+    }
+
 }//fin de la clase

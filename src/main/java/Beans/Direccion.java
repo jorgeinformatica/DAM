@@ -57,7 +57,7 @@ public class Direccion implements java.io.Serializable, BaseBean {
         this.nombre = nombre;
     }
 
-    public short getNumero() {
+    public Short getNumero() {
         return this.numero;
     }
 

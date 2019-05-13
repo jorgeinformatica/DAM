@@ -40,9 +40,9 @@ public class LogicController {
     private Hibernate.HibernateController hibControl;
     private HashMap mapProperties;
     private AAController viewControl;
-    private ObservableList<CiudadFX> ciudades;
-    private ObservableList<ProvinciaFX> provincias;
-    private ObservableList<CodigoPostalFX> cps;
+    private static ObservableList<CiudadFX> ciudades;
+    private static ObservableList<ProvinciaFX> provincias;
+    private static ObservableList<CodigoPostalFX> cps;
     private ObservableList<ProductoFX> productos;
     private Parent root;
     private EmpleadoFX usuario;
@@ -219,7 +219,7 @@ public class LogicController {
         return false;
     }
 
-    public ProvinciaFX getProvFX(Provincia pro) {
+    public static ProvinciaFX getProvFX(Provincia pro) {
         for (ProvinciaFX provincia : provincias) {
             if (Objects.equals(((Provincia) provincia.getBean()), pro)) {
                 return provincia;
@@ -228,7 +228,7 @@ public class LogicController {
         return null;
     }
 
-    public CiudadFX getCiuFX(Ciudad ciu) {
+    public static CiudadFX getCiuFX(Ciudad ciu) {
         for (CiudadFX ciudad : ciudades) {
             if (Objects.equals(((Ciudad) ciudad.getBean()), ciu)) {
                 return ciudad;
@@ -237,7 +237,7 @@ public class LogicController {
         return null;
     }
 
-    public CodigoPostalFX getCPFX(CodigoPostal cop) {
+    public static CodigoPostalFX getCPFX(CodigoPostal cop) {
         for (CodigoPostalFX cp : cps) {
             if (Objects.equals(((CodigoPostal) cp.getBean()), cop)) {
                 return cp;

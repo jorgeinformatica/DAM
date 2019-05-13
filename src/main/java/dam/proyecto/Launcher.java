@@ -29,7 +29,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.sizeToScene();
         primaryStage.setTitle(null);
         primaryStage.setFullScreenExitHint(null);

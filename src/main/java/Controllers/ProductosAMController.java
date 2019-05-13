@@ -9,11 +9,13 @@ import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -81,7 +83,7 @@ public class ProductosAMController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
-    public void init(ProductoFX pro) {
+    public void init(ProductoFX pro, ObservableList<Node> base) {
         configurarTxtPrecio();
         configurarTxtNombre();
         configurarTxtDescripcion();
@@ -89,6 +91,8 @@ public class ProductosAMController implements Initializable {
         configurarComboProductos(pro);
         configurarTxtFiltro();
         configurarGraficos();
+        configurarBase(base);
+
     }
 
     void setViewControl(AAController aThis) {
@@ -145,7 +149,7 @@ public class ProductosAMController implements Initializable {
         ObservableList ivas = FXCollections.observableArrayList("GENERAL", "REDUCIDO", "SUPERREDUCIDO");
         ivaCB.setItems(ivas);
         ivaCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (producto != null && oV && !nV) {
+            if (producto != null && !nV) {
                 producto.setTipoIva(ivaCB.getValue());
             }
         });
@@ -154,7 +158,7 @@ public class ProductosAMController implements Initializable {
     private void configurarTxtPrecio() {
         precioTXT.setTextFormatter(MetodosEstaticos.soloDecimales());
         precioTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (producto != null && oV && !nV) {
+            if (producto != null && !nV) {
                 try {
                     producto.setPrecio(BigDecimal.valueOf(Double.valueOf(precioTXT.getText().isEmpty() ? "0" : precioTXT.getText())));
                 } catch (NumberFormatException e) {
@@ -169,7 +173,7 @@ public class ProductosAMController implements Initializable {
 
     private void configurarTxtNombre() {
         nombreTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (producto != null && oV && !nV) {
+            if (producto != null && !nV) {
                 producto.setNombre(nombreTXT.getText().isEmpty() ? "" : nombreTXT.getText().toUpperCase());
             }
             if (nombreTXT.getText().isEmpty()) {
@@ -180,7 +184,7 @@ public class ProductosAMController implements Initializable {
 
     private void configurarTxtDescripcion() {
         descripcionTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (producto != null && oV && !nV) {
+            if (producto != null && !nV) {
                 producto.setDescripcion(descripcionTXT.getText().isEmpty() ? "-" : descripcionTXT.getText().toUpperCase());
             }
             if (nombreTXT.getText().isEmpty()) {
@@ -219,4 +223,12 @@ public class ProductosAMController implements Initializable {
         ivaCB.getSelectionModel().select(producto.getTipoIva());
         descripcionTXT.setText(producto.getDescripcion());
     }
+
+    private void configurarBase(ObservableList<Node> base) {
+        ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
+            actualizarProducto(producto);
+        };
+        base.addListener(changeList);
+    }
+
 }

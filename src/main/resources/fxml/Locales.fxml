@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -140,58 +139,37 @@
                      </rowConstraints>
                      <children>
                         <Label alignment="TOP_CENTER" contentDisplay="BOTTOM" text="CODIGO POSTAL" GridPane.columnIndex="2">
-                           <graphic>
-                              <RadioButton fx:id="rbCP" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefWidth="200.0">
-                                 <graphic>
-                                    <ComboBox fx:id="cbCP" disable="true" prefWidth="150.0" />
-                                 </graphic>
-                                 <font>
-                                    <Font name="Noto Sans Bold" size="14.0" />
-                                 </font>
-                              </RadioButton>
-                           </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
                            </font>
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin>
+                           <graphic>
+                              <ComboBox fx:id="cbCP" prefWidth="150.0" />
+                           </graphic>
                         </Label>
                         <Label alignment="TOP_CENTER" contentDisplay="BOTTOM" text="PROVINCIA" textAlignment="CENTER">
-                           <graphic>
-                              <RadioButton fx:id="rbProv" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefWidth="200.0" textAlignment="CENTER">
-                                 <graphic>
-                                    <ComboBox fx:id="cbProv" disable="true" prefWidth="150.0" />
-                                 </graphic>
-                                 <font>
-                                    <Font name="Noto Sans Bold" size="14.0" />
-                                 </font>
-                              </RadioButton>
-                           </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
                            </font>
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin>
+                           <graphic>
+                              <ComboBox fx:id="cbProv" prefWidth="150.0" />
+                           </graphic>
                         </Label>
                         <Label alignment="TOP_CENTER" contentDisplay="BOTTOM" text="CIUDAD" GridPane.columnIndex="1">
-                           <graphic>
-                              <RadioButton fx:id="rbCiu" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" prefWidth="250.0">
-                                 <graphic>
-                                    <ComboBox fx:id="cbCiudad" disable="true" prefWidth="200.0" />
-                                 </graphic>
-                                 <font>
-                                    <Font name="Noto Sans Bold" size="14.0" />
-                                 </font>
-                              </RadioButton>
-                           </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
                            </font>
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin>
+                           <graphic>
+                              <ComboBox fx:id="cbCiudad" prefWidth="200.0" />
+                           </graphic>
                         </Label>
                      </children>
                   </GridPane>
