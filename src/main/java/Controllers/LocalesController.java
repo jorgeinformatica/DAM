@@ -13,7 +13,6 @@ import BeansFX.EmpleadoFX;
 import BeansFX.LocalFX;
 import BeansFX.ProvinciaFX;
 import Utils.MetodosEstaticos;
-import dam.proyecto.LogicController;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -121,27 +120,7 @@ public class LocalesController implements Initializable {
     @FXML
     private void nuevoProducto(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
-        CiudadConcpId ccId = new CiudadConcpId((short) 265, "03802");
-        CiudadConcp ccCP = new CiudadConcp();
-        ccCP.setId(ccId);
-
-        Provincia provincia = (Provincia) viewControl.getLogic().getProvincias().stream().filter((ProvinciaFX pro) -> {
-            return ((Provincia) pro.getBean()).getCodProv() == (short) 9;
-        }).findFirst().get().getBean();
-        ccCP.setProvincia(provincia);
-
-        Ciudad ciudad = (Ciudad) viewControl.getLogic().getCiudades().stream().filter((CiudadFX ciu) -> {
-            return ((Ciudad) ciu.getBean()).getCodCiudad() == (short) 265;
-        }).findFirst().get().getBean();
-        ccCP.setCiudad(ciudad);
-
-        CodigoPostal codigo = (CodigoPostal) viewControl.getLogic().getCps().stream().filter((CodigoPostalFX cp) -> {
-            return ((CodigoPostal) cp.getBean()).getCodPostal().equals("03802");
-        }).findFirst().get().getBean();
-        ccCP.setCodigoPostal(codigo);
-        viewControl.getLogic().getHibControl().save(ccCP);
-        viewControl.getLogic().getHibControl().goCommit();
-        viewControl.getLogic().getHibControl().initTransaction();
+        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, "Cod_Ciudad=265 AND Cod_Postal='03802'");
         Direccion direc = new Direccion();
         direc.setNumero((short) 1);
         direc.setNombre("CALLE");

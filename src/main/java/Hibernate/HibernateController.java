@@ -43,6 +43,14 @@ public class HibernateController {
     }
 
     /**
+     * 
+     * @param object Es la instancia del objeto que se desea actualizar y en el caso de que no exista, persistir.
+     */
+    public void saveOrUpdate(Object object) {
+        session.saveOrUpdate(this);
+    }
+
+    /**
      * @param object Es la instancia del objeto que se desea eliminar de la BD
      */
     public void remove(Object object) {
