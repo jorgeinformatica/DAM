@@ -107,16 +107,17 @@
                         <RowConstraints maxHeight="90.0" minHeight="90.0" percentHeight="0.0" prefHeight="90.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label contentDisplay="BOTTOM" text="DNI">
+                        <Label alignment="TOP_CENTER" contentDisplay="BOTTOM" text="DNI">
                            <graphic>
-                              <TextField fx:id="txtDni" />
+                              <Label fx:id="labLetra">
+                                 <graphic>
+                                    <TextField fx:id="txtDni" />
+                                 </graphic>
+                                 <font>
+                                    <Font name="Noto Sans Bold" size="14.0" />
+                                 </font>
+                              </Label>
                            </graphic>
-                           <font>
-                              <Font name="Noto Sans Bold" size="14.0" />
-                           </font>
-                           <GridPane.margin>
-                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                           </GridPane.margin>
                         </Label>
                         <Label contentDisplay="BOTTOM" text="Nombre" GridPane.columnIndex="1">
                            <graphic>

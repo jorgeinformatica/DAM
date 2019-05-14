@@ -9,8 +9,11 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Optional;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.Stage;
 
@@ -94,5 +97,22 @@ public class MetodosEstaticos {
             }
         });
     }
-    
+
+    /**
+     * Limita el numero de caracteres que acepta el TextField
+     * 
+     * @param campo es el TextField que se va a asignar el listener
+     * @param longitud numero de caracteres que aceptará
+     * @return el listener con la configuracion establecida
+     */
+    public static ChangeListener<Number> longMaxima(TextField campo, int longitud) {
+        return (ObservableValue<? extends Number> o, Number oV, Number nV) -> {
+            if (nV.intValue() > oV.intValue()) {
+                if (campo.getText().length() >= longitud) {
+                    campo.setText(campo.getText().substring(0, longitud));
+                }
+            }
+        };
+    }
+
 }//fin de la clase

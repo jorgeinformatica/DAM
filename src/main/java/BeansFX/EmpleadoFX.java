@@ -1,6 +1,5 @@
 package BeansFX;
 
-import Beans.Direccion;
 import Beans.Empleado;
 import Beans.Local;
 import javafx.beans.property.BooleanProperty;
@@ -18,7 +17,7 @@ public class EmpleadoFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private StringProperty dni;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<Direccion> direccion;
+    private ObjectProperty<DireccionFX> direccion;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Local> local;
     @SuppressWarnings("FieldMayBeFinal")
@@ -49,7 +48,7 @@ public class EmpleadoFX extends BaseFX {
 
     public EmpleadoFX(Empleado empleado) {
         this.dni = new SimpleStringProperty(empleado.getDni());
-        this.direccion = new SimpleObjectProperty<>(empleado.getDireccion());
+        this.direccion = new SimpleObjectProperty<>(new DireccionFX(empleado.getDireccion()));
         this.local = new SimpleObjectProperty<>(empleado.getLocal());
         this.nombre = new SimpleStringProperty(empleado.getNombre());
         this.ape1 = new SimpleStringProperty(empleado.getApe1());
@@ -73,15 +72,15 @@ public class EmpleadoFX extends BaseFX {
         return dni;
     }
 
-    public Direccion getDireccion() {
+    public DireccionFX getDireccion() {
         return direccion.get();
     }
 
-    public void setDireccion(Direccion direccion) {
+    public void setDireccion(DireccionFX direccion) {
         this.direccion.set(direccion);
     }
 
-    public ObjectProperty<Direccion> direccionProperty() {
+    public ObjectProperty<DireccionFX> direccionProperty() {
         return direccion;
     }
 

@@ -2,6 +2,7 @@ package Controllers;
 
 import Beans.CiudadConcp;
 import Beans.Direccion;
+import Beans.Empleado;
 import Beans.Local;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
@@ -105,6 +106,10 @@ public class LocalesController implements Initializable {
         cbCiudad.setItems(filterCiudad.sorted());
         filterCP = new FilteredList<>(viewControl.getLogic().getCps(), p -> true);
         cbCP.setItems(filterCP.sorted());
+        listaEmpleados = FXCollections.observableArrayList();
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Empleado.class, "1=1")).forEach((Object emp) -> {
+            listaEmpleados.add(new EmpleadoFX((Empleado) emp));
+        });
     }
 
     public void setViewControl(AAController aThis) {
@@ -185,23 +190,24 @@ public class LocalesController implements Initializable {
         cbLocales.getSelectionModel().selectFirst();
     }
 
-    private void configurarTxtCalle() {
+    private void configurarTxtNum() {
+        txtNum.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtNum, 3));
         txtNum.setTextFormatter(MetodosEstaticos.soloNumeros());
         txtNum.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (local != null && !nV) {
-                local.getDireccion().setNumero(Short.valueOf(txtNum.getText().isEmpty() ? "" : txtNum.getText().toUpperCase()));
+                local.getDireccion().setNumero(Short.valueOf(txtNum.getText()));
             }
             if (txtNum.getText().isEmpty()) {
                 txtNum.requestFocus();
             }
         });
-
     }
 
-    private void configurarTxtNum() {
+    private void configurarTxtCalle() {
+        txtCalle.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtCalle, 74));
         txtCalle.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (local != null && !nV) {
-                local.getDireccion().setNombre(txtCalle.getText().isEmpty() ? "1" : txtCalle.getText().toUpperCase());
+                local.getDireccion().setNombre(txtCalle.getText().toUpperCase());
             }
             if (txtCalle.getText().isEmpty()) {
                 txtCalle.requestFocus();

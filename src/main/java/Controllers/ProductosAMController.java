@@ -155,11 +155,12 @@ public class ProductosAMController implements Initializable {
     }
 
     private void configurarTxtPrecio() {
+        precioTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(precioTXT, 6));
         precioTXT.setTextFormatter(MetodosEstaticos.soloDecimales());
         precioTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (producto != null && !nV) {
                 try {
-                    producto.setPrecio(BigDecimal.valueOf(Double.valueOf(precioTXT.getText().isEmpty() ? "0" : precioTXT.getText())));
+                    producto.setPrecio(BigDecimal.valueOf(Double.valueOf(precioTXT.getText())));
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR EN EL PARSEO");
                 }
@@ -171,9 +172,10 @@ public class ProductosAMController implements Initializable {
     }
 
     private void configurarTxtNombre() {
+        nombreTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(nombreTXT, 59));
         nombreTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (producto != null && !nV) {
-                producto.setNombre(nombreTXT.getText().isEmpty() ? "" : nombreTXT.getText().toUpperCase());
+                producto.setNombre(nombreTXT.getText().toUpperCase());
             }
             if (nombreTXT.getText().isEmpty()) {
                 nombreTXT.requestFocus();
@@ -182,9 +184,10 @@ public class ProductosAMController implements Initializable {
     }
 
     private void configurarTxtDescripcion() {
+        descripcionTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(descripcionTXT, 254));
         descripcionTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (producto != null && !nV) {
-                producto.setDescripcion(descripcionTXT.getText().isEmpty() ? "-" : descripcionTXT.getText().toUpperCase());
+                producto.setDescripcion(descripcionTXT.getText().toUpperCase());
             }
             if (nombreTXT.getText().isEmpty()) {
                 nombreTXT.requestFocus();
