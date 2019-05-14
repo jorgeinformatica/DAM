@@ -109,7 +109,6 @@ public class ProductosAMController implements Initializable {
         tempo.setDescripcion("-");
         tempo.setEstado(Boolean.TRUE);
         viewControl.getLogic().getHibControl().save(tempo);
-        viewControl.getLogic().getHibControl().goCommit();
         producto = new ProductoFX(tempo);
         viewControl.getLogic().getProductos().add(producto);
         cbElementos.getSelectionModel().select(producto);

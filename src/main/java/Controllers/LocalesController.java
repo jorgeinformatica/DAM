@@ -1,12 +1,8 @@
 package Controllers;
 
-import Beans.Ciudad;
 import Beans.CiudadConcp;
-import Beans.CiudadConcpId;
-import Beans.CodigoPostal;
 import Beans.Direccion;
 import Beans.Local;
-import Beans.Provincia;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
 import BeansFX.EmpleadoFX;
@@ -68,7 +64,6 @@ public class LocalesController implements Initializable {
 
     private LocalFX local;
     private AAController viewControl;
-    private FilteredList<ProvinciaFX> filterProv;
     private FilteredList<CiudadFX> filterCiudad;
     private FilteredList<CodigoPostalFX> filterCP;
     private FilteredList<LocalFX> filterLocal;
@@ -105,8 +100,7 @@ public class LocalesController implements Initializable {
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
         cbLocales.setItems(filterLocal.sorted());
-        filterProv = new FilteredList<>(viewControl.getLogic().getProvincias(), p -> true);
-        cbProv.setItems(filterProv.sorted());
+        cbProv.setItems(viewControl.getLogic().getProvincias().sorted());
         filterCiudad = new FilteredList<>(viewControl.getLogic().getCiudades(), p -> true);
         cbCiudad.setItems(filterCiudad.sorted());
         filterCP = new FilteredList<>(viewControl.getLogic().getCps(), p -> true);
@@ -126,11 +120,9 @@ public class LocalesController implements Initializable {
         direc.setNombre("CALLE");
         direc.setCiudadConcp(ccCP);
         viewControl.getLogic().getHibControl().save(direc);
-        viewControl.getLogic().getHibControl().goCommit();
         viewControl.getLogic().getHibControl().initTransaction();
         Local tempo = new Local(direc, true);
         viewControl.getLogic().getHibControl().save(tempo);
-        viewControl.getLogic().getHibControl().goCommit();
         local = new LocalFX(tempo);
         listaLocal.add(local);
         cbLocales.getSelectionModel().select(local);

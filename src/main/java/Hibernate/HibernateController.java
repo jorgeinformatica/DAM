@@ -22,17 +22,11 @@ public class HibernateController {
     }
 
     /**
-     * Lanza los cambios realizados a la BD
-     */
-    public void goCommit() {
-        session.getTransaction().commit();
-    }
-
-    /**
      * @param elemento: Es la instancia del objeto que se ha de actualizar.
      */
     public void UpdateElement(Object elemento) {
         session.update(elemento);
+        session.getTransaction().commit();
     }
 
     /**
@@ -40,6 +34,7 @@ public class HibernateController {
      */
     public void save(Object object) {
         session.save(object);
+        session.getTransaction().commit();
     }
 
     /**
@@ -48,6 +43,7 @@ public class HibernateController {
      */
     public void saveOrUpdate(Object object) {
         session.saveOrUpdate(this);
+        session.getTransaction().commit();
     }
 
     /**
@@ -55,6 +51,7 @@ public class HibernateController {
      */
     public void remove(Object object) {
         session.delete(object);
+        session.getTransaction().commit();
     }
 
     /**

@@ -45,7 +45,7 @@
                         <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="nuevoBTN1" mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
+                        <Button fx:id="nuevoBTN" mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
                            <font>
                               <Font name="Noto Sans Bold" size="12.0" />
                            </font>
@@ -53,7 +53,7 @@
                               <Insets left="100.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button fx:id="borrarBTN1" mnemonicParsing="false" onAction="#borrarProducto" prefWidth="120.0" text="BORRAR" GridPane.columnIndex="2">
+                        <Button fx:id="borrarBTN" mnemonicParsing="false" onAction="#borrarProducto" prefWidth="120.0" text="DESACTIVAR" GridPane.columnIndex="2">
                            <font>
                               <Font name="Noto Sans Bold" size="12.0" />
                            </font>
@@ -68,7 +68,7 @@
                                     <Font name="Noto Sans Bold" size="14.0" />
                                  </font>
                                  <graphic>
-                                    <ComboBox fx:id="cbElementos" />
+                                    <ComboBox fx:id="cbEmpleados" />
                                  </graphic>
                               </Label>
                               <TextField fx:id="txtFiltro" prefHeight="27.0" prefWidth="100.0" />
@@ -109,7 +109,7 @@
                      <children>
                         <Label contentDisplay="BOTTOM" text="DNI">
                            <graphic>
-                              <TextField fx:id="txtDni" onKeyTyped="#soloNum" />
+                              <TextField fx:id="txtDni" />
                            </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
@@ -164,7 +164,7 @@
                      <children>
                         <Label contentDisplay="BOTTOM" text="Telefono">
                            <graphic>
-                              <TextField fx:id="txtTel" onKeyTyped="#soloNum" />
+                              <TextField fx:id="txtTel" />
                            </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
@@ -229,7 +229,7 @@
                         </Label>
                         <Label contentDisplay="BOTTOM" prefWidth="60.0" text="Numero" GridPane.columnIndex="1">
                            <graphic>
-                              <TextField fx:id="txtNum" onKeyTyped="#soloNum" prefWidth="50.0" />
+                              <TextField fx:id="txtNum" prefWidth="50.0" />
                            </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
@@ -250,7 +250,7 @@
                         <RowConstraints maxHeight="90.0" minHeight="90.0" percentHeight="0.0" prefHeight="90.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label contentDisplay="BOTTOM" prefWidth="200.0" text="Ciudad" GridPane.columnIndex="2">
+                        <Label contentDisplay="BOTTOM" prefWidth="200.0" text="Ciudad" GridPane.columnIndex="1">
                            <graphic>
                               <ComboBox fx:id="cbCiudad" prefWidth="200.0" />
                            </graphic>
@@ -261,7 +261,7 @@
                               <Insets left="10.0" right="10.0" />
                            </GridPane.margin>
                         </Label>
-                        <Label contentDisplay="BOTTOM" prefWidth="120.0" text="Codigo Postal" GridPane.columnIndex="1">
+                        <Label contentDisplay="BOTTOM" prefWidth="120.0" text="Codigo Postal" GridPane.columnIndex="2">
                            <graphic>
                               <ComboBox fx:id="cbCP" prefWidth="120.0" />
                            </graphic>

@@ -156,7 +156,7 @@ public class AAController implements Initializable {
         logic.setNodo(loader);
         EmpleadosController controller = loader.getController();
         ((EmpleadosController) sceneActiva).setViewControl(this);
-        controller.init();
+        controller.init(getBase().getChildren());
     }
 
     public MenuItem getmItModProd() {

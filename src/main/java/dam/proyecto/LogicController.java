@@ -168,14 +168,13 @@ public class LogicController {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle(null);
                 alert.setHeaderText(null);
-                alert.setContentText("Han cambiado las características de: \"" + elem.getBean().getClass().getCanonicalName() + "\"" + System.lineSeparator() + "¿Quiere actualizarlo?");
+                alert.setContentText("Han cambiado las características de: \"" + elem.getBean().getClass().getSimpleName() + "\"" + System.lineSeparator() + "¿Quiere actualizarlo?");
                 alert.initOwner(viewControl.getStage());
                 Optional<ButtonType> resol = alert.showAndWait();
                 if (resol.get() == ButtonType.OK) {
                     hibControl.initTransaction();
                     elem.getBean().actualizarDatos(elem);
                     hibControl.UpdateElement(elem.getBean());
-                    hibControl.goCommit();
                     return false;
                 } else {
                     elem.sinCambios();
@@ -207,7 +206,6 @@ public class LogicController {
                             metodo.invoke(elem.getBean(), false);
                             hibControl.initTransaction();
                             hibControl.UpdateElement(elem.getBean());
-                            hibControl.goCommit();
                             return true;
                         } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
                             ex.getMessage();
