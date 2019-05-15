@@ -49,7 +49,7 @@
                         <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="nuevoBTN1" mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
+                        <Button fx:id="nuevoBTN" mnemonicParsing="false" onAction="#nuevoPedido" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
                            <font>
                               <Font name="Noto Sans Bold" size="12.0" />
                            </font>
@@ -57,7 +57,7 @@
                               <Insets left="100.0" />
                            </GridPane.margin>
                         </Button>
-                        <Button fx:id="borrarBTN1" mnemonicParsing="false" onAction="#borrarProducto" prefWidth="120.0" text="BORRAR" GridPane.columnIndex="2">
+                        <Button fx:id="borrarBTN" mnemonicParsing="false" onAction="#borrarPedido" prefWidth="120.0" text="BORRAR" GridPane.columnIndex="2">
                            <font>
                               <Font name="Noto Sans Bold" size="12.0" />
                            </font>
@@ -67,7 +67,7 @@
                         </Button>
                         <HBox alignment="CENTER_LEFT">
                            <children>
-                              <Label contentDisplay="RIGHT" text="PEDIDOS: ">
+                              <Label contentDisplay="RIGHT" text="LOCALES: ">
                                  <font>
                                     <Font name="Noto Sans Bold" size="14.0" />
                                  </font>
