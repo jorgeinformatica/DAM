@@ -3,6 +3,7 @@ package BeansFX;
 import Beans.Direccion;
 import Beans.Empleado;
 import Beans.Local;
+import java.util.Objects;
 import java.util.Set;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
@@ -127,12 +128,20 @@ public class DireccionFX extends BaseFX {
 
     @Override
     public boolean comprobarCambios() {
-        return false;
+        if (getRelCpCiu().comprobarCambios()) {
+            return true;
+        }
+        if (!getNombre().equalsIgnoreCase(((Direccion) getBean()).getNombre())) {
+            return true;
+        }
+        return !Objects.equals(getNumero(), ((Direccion) getBean()).getNumero());
     }
 
     @Override
     public void sinCambios() {
-
+        getRelCpCiu().sinCambios();
+        setNombre(((Direccion) getBean()).getNombre());
+        setNumero(((Direccion) getBean()).getNumero());
     }
 
     @Override

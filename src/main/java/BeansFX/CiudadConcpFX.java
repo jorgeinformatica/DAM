@@ -1,9 +1,13 @@
 package BeansFX;
 
+import Beans.Ciudad;
 import Beans.CiudadConcp;
 import Beans.CiudadConcpId;
 import Beans.CodigoPostal;
 import Beans.Direccion;
+import Beans.Provincia;
+import dam.proyecto.LogicController;
+import java.util.Objects;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -102,12 +106,20 @@ public class CiudadConcpFX extends BaseFX {
 
     @Override
     public boolean comprobarCambios() {
-        return false;
+        if(!Objects.equals(getCiudad().getCodCiudad(), ((CiudadConcp)getBean()).getCiudad().getCodCiudad())){
+            return true;
+        }
+        if(!getCodigoPostal().getCodPostal().equalsIgnoreCase(((CiudadConcp)getBean()).getCodigoPostal().getCodPostal())){
+            return true;
+        }
+        return getProvincia().getCodProvincia()!=((CiudadConcp)getBean()).getProvincia().getCodProv();
     }
 
     @Override
     public void sinCambios() {
-
+        setCiudad(LogicController.getCiuFX((Ciudad) getCiudad().getBean()));
+        setCodigoPostal(LogicController.getCPFX((CodigoPostal) getCodigoPostal().getBean()));
+        setProvincia(LogicController.getProvFX((Provincia) getProvincia().getBean()));
     }
 
     @Override

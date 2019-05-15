@@ -1,6 +1,7 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.EmpleadoFX;
 
 /**
  * @author Jorge Sempere Jimenez
@@ -116,7 +117,14 @@ public class Empleado implements java.io.Serializable, BaseBean {
 
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        direccion.actualizarDatos(((EmpleadoFX) o).getDireccion());
+        dni = ((EmpleadoFX) o).getDni();
+        local = (Local) ((EmpleadoFX) o).getLocal().getBean();
+        nombre = ((EmpleadoFX) o).getNombre();
+        ape1 = ((EmpleadoFX) o).getApe1();
+        ape2 = ((EmpleadoFX) o).getApe2();
+        telefono = ((EmpleadoFX) o).getTelefono();
+        email = ((EmpleadoFX) o).getEmail();
     }
 
     @Override

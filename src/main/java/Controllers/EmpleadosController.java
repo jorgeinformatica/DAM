@@ -79,7 +79,6 @@ public class EmpleadosController implements Initializable {
     private ObservableList<EmpleadoFX> listaEmpleados;
     private ObservableList<LocalFX> listaLocal;
 
-
     /**
      * @param url
      * @param rb
@@ -132,11 +131,11 @@ public class EmpleadosController implements Initializable {
     }
 
     @FXML
-    private void nuevoProducto(ActionEvent event) {
+    private void nuevoEmpleado(ActionEvent event) {
     }
 
     @FXML
-    private void borrarProducto(ActionEvent event) {
+    private void borrarEmpleado(ActionEvent event) {
         if (empleado != null) {
             if (viewControl.getLogic().desactivarMsg(empleado)) {
                 listaEmpleados.remove(empleado);
@@ -147,7 +146,19 @@ public class EmpleadosController implements Initializable {
     private void configurarTxtDni() {
         txtDni.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtDni, 8));
         txtDni.setTextFormatter(MetodosEstaticos.soloNumeros());
-        
+        txtDni.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
+            if (empleado != null && !nV) {
+                empleado.setDni(txtDni.getText().toUpperCase());
+            }
+            if (txtDni.getText().isEmpty() || txtDni.getText().length() < 8) {
+                txtDni.requestFocus();
+            } else {
+                String juegoCaracteres = "TRWAGMYFPDXBNJZSQVHLCKE";
+                int modulo = Integer.getInteger(txtDni.getText()) % 23;
+                labLetra.setText(juegoCaracteres.charAt(modulo) + "");
+                empleado.setDni(txtDni.getText() + labLetra.getText());
+            }
+        });
     }
 
     private void configurarTxtNom() {
@@ -284,13 +295,23 @@ public class EmpleadosController implements Initializable {
     }
 
     private void configurarComboEmp() {
-
+        cbEmpleados.valueProperty().addListener(
+                (ObservableValue<? extends EmpleadoFX> lo, EmpleadoFX oV, EmpleadoFX nV) -> {
+                    if (nV != null) {
+                        empleado = nV;
+                        refrescarVista();
+                        if (oV != null) {
+                            actualizarEmpleado(oV);
+                        }
+                    }
+                });
+        cbEmpleados.getSelectionModel().selectFirst();
     }
 
     private void configurarComboLocal() {
         cbLocal.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
-                empleado.setLocal((Local) cbLocal.getValue().getBean());
+                empleado.setLocal(cbLocal.getValue());
             }
         });
     }
@@ -302,7 +323,19 @@ public class EmpleadosController implements Initializable {
     }
 
     private void refrescarVista() {
-
+        txtNom.setText(empleado.getNombre());
+        txtApe1.setText(empleado.getApe1());
+        txtApe2.setText(empleado.getApe2());
+        txtDni.setText(empleado.getDni().substring(0, 8));
+        labLetra.setText(empleado.getDni().substring(8));
+        txtEmail.setText(empleado.getEmail());
+        txtTel.setText(empleado.getTelefono());
+        txtCalle.setText(empleado.getDireccion().getNombre());
+        txtNum.setText(empleado.getDireccion().getNumero() + "");
+        cbProv.getSelectionModel().select(empleado.getDireccion().getRelCpCiu().getProvincia());
+        cbCiudad.getSelectionModel().select(empleado.getDireccion().getRelCpCiu().getCiudad());
+        cbCP.getSelectionModel().select(empleado.getDireccion().getRelCpCiu().getCodigoPostal());
+        cbLocal.getSelectionModel().select(empleado.getLocal());
     }
 
     private boolean recorrerCCP(CodigoPostalFX cpFX, CiudadFX nV) {
@@ -319,4 +352,5 @@ public class EmpleadosController implements Initializable {
         };
         base.addListener(changeList);
     }
+
 }//fin de la clase

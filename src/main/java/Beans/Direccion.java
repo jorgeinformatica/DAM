@@ -1,6 +1,7 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.DireccionFX;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -83,7 +84,9 @@ public class Direccion implements java.io.Serializable, BaseBean {
 
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        nombre = ((DireccionFX) o).getNombre();
+        numero=((DireccionFX) o).getNumero();
+        ciudadConcp.actualizarDatos(((DireccionFX) o).getRelCpCiu());
     }
 
     @Override

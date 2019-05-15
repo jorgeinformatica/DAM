@@ -1,6 +1,7 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.CiudadConcpFX;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,7 +76,9 @@ public class CiudadConcp implements java.io.Serializable, BaseBean {
 
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        ciudad = (Ciudad) ((CiudadConcpFX) o).getCiudad().getBean();
+        codigoPostal = (CodigoPostal) ((CiudadConcpFX) o).getCodigoPostal().getBean();
+        provincia = (Provincia) ((CiudadConcpFX) o).getProvincia().getBean();
     }
 
     @Override

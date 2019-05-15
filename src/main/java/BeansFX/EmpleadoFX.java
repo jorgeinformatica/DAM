@@ -1,7 +1,7 @@
 package BeansFX;
 
 import Beans.Empleado;
-import Beans.Local;
+import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,7 +19,7 @@ public class EmpleadoFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<DireccionFX> direccion;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<Local> local;
+    private ObjectProperty<LocalFX> local;
     @SuppressWarnings("FieldMayBeFinal")
     private StringProperty nombre;
     @SuppressWarnings("FieldMayBeFinal")
@@ -49,7 +49,7 @@ public class EmpleadoFX extends BaseFX {
     public EmpleadoFX(Empleado empleado) {
         this.dni = new SimpleStringProperty(empleado.getDni());
         this.direccion = new SimpleObjectProperty<>(new DireccionFX(empleado.getDireccion()));
-        this.local = new SimpleObjectProperty<>(empleado.getLocal());
+        this.local = new SimpleObjectProperty<>(new LocalFX(empleado.getLocal()));
         this.nombre = new SimpleStringProperty(empleado.getNombre());
         this.ape1 = new SimpleStringProperty(empleado.getApe1());
         this.ape2 = new SimpleStringProperty(empleado.getApe2());
@@ -84,15 +84,15 @@ public class EmpleadoFX extends BaseFX {
         return direccion;
     }
 
-    public Local getLocal() {
+    public LocalFX getLocal() {
         return local.get();
     }
 
-    public void setLocal(Local local) {
+    public void setLocal(LocalFX local) {
         this.local.set(local);
     }
 
-    public ObjectProperty<Local> localProperty() {
+    public ObjectProperty<LocalFX> localProperty() {
         return local;
     }
 
@@ -170,12 +170,40 @@ public class EmpleadoFX extends BaseFX {
 
     @Override
     public boolean comprobarCambios() {
-        return false;
+        if (!Objects.equals(getLocal().getCodLocal(), ((Empleado) getBean()).getLocal().getCodLocal())) {
+            return true;
+        }
+        if (!getApe1().equalsIgnoreCase(((Empleado) getBean()).getApe1())) {
+            return true;
+        }
+        if (!getApe2().equalsIgnoreCase(((Empleado) getBean()).getApe2())) {
+            return true;
+        }
+        if (!getDni().equalsIgnoreCase(((Empleado) getBean()).getDni())) {
+            return true;
+        }
+        if (!getEmail().equalsIgnoreCase(((Empleado) getBean()).getEmail())) {
+            return true;
+        }
+        if (!getNombre().equalsIgnoreCase(((Empleado) getBean()).getNombre())) {
+            return true;
+        }
+        if (!getTelefono().equals(((Empleado) getBean()).getTelefono())) {
+            return true;
+        }
+        return getDireccion().comprobarCambios();
     }
 
     @Override
     public void sinCambios() {
-
+        setDni(((Empleado) getBean()).getDni());
+        getDireccion().sinCambios();
+        setLocal(new LocalFX(((Empleado) getBean()).getLocal()));
+        setNombre(((Empleado) getBean()).getNombre());
+        setApe1(((Empleado) getBean()).getApe1());
+        setApe2(((Empleado) getBean()).getApe2());
+        setEmail(((Empleado) getBean()).getEmail());
+        setTelefono(((Empleado) getBean()).getTelefono());
     }
 
     @Override

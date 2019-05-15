@@ -1,13 +1,10 @@
 package BeansFX;
 
-import Beans.Direccion;
 import Beans.Empleado;
 import Beans.Local;
 import Beans.Pedido;
 import Beans.Stock;
 import Beans.Ticket;
-import dam.proyecto.LogicController;
-import java.util.Objects;
 import java.util.Set;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -21,7 +18,7 @@ import javafx.collections.FXCollections;
  * @author Jorge Sempere Jimenez
  */
 public class LocalFX extends BaseFX {
-    
+
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Short> codLocal;
     @SuppressWarnings("FieldMayBeFinal")
@@ -36,7 +33,7 @@ public class LocalFX extends BaseFX {
     private SetProperty<Ticket> tickets;
     @SuppressWarnings("FieldMayBeFinal")
     private SetProperty<Stock> stocks;
-    
+
     public LocalFX() {
         this.estado = new SimpleBooleanProperty();
         this.codLocal = new SimpleObjectProperty<>();
@@ -47,7 +44,7 @@ public class LocalFX extends BaseFX {
         this.stocks = new SimpleSetProperty<>(FXCollections.observableSet());
         this.beanFX = new SimpleObjectProperty<>(this);
     }
-    
+
     public LocalFX(Local local) {
         this.estado = new SimpleBooleanProperty(local.getEstado());
         this.codLocal = new SimpleObjectProperty<>(local.getCodLocal());
@@ -59,127 +56,108 @@ public class LocalFX extends BaseFX {
         this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = local;
     }
-    
+
     public Short getCodLocal() {
         return codLocal.get();
     }
-    
+
     public void setCodLocal(Short codLocal) {
         this.codLocal.set(codLocal);
     }
-    
+
     public ObjectProperty<Short> codLocalProperty() {
         return codLocal;
     }
-    
+
     public Boolean getEstado() {
         return estado.get();
     }
-    
+
     public void setEstado(Boolean estado) {
         this.estado.set(estado);
     }
-    
+
     public BooleanProperty estadoProperty() {
         return estado;
     }
-    
+
     public DireccionFX getDireccion() {
         return direccion.get();
     }
-    
+
     public void setDireccion(DireccionFX direccion) {
         this.direccion.set(direccion);
     }
-    
+
     public ObjectProperty<DireccionFX> direccionProperty() {
         return direccion;
     }
-    
+
     public Set getPedidos() {
         return pedidos.get();
     }
-    
+
     public void setPedidos(Set pedidos) {
         this.pedidos.clear();
         this.pedidos.addAll(pedidos);
     }
-    
+
     public SetProperty<Pedido> pedidosProperty() {
         return pedidos;
     }
-    
+
     public Set getEmpleados() {
         return empleados.get();
     }
-    
+
     public void setEmpleados(Set empleados) {
         this.empleados.clear();
         this.empleados.addAll(empleados);
     }
-    
+
     public SetProperty<Empleado> empleadosProperty() {
         return empleados;
     }
-    
+
     public Set getTickets() {
         return tickets.get();
     }
-    
+
     public void setTickets(Set tickets) {
         this.tickets.clear();
         this.tickets.addAll(tickets);
     }
-    
+
     public SetProperty<Ticket> ticketsProperty() {
         return tickets;
     }
-    
+
     public Set getStocks() {
         return stocks.get();
     }
-    
+
     public void setStocks(Set stocks) {
         this.stocks.clear();
         this.stocks.addAll(stocks);
     }
-    
+
     public SetProperty<Stock> stocksProperty() {
         return stocks;
     }
-    
+
     @Override
     public boolean comprobarCambios() {
-        if (((Local) bean).getDireccion().getCiudadConcp().getProvincia().getCodProv()
-                != getDireccion().getRelCpCiu().getProvincia().getCodProvincia()) {
-            return true;
-        }
-        if (!Objects.equals(((Local) bean).getDireccion().getCiudadConcp().getCiudad().getCodCiudad(),
-                getDireccion().getRelCpCiu().getCiudad().getCodCiudad())) {
-            return true;
-        }
-        if (!Objects.equals(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal().getCodPostal(),
-                getDireccion().getRelCpCiu().getCodigoPostal().getCodPostal())) {
-            return true;
-        }
-        if (!((Local) bean).getDireccion().getNombre().equalsIgnoreCase(getDireccion().getNombre())) {
-            return true;
-        }
-        return ((Local) bean).getDireccion().getNumero() != getDireccion().getNumero();
+        return getDireccion().comprobarCambios();
     }
-    
+
     @Override
     public void sinCambios() {
-        getDireccion().getRelCpCiu().setCiudad(LogicController.getCiuFX(((Local) bean).getDireccion().getCiudadConcp().getCiudad()));
-        getDireccion().getRelCpCiu().setCodigoPostal(LogicController.getCPFX(((Local) bean).getDireccion().getCiudadConcp().getCodigoPostal()));
-        getDireccion().getRelCpCiu().setProvincia(LogicController.getProvFX(((Local) bean).getDireccion().getCiudadConcp().getProvincia()));
-        getDireccion().setNombre(((Local) bean).getDireccion().getNombre());
-        getDireccion().setNumero(((Local) bean).getDireccion().getNumero());
+        getDireccion().sinCambios();
     }
-    
+
     @Override
     public String toString() {
         return "Local: " + getCodLocal() + " " + getDireccion().toString();
     }
-    
+
 }//fin de clase
