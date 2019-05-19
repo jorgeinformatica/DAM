@@ -13,7 +13,7 @@
         <property name="fechaPed" type="timestamp">
             <column name="Fecha_Ped" length="26" not-null="true" />
         </property>
-        <property name="fechaEntrega" type="date">
+        <property name="fechaEntrega" type="timestamp">
             <column name="Fecha_Entrega" length="10" not-null="true" />
         </property>
         <property name="estado" type="string">

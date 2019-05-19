@@ -3,6 +3,7 @@ package Utils;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParsePosition;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -44,6 +45,15 @@ public class MetodosEstaticos {
      */
     public static LocalDate ToLocalDate(Date date) {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+    }
+
+    /**
+     * 
+     * @param date la fecha a transformar
+     * @return la fecha en tipo "Date"
+     */
+    public static Date ToDate(LocalDate date) {
+        return Date.from(Instant.from(date.atStartOfDay(ZoneId.systemDefault())));
     }
 
     /**
@@ -100,7 +110,7 @@ public class MetodosEstaticos {
 
     /**
      * Limita el numero de caracteres que acepta el TextField
-     * 
+     *
      * @param campo es el TextField que se va a asignar el listener
      * @param longitud numero de caracteres que aceptará
      * @return el listener con la configuracion establecida

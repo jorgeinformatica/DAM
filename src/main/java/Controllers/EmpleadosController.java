@@ -1,6 +1,7 @@
 package Controllers;
 
 import Beans.CiudadConcp;
+import Beans.Direccion;
 import Beans.Empleado;
 import Beans.Local;
 import BeansFX.CiudadFX;
@@ -132,6 +133,21 @@ public class EmpleadosController implements Initializable {
 
     @FXML
     private void nuevoEmpleado(ActionEvent event) {
+        viewControl.getLogic().getHibControl().initTransaction();
+        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, "Cod_Ciudad=265 AND Cod_Postal='03802'");
+        Direccion direc = new Direccion();
+        direc.setNumero((short) 1);
+        direc.setNombre("CALLE");
+        direc.setCiudadConcp(ccCP);
+        viewControl.getLogic().getHibControl().save(direc);
+        viewControl.getLogic().getHibControl().initTransaction();
+        Local local = (Local) viewControl.getLogic().getHibControl().searchElement(Local.class, "Cod_Local=1");
+        Empleado tempo = new Empleado("23232323T", direc, local, "nombre", "primer Apellido", "segundo Apellido", "999999999", "Correo electrónico", true);
+        viewControl.getLogic().getHibControl().save(tempo);
+        empleado = new EmpleadoFX(tempo);
+        listaEmpleados.add(empleado);
+        cbEmpleados.getSelectionModel().select(empleado);
+
     }
 
     @FXML
@@ -139,6 +155,7 @@ public class EmpleadosController implements Initializable {
         if (empleado != null) {
             if (viewControl.getLogic().desactivarMsg(empleado)) {
                 listaEmpleados.remove(empleado);
+                cbEmpleados.getSelectionModel().selectFirst();
             }
         }
     }
@@ -148,15 +165,16 @@ public class EmpleadosController implements Initializable {
         txtDni.setTextFormatter(MetodosEstaticos.soloNumeros());
         txtDni.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
-                empleado.setDni(txtDni.getText().toUpperCase());
-            }
-            if (txtDni.getText().isEmpty() || txtDni.getText().length() < 8) {
-                txtDni.requestFocus();
-            } else {
-                String juegoCaracteres = "TRWAGMYFPDXBNJZSQVHLCKE";
-                int modulo = Integer.getInteger(txtDni.getText()) % 23;
-                labLetra.setText(juegoCaracteres.charAt(modulo) + "");
-                empleado.setDni(txtDni.getText() + labLetra.getText());
+                if (txtDni.getText().isEmpty() || txtDni.getText().length() < 8) {
+                    txtDni.requestFocus();
+                }
+                if (!((Empleado) empleado.getBean()).getDni().subSequence(0, 7).equals(txtDni.getText())) {
+                    String juegoCaracteres = "TRWAGMYFPDXBNJZSQVHLCKE";
+                    int modulo = Integer.valueOf(txtDni.getText()) % 23;
+                    labLetra.setText(juegoCaracteres.charAt(modulo) + "");
+                    empleado.setDni(txtDni.getText() + labLetra.getText());
+                }
+
             }
         });
     }
@@ -214,7 +232,7 @@ public class EmpleadosController implements Initializable {
         txtTel.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtTel, 9));
         txtTel.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
-                empleado.setEmail(txtTel.getText().toUpperCase());
+                empleado.setTelefono(txtTel.getText().toUpperCase());
             }
             if (txtTel.getText().isEmpty()) {
                 txtTel.requestFocus();
@@ -226,7 +244,7 @@ public class EmpleadosController implements Initializable {
         txtCalle.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtCalle, 74));
         txtCalle.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
-                empleado.getDireccion().setNombre(txtCalle.getText().isEmpty() ? "1" : txtCalle.getText().toUpperCase());
+                empleado.getDireccion().setNombre(txtCalle.getText().toUpperCase());
             }
             if (txtCalle.getText().isEmpty()) {
                 txtCalle.requestFocus();
@@ -239,7 +257,7 @@ public class EmpleadosController implements Initializable {
         txtNum.setTextFormatter(MetodosEstaticos.soloNumeros());
         txtNum.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
-                empleado.getDireccion().setNumero(Short.valueOf(txtNum.getText().isEmpty() ? "" : txtNum.getText().toUpperCase()));
+                empleado.getDireccion().setNumero(Short.valueOf(txtNum.getText().toUpperCase()));
             }
             if (txtNum.getText().isEmpty()) {
                 txtNum.requestFocus();

@@ -3,8 +3,10 @@ package BeansFX;
 import Beans.Empleado;
 import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -32,6 +34,7 @@ public class EmpleadoFX extends BaseFX {
     private StringProperty email;
     @SuppressWarnings("FieldMayBeFinal")
     private BooleanProperty estado;
+    private IntegerProperty numEmpleado;
 
     public EmpleadoFX() {
         this.dni = new SimpleStringProperty();
@@ -47,6 +50,7 @@ public class EmpleadoFX extends BaseFX {
     }
 
     public EmpleadoFX(Empleado empleado) {
+        this.numEmpleado = new SimpleIntegerProperty(empleado.getNumEmpleado());
         this.dni = new SimpleStringProperty(empleado.getDni());
         this.direccion = new SimpleObjectProperty<>(new DireccionFX(empleado.getDireccion()));
         this.local = new SimpleObjectProperty<>(new LocalFX(empleado.getLocal()));
@@ -58,6 +62,18 @@ public class EmpleadoFX extends BaseFX {
         this.estado = new SimpleBooleanProperty(empleado.getEstado());
         this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = empleado;
+    }
+
+    public Integer getNumEmpleado() {
+        return numEmpleado.get();
+    }
+
+    public void setNumEmpleado(Integer numEmpleado) {
+        this.numEmpleado.set(numEmpleado);
+    }
+
+    public IntegerProperty numEmpleadoProperty() {
+        return numEmpleado;
     }
 
     public String getDni() {

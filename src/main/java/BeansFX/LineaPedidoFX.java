@@ -15,11 +15,11 @@ import javafx.beans.property.StringProperty;
 public class LineaPedidoFX extends BaseFX{
 
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<LineaPedidoId> idLineaPedido;
+    private ObjectProperty<LineaPedidoIdFX> idLineaPedido;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<Pedido> pedido;
+    private ObjectProperty<PedidoFX> pedido;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<Producto> producto;
+    private ObjectProperty<ProductoFX> producto;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Short> cantidad;
     @SuppressWarnings("FieldMayBeFinal")
@@ -35,48 +35,48 @@ public class LineaPedidoFX extends BaseFX{
     }
 
     public LineaPedidoFX(LineaPedido lineaPedido) {
-        this.idLineaPedido = new SimpleObjectProperty<>(lineaPedido.getId());
-        this.pedido = new SimpleObjectProperty<>(lineaPedido.getPedido());
-        this.producto = new SimpleObjectProperty<>(lineaPedido.getProducto());
+        this.idLineaPedido = new SimpleObjectProperty<>(new LineaPedidoIdFX(lineaPedido.getId()));
+        this.pedido = new SimpleObjectProperty<>(new PedidoFX(lineaPedido.getPedido()));
+        this.producto = new SimpleObjectProperty<>(new ProductoFX(lineaPedido.getProducto()));
         this.cantidad = new SimpleObjectProperty<>(lineaPedido.getCantidad());
         this.estado = new SimpleStringProperty(lineaPedido.getEstado());
         this.beanFX = new SimpleObjectProperty<>(this);
         this.bean=lineaPedido;
     }
 
-    public LineaPedidoId getIdLineaPedido() {
+    public LineaPedidoIdFX getIdLineaPedido() {
         return idLineaPedido.get();
     }
 
-    public void setIdLineaPedido(LineaPedidoId idLineaPedido) {
+    public void setIdLineaPedido(LineaPedidoIdFX idLineaPedido) {
         this.idLineaPedido.set(idLineaPedido);
     }
 
-    public ObjectProperty<LineaPedidoId> idLineaPedidoProperty() {
+    public ObjectProperty<LineaPedidoIdFX> idLineaPedidoProperty() {
         return idLineaPedido;
     }
 
-    public Pedido getPedido() {
+    public PedidoFX getPedido() {
         return pedido.get();
     }
 
-    public void setPedido(Pedido pedido) {
+    public void setPedido(PedidoFX pedido) {
         this.pedido.set(pedido);
     }
 
-    public ObjectProperty<Pedido> pedidoProperty() {
+    public ObjectProperty<PedidoFX> pedidoProperty() {
         return pedido;
     }
 
-    public Producto getProducto() {
+    public ProductoFX getProducto() {
         return producto.get();
     }
 
-    public void setProducto(Producto producto) {
+    public void setProducto(ProductoFX producto) {
         this.producto.set(producto);
     }
 
-    public ObjectProperty<Producto> productoProperty() {
+    public ObjectProperty<ProductoFX> productoProperty() {
         return producto;
     }
 

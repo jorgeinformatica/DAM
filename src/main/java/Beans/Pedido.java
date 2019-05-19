@@ -1,6 +1,7 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.PedidoFX;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -85,7 +86,10 @@ public class Pedido implements java.io.Serializable, BaseBean {
 
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        fechaPed = ((PedidoFX) o).getFechaPed();
+        fechaEntrega = ((PedidoFX) o).getFechaEntrega();
+        estado = ((PedidoFX) o).getEstado();
+        local = ((PedidoFX) o).getLocal();
     }
 
     @Override

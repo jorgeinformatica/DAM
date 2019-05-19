@@ -3,9 +3,9 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="Beans.Empleado" table="EMPLEADO" catalog="2aDISTRIBUCION" optimistic-lock="version">
-        <id name="dni" type="string">
-            <column name="Dni" length="9" />
-            <generator class="assigned" />
+        <id name="numEmpleado" type="java.lang.Integer">
+            <column name="Num_Empleado" />
+            <generator class="identity" />
         </id>
         <many-to-one name="direccion" class="Beans.Direccion" fetch="select">
             <column name="Cod_Direc" />
@@ -13,6 +13,9 @@
         <many-to-one name="local" class="Beans.Local" fetch="select">
             <column name="Cod_Local" />
         </many-to-one>
+        <property name="dni" type="string">
+            <column name="Dni" length="9" not-null="true" unique="true" />
+        </property>
         <property name="nombre" type="string">
             <column name="Nombre" length="40" not-null="true" />
         </property>

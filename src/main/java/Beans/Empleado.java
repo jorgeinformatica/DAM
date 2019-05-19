@@ -8,6 +8,7 @@ import BeansFX.EmpleadoFX;
  */
 public class Empleado implements java.io.Serializable, BaseBean {
 
+    private Integer numEmpleado;
     private String dni;
     private Direccion direccion;
     private Local local;
@@ -43,6 +44,16 @@ public class Empleado implements java.io.Serializable, BaseBean {
         this.estado = estado;
     }
 
+    public Integer getNumEmpleado() {
+        return numEmpleado;
+    }
+
+    public void setNumEmpleado(Integer numEmpleado) {
+        this.numEmpleado = numEmpleado;
+    }
+
+    
+    
     public String getDni() {
         return this.dni;
     }
