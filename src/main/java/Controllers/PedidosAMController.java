@@ -143,6 +143,18 @@ public class PedidosAMController implements Initializable {
         return estados;
     }
 
+    public PedidoFX getPedido() {
+        return pedido;
+    }
+
+    public LocalFX getLocal() {
+        return local;
+    }
+
+    public ObservableList<LineaPedidoFX> getLinPedido() {
+        return linPedido;
+    }
+
     private void actualizarPedido(PedidoFX p) {
         if (viewControl.getLogic().actualizarMsg(p)) {
             refrescarVista();

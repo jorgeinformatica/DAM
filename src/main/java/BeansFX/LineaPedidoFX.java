@@ -1,10 +1,9 @@
 package BeansFX;
 
 import Beans.LineaPedido;
-import Beans.LineaPedidoId;
-import Beans.Pedido;
-import Beans.Producto;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -12,7 +11,7 @@ import javafx.beans.property.StringProperty;
 /**
  * @author Jorge Sempere Jimenez
  */
-public class LineaPedidoFX extends BaseFX{
+public class LineaPedidoFX extends BaseFX {
 
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<LineaPedidoIdFX> idLineaPedido;
@@ -24,6 +23,8 @@ public class LineaPedidoFX extends BaseFX{
     private ObjectProperty<Short> cantidad;
     @SuppressWarnings("FieldMayBeFinal")
     private StringProperty estado;
+    @SuppressWarnings("FieldMayBeFinal")
+    private BooleanProperty esEditable;
 
     public LineaPedidoFX() {
         this.idLineaPedido = new SimpleObjectProperty<>();
@@ -32,6 +33,7 @@ public class LineaPedidoFX extends BaseFX{
         this.cantidad = new SimpleObjectProperty<>();
         this.estado = new SimpleStringProperty();
         this.beanFX = new SimpleObjectProperty<>(this);
+        this.esEditable = new SimpleBooleanProperty(false);
     }
 
     public LineaPedidoFX(LineaPedido lineaPedido) {
@@ -41,7 +43,8 @@ public class LineaPedidoFX extends BaseFX{
         this.cantidad = new SimpleObjectProperty<>(lineaPedido.getCantidad());
         this.estado = new SimpleStringProperty(lineaPedido.getEstado());
         this.beanFX = new SimpleObjectProperty<>(this);
-        this.bean=lineaPedido;
+        this.esEditable = new SimpleBooleanProperty(false);
+        this.bean = lineaPedido;
     }
 
     public LineaPedidoIdFX getIdLineaPedido() {
@@ -58,6 +61,18 @@ public class LineaPedidoFX extends BaseFX{
 
     public PedidoFX getPedido() {
         return pedido.get();
+    }
+
+    public Boolean getEsEditable() {
+        return esEditable.get();
+    }
+
+    public void setEsEditable(Boolean esEditable) {
+        this.esEditable.set(esEditable);
+    }
+
+    public BooleanProperty esEditableProperty() {
+        return esEditable;
     }
 
     public void setPedido(PedidoFX pedido) {
@@ -111,12 +126,12 @@ public class LineaPedidoFX extends BaseFX{
 
     @Override
     public void sinCambios() {
-        
+
     }
 
     @Override
     public String toString() {
         return "Linea: " + getIdLineaPedido().getNumLinPed() + " producto: " + getProducto().toString();
     }
-    
+
 }//fin de clase
