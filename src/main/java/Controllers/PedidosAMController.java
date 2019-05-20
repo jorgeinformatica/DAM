@@ -1,22 +1,18 @@
 package Controllers;
 
 import Beans.LineaPedido;
-import Beans.LineaPedidoId;
 import Beans.Local;
 import Beans.Pedido;
-import Beans.Producto;
 import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
+import Utils.Columns;
 import Utils.MetodosEstaticos;
-import de.jensd.fx.glyphs.GlyphsDude;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.function.Consumer;
 import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,7 +22,6 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -35,14 +30,10 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
 /**
  * @author Jorge Sempere
@@ -58,11 +49,11 @@ public class PedidosAMController implements Initializable {
     @FXML
     private TableView<LineaPedidoFX> lineasTV;
     @FXML
-    private TableColumn<LineaPedidoFX, Short> lineaTC;
+    private TableColumn lineaTC;
     @FXML
-    private TableColumn<LineaPedidoFX, String> productoTC;
+    private TableColumn productoTC;
     @FXML
-    private TableColumn<LineaPedidoFX, Short> cantidadTC;
+    private TableColumn cantidadTC;
     @FXML
     private TableColumn<LineaPedidoFX, String> estadoTC;
     @FXML
@@ -130,11 +121,11 @@ public class PedidosAMController implements Initializable {
         });
         filterPedido = new FilteredList<>(listaPedido, p -> true);
         cbPedidos.setItems(filterPedido.sorted());
-        lineaTC.setCellValueFactory(linea -> linea.getValue().getIdLineaPedido().numLinPedProperty());
-        productoTC.setCellValueFactory(linea -> linea.getValue().getProducto().nombreProperty());
-        cantidadTC.setCellValueFactory(linea -> linea.getValue().cantidadProperty());
+        Columns.doColumnLineasPedido(lineaTC);
+        Columns.doColumnProductoPedido(productoTC, viewControl);
+        Columns.doColumnCantidadPedido(cantidadTC);
         estadoTC.setCellValueFactory(linea -> linea.getValue().estadoProperty());
-        doColumnActions(accionesTC);
+        Columns.doColumnActionsPedido(accionesTC);
     }
 
     void setViewControl(AAController aThis) {
@@ -157,7 +148,7 @@ public class PedidosAMController implements Initializable {
             pedido.getLineasPedido().forEach((o) -> {
                 linPedido.add(new LineaPedidoFX(((LineaPedido) o)));
             });
-            lineasTV.setItems(linPedido.sorted());
+            lineasTV.setItems(linPedido);
         }
     }
 
@@ -266,33 +257,7 @@ public class PedidosAMController implements Initializable {
     private boolean recorrerPedidos(PedidoFX ped, Set lista) {
         return lista.stream().anyMatch((o) -> Objects.equals(ped.getNumPed(), ((Pedido) o).getNumPed()));
     }
-    
-    private void doColumnActions(TableColumn accionesTC) {
-        accionesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
-        accionesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
-            @Override
-            public TableCell<LineaPedidoFX, Void> call(TableColumn<LineaPedidoFX, Void> param) {
-                                TableCell<LineaPedidoFX, Void> cell = new TableCell<LineaPedidoFX, Void>() {
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            LineaPedidoFX linea = getTableView().getItems().get(getIndex());
-                            Button btn = GlyphsDude.createIconButton(FontAwesomeIcon.EYE);
-                            btn.setTooltip(new Tooltip("Ver en detalle el producto"));
-                            HBox h=new HBox(1, btn);
-                            h.alignmentProperty().setValue(Pos.CENTER);
-                            setGraphic(h);
-                        }
-                    }
-                };
-                return cell;
-            }
-        });
-    }
-    
+
     private void configurarBase(ObservableList<Node> base) {
         ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
             actualizarPedido(pedido);
