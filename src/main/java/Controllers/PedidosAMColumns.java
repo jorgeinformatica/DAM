@@ -1,8 +1,8 @@
-package Utils;
+package Controllers;
 
 import BeansFX.LineaPedidoFX;
 import BeansFX.ProductoFX;
-import Controllers.AAController;
+import Utils.MetodosEstaticos;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.geometry.Pos;
@@ -20,10 +20,16 @@ import javafx.util.Callback;
 /**
  * @author Jorge Sempere Jimenez
  */
-public class Columns {
-
+public class PedidosAMColumns {
+    
+    private final PedidosAMController parentController;
+    
+    public PedidosAMColumns(PedidosAMController parentController) {
+        this.parentController = parentController;
+    }
+    
     @SuppressWarnings("Convert2Lambda")
-    public static void doColumnActionsPedido(TableColumn accionesTC) {
+    public void doColumnActionsPedido(TableColumn accionesTC) {
         accionesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
         accionesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
             @Override
@@ -52,11 +58,11 @@ public class Columns {
             }
         });
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
-    public static void doColumnLineasPedido(TableColumn accionesTC) {
-        accionesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
-        accionesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
+    public void doColumnLineasPedido(TableColumn lineasTC) {
+        lineasTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
+        lineasTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
             @Override
             public TableCell<LineaPedidoFX, Void> call(TableColumn<LineaPedidoFX, Void> param) {
                 TableCell<LineaPedidoFX, Void> cell = new TableCell<LineaPedidoFX, Void>() {
@@ -77,11 +83,11 @@ public class Columns {
             }
         });
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
-    public static void doColumnProductoPedido(TableColumn accionesTC, AAController viewControl) {
-        accionesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
-        accionesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
+    public void doColumnProductoPedido(TableColumn productosTC) {
+        productosTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
+        productosTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
             @Override
             public TableCell<LineaPedidoFX, Void> call(TableColumn<LineaPedidoFX, Void> param) {
                 TableCell<LineaPedidoFX, Void> cell = new TableCell<LineaPedidoFX, Void>() {
@@ -92,7 +98,7 @@ public class Columns {
                             setGraphic(null);
                         } else {
                             LineaPedidoFX linea = getTableView().getItems().get(getIndex());
-                            ComboBox<ProductoFX> cbProductos = new ComboBox<>(viewControl.getLogic().getProductos().sorted());
+                            ComboBox<ProductoFX> cbProductos = new ComboBox<>(parentController.getViewControl().getLogic().getProductos().sorted());
                             HBox h = new HBox(1, cbProductos);
                             cbProductos.getSelectionModel().select(linea.getProducto());
                             h.alignmentProperty().setValue(Pos.CENTER);
@@ -104,11 +110,11 @@ public class Columns {
             }
         });
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
-    public static void doColumnCantidadPedido(TableColumn accionesTC) {
-        accionesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
-        accionesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
+    public void doColumnCantidadPedido(TableColumn cantidadesTC) {
+        cantidadesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
+        cantidadesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
             @Override
             public TableCell<LineaPedidoFX, Void> call(TableColumn<LineaPedidoFX, Void> param) {
                 TableCell<LineaPedidoFX, Void> cell = new TableCell<LineaPedidoFX, Void>() {
@@ -132,11 +138,11 @@ public class Columns {
             }
         });
     }
-
-        @SuppressWarnings("Convert2Lambda")
-    public static void doColumnEstadoPedido(TableColumn accionesTC) {
-        accionesTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
-        accionesTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
+    
+    @SuppressWarnings("Convert2Lambda")
+    public void doColumnEstadoPedido(TableColumn estadosTC) {
+        estadosTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
+        estadosTC.setCellFactory(new Callback<TableColumn<LineaPedidoFX, Void>, TableCell<LineaPedidoFX, Void>>() {
             @Override
             public TableCell<LineaPedidoFX, Void> call(TableColumn<LineaPedidoFX, Void> param) {
                 TableCell<LineaPedidoFX, Void> cell = new TableCell<LineaPedidoFX, Void>() {
@@ -147,10 +153,9 @@ public class Columns {
                             setGraphic(null);
                         } else {
                             LineaPedidoFX linea = getTableView().getItems().get(getIndex());
-                            TextField tf = new TextField(linea.getCantidad().toString());
-                            tf.setTextFormatter(MetodosEstaticos.soloNumeros());
-                            HBox h = new HBox(1, tf);
-
+                            ComboBox<String> cbEstate = new ComboBox<>(parentController.getEstados());
+                            HBox h = new HBox(1, cbEstate);
+                            cbEstate.getSelectionModel().select(linea.getEstado());
                             h.alignmentProperty().setValue(Pos.CENTER);
                             setGraphic(h);
                         }
@@ -161,34 +166,4 @@ public class Columns {
         });
     }
     
-    @SuppressWarnings("Convert2Lambda")
-    public static void doColumnActionsProducto(TableColumn accionesTC, AAController viewControl) {
-        accionesTC.setCellValueFactory(new PropertyValueFactory<>("ProductoFX"));
-        accionesTC.setCellFactory(new Callback<TableColumn<ProductoFX, Void>, TableCell<ProductoFX, Void>>() {
-            @Override
-            public TableCell<ProductoFX, Void> call(TableColumn<ProductoFX, Void> param) {
-                TableCell<ProductoFX, Void> cell = new TableCell<ProductoFX, Void>() {
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            ProductoFX producto = getTableView().getItems().get(getIndex());
-                            Button btn = GlyphsDude.createIconButton(FontAwesomeIcon.EYE);
-                            btn.setOnAction((event) -> {
-                                viewControl.getLogic().setProducto(producto);
-                                viewControl.getmItModProd().fire();
-                            });
-                            btn.setTooltip(new Tooltip("Ver en detalle el producto"));
-                            HBox h = new HBox(5, btn);
-                            h.alignmentProperty().setValue(Pos.CENTER);
-                            setGraphic(h);
-                        }
-                    }
-                };
-                return cell;
-            }
-        });
-    }
 }//fin de clase

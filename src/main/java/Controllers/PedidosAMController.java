@@ -6,7 +6,6 @@ import Beans.Pedido;
 import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
-import Utils.Columns;
 import Utils.MetodosEstaticos;
 import java.net.URL;
 import java.time.LocalDate;
@@ -36,7 +35,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
 /**
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public class PedidosAMController implements Initializable {
 
@@ -55,7 +54,7 @@ public class PedidosAMController implements Initializable {
     @FXML
     private TableColumn cantidadTC;
     @FXML
-    private TableColumn<LineaPedidoFX, String> estadoTC;
+    private TableColumn estadoTC;
     @FXML
     private TableColumn accionesTC;
     @FXML
@@ -78,11 +77,13 @@ public class PedidosAMController implements Initializable {
     private AAController viewControl;
     private PedidoFX pedido;
     private LocalFX local;
+    private ObservableList<String> estados;
     private ObservableList<LineaPedidoFX> linPedido;
     private ObservableList<PedidoFX> listaPedido;
     private FilteredList<PedidoFX> filterPedido;
     private ObservableList<LocalFX> listaLocal;
     private FilteredList<LocalFX> filterLocal;
+    private PedidosAMColumns tableController;
 
     /**
      * @param url
@@ -106,8 +107,10 @@ public class PedidosAMController implements Initializable {
     }
 
     private void initValues() {
+        tableController = new PedidosAMColumns(this);
         infoFiltroLocal.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         infoFiltroPedido.setTooltip(new Tooltip("FILTRA LOS PEDIDOS EN BASE AL TEXTO INTRODUCIDO"));
+        estados = FXCollections.observableArrayList("INCOMPLETO", "TERMINADO", "ANULADO");
         linPedido = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
         FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "1=1")).forEach((Object lo) -> {
@@ -121,15 +124,23 @@ public class PedidosAMController implements Initializable {
         });
         filterPedido = new FilteredList<>(listaPedido, p -> true);
         cbPedidos.setItems(filterPedido.sorted());
-        Columns.doColumnLineasPedido(lineaTC);
-        Columns.doColumnProductoPedido(productoTC, viewControl);
-        Columns.doColumnCantidadPedido(cantidadTC);
-        estadoTC.setCellValueFactory(linea -> linea.getValue().estadoProperty());
-        Columns.doColumnActionsPedido(accionesTC);
+        tableController.doColumnLineasPedido(lineaTC);
+        tableController.doColumnProductoPedido(productoTC);
+        tableController.doColumnCantidadPedido(cantidadTC);
+        tableController.doColumnEstadoPedido(estadoTC);
+        tableController.doColumnActionsPedido(accionesTC);
     }
 
     void setViewControl(AAController aThis) {
         viewControl = aThis;
+    }
+
+    public AAController getViewControl() {
+        return viewControl;
+    }
+
+    public ObservableList<String> getEstados() {
+        return estados;
     }
 
     private void actualizarPedido(PedidoFX p) {
@@ -245,7 +256,6 @@ public class PedidosAMController implements Initializable {
     }
 
     private void configurarComboEstado() {
-        ObservableList estados = FXCollections.observableArrayList("INCOMPLETO", "TERMINADO", "ANULADO");
         estadoCB.setItems(estados);
         estadoCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (pedido != null && !nV) {
