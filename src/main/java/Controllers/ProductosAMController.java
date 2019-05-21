@@ -7,9 +7,10 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -227,10 +228,13 @@ public class ProductosAMController implements Initializable {
     }
 
     private void configurarBase(ObservableList<Node> base) {
-        ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
-            actualizarProducto(producto);
-        };
-        base.addListener(changeList);
+        base.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                actualizarProducto(producto);
+                base.removeListener(this);
+            }
+        });
     }
 
 }

@@ -75,7 +75,7 @@ public class LogicController {
         FXCollections.observableList(hibControl.getList(CodigoPostal.class, "1=1")).forEach((cp) -> {
             this.cps.add(new CodigoPostalFX((CodigoPostal) cp));
         });
-        FXCollections.observableList(hibControl.getList(Producto.class, "Estado=1")).forEach((pro) -> {
+        FXCollections.observableList(hibControl.getList(Producto.class, " Estado = 1 ")).forEach((pro) -> {
             this.productos.add(new ProductoFX((Producto) pro));
         });
     }
@@ -168,7 +168,7 @@ public class LogicController {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle(null);
                 alert.setHeaderText(null);
-                alert.setContentText("Han cambiado las características de: \"" + elem.getBean().getClass().getSimpleName() + "\"" + System.lineSeparator() + "¿Quiere actualizarlo?");
+                alert.setContentText("Han cambiado las características de: \"" + elem.toString() + "\"" + System.lineSeparator() + "¿Quiere actualizarlo?");
                 alert.initOwner(viewControl.getStage());
                 Optional<ButtonType> resol = alert.showAndWait();
                 if (resol.get() == ButtonType.OK) {

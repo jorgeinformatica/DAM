@@ -14,9 +14,10 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -96,7 +97,7 @@ public class LocalesController implements Initializable {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         listaEmpleados = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "1=1")).forEach((Object lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, " Estado = 1 ")).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
@@ -130,7 +131,7 @@ public class LocalesController implements Initializable {
         viewControl.getLogic().getHibControl().save(tempo);
         local = new LocalFX(tempo);
         listaLocal.add(local);
-        cbLocales.getSelectionModel().select(local);
+        refrescarVista();
     }
 
     @FXML
@@ -145,7 +146,9 @@ public class LocalesController implements Initializable {
     private void configurarComboProv() {
         cbProv.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (local != null && !nV) {
-                local.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
+                if (!Objects.equals(cbProv.getValue().getCodProvincia(), local.getDireccion().getRelCpCiu().getProvincia().getCodProvincia())) {
+                    local.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
+                }
             }
         });
     }
@@ -158,7 +161,9 @@ public class LocalesController implements Initializable {
                 });
             }
             if (local != null && !nV) {
-                local.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
+                if (!Objects.equals(cbCiudad.getValue().getCodCiudad(), local.getDireccion().getRelCpCiu().getCiudad().getCodCiudad())) {
+                    local.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
+                }
             }
         });
     }
@@ -171,7 +176,9 @@ public class LocalesController implements Initializable {
                 });
             }
             if (local != null && !nV) {
-                local.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
+                if (!cbCP.getValue().getCodPostal().equalsIgnoreCase(local.getDireccion().getRelCpCiu().getCodigoPostal().getCodPostal())) {
+                    local.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
+                }
             }
         });
     }
@@ -195,7 +202,9 @@ public class LocalesController implements Initializable {
         txtNum.setTextFormatter(MetodosEstaticos.soloNumeros());
         txtNum.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (local != null && !nV) {
-                local.getDireccion().setNumero(Short.valueOf(txtNum.getText()));
+                if (!Objects.equals(Short.valueOf(txtNum.getText()), local.getDireccion().getNumero())) {
+                    local.getDireccion().setNumero(Short.valueOf(txtNum.getText()));
+                }
             }
             if (txtNum.getText().isEmpty()) {
                 txtNum.requestFocus();
@@ -207,7 +216,9 @@ public class LocalesController implements Initializable {
         txtCalle.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtCalle, 74));
         txtCalle.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (local != null && !nV) {
-                local.getDireccion().setNombre(txtCalle.getText().toUpperCase());
+                if (!txtCalle.getText().toUpperCase().equalsIgnoreCase(local.getDireccion().getNombre())) {
+                    local.getDireccion().setNombre(txtCalle.getText().toUpperCase());
+                }
             }
             if (txtCalle.getText().isEmpty()) {
                 txtCalle.requestFocus();
@@ -257,10 +268,13 @@ public class LocalesController implements Initializable {
     }
 
     private void configurarBase(ObservableList<Node> base) {
-        ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
-            actualizarLocal(local);
-        };
-        base.addListener(changeList);
+        base.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                actualizarLocal(local);
+                base.removeListener(this);
+            }
+        });
     }
 
 }//fin de la clase

@@ -13,9 +13,10 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -168,7 +169,7 @@ public class PedidosAMController implements Initializable {
             fechaEntregaDP.setValue(MetodosEstaticos.ToLocalDate(pedido.getFechaEntrega()));
             estadoCB.getSelectionModel().select(pedido.getEstado());
             linPedido.clear();
-            ((Pedido)pedido.getBean()).getLineaPedidos().forEach((o) -> {
+            ((Pedido) pedido.getBean()).getLineaPedidos().forEach((o) -> {
                 linPedido.add(new LineaPedidoFX(((LineaPedido) o)));
             });
             lineasTV.setItems(linPedido.sorted());
@@ -281,10 +282,13 @@ public class PedidosAMController implements Initializable {
     }
 
     private void configurarBase(ObservableList<Node> base) {
-        ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
-            actualizarPedido(pedido);
-        };
-        base.addListener(changeList);
+        base.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                actualizarPedido(pedido);
+                base.removeListener(this);
+            }
+        });
     }
 
 }//fin de clase

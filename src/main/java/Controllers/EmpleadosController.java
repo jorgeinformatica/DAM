@@ -14,9 +14,10 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -110,7 +111,7 @@ public class EmpleadosController implements Initializable {
     private void initValues() {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS EMPLEADOS EN BASE AL TEXTO INTRODUCIDO"));
         listaEmpleados = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Empleado.class, "1=1")).forEach((Object emp) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Empleado.class, " Estado = 1 ")).forEach((Object emp) -> {
             listaEmpleados.add(new EmpleadoFX((Empleado) emp));
         });
         filterEmpleados = new FilteredList<>(listaEmpleados, p -> true);
@@ -141,8 +142,7 @@ public class EmpleadosController implements Initializable {
         direc.setCiudadConcp(ccCP);
         viewControl.getLogic().getHibControl().save(direc);
         viewControl.getLogic().getHibControl().initTransaction();
-        Local local = (Local) viewControl.getLogic().getHibControl().searchElement(Local.class, "Cod_Local=1");
-        Empleado tempo = new Empleado("23232323T", direc, local, "nombre", "primer Apellido", "segundo Apellido", "999999999", "Correo electrónico", true);
+        Empleado tempo = new Empleado("23232323T", direc, (Local)cbLocal.getItems().get(0).getBean(), "nombre", "primer Apellido", "segundo Apellido", "999999999", "Correo electrónico", true);
         viewControl.getLogic().getHibControl().save(tempo);
         empleado = new EmpleadoFX(tempo);
         listaEmpleados.add(empleado);
@@ -365,10 +365,13 @@ public class EmpleadosController implements Initializable {
     }
 
     private void configurarBase(ObservableList<Node> base) {
-        ListChangeListener<Node> changeList = (ListChangeListener.Change<? extends Node> c) -> {
-            actualizarEmpleado(empleado);
-        };
-        base.addListener(changeList);
+        base.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                actualizarEmpleado(empleado);
+                base.removeListener(this);
+            }
+        });
     }
 
 }//fin de la clase
