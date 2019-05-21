@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Pedido" table="PEDIDO" catalog="2aDISTRIBUCION" optimistic-lock="version">
-        <id name="numPed" type="java.lang.Integer">
+    <class name="Beans.Pedido" table="PEDIDO" catalog="3aDISTRIBUCION" optimistic-lock="version">
+        <id name="numPed" type="java.lang.Long">
             <column name="Num_Ped" />
             <generator class="identity" />
         </id>
@@ -14,7 +14,7 @@
             <column name="Fecha_Ped" length="26" not-null="true" />
         </property>
         <property name="fechaEntrega" type="timestamp">
-            <column name="Fecha_Entrega" length="10" not-null="true" />
+            <column name="Fecha_Entrega" length="26" not-null="true" />
         </property>
         <property name="estado" type="string">
             <column name="Estado" length="10" not-null="true" />

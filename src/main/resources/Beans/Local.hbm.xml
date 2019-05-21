@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Local" table="LOCAL" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.Local" table="LOCAL" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <id name="codLocal" type="java.lang.Short">
             <column name="Cod_Local" />
             <generator class="identity" />
         </id>
         <many-to-one name="direccion" class="Beans.Direccion" fetch="select">
-            <column name="Cod_Direc" not-null="true" />
+            <column name="Cod_Direc" not-null="true" unique="true" />
         </many-to-one>
         <property name="estado" type="boolean">
             <column name="Estado" not-null="true" />

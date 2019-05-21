@@ -7,7 +7,7 @@ import BeansFX.BaseFX;
  */
 public class LineaTicket implements java.io.Serializable, BaseBean {
 
-    private LineaTicketId id;
+    private Long numLinTicket;
     private Producto producto;
     private Ticket ticket;
     private short cantidad;
@@ -15,19 +15,19 @@ public class LineaTicket implements java.io.Serializable, BaseBean {
     public LineaTicket() {
     }
 
-    public LineaTicket(LineaTicketId id, Producto producto, Ticket ticket, short cantidad) {
-        this.id = id;
+    public LineaTicket(Long id, Producto producto, Ticket ticket, short cantidad) {
+        this.numLinTicket = id;
         this.producto = producto;
         this.ticket = ticket;
         this.cantidad = cantidad;
     }
 
-    public LineaTicketId getId() {
-        return this.id;
+    public Long getNumLinTicket() {
+        return this.numLinTicket;
     }
 
-    public void setId(LineaTicketId id) {
-        this.id = id;
+    public void setNumLinTicket(Long id) {
+        this.numLinTicket = id;
     }
 
     public Producto getProducto() {
@@ -61,7 +61,7 @@ public class LineaTicket implements java.io.Serializable, BaseBean {
 
     @Override
     public String toString() {
-        return " Linea: " + id.getNumLinTicket() + " producto: " + producto;
+        return " Linea: " + numLinTicket + " producto: " + producto;
     }
 
 }//fin de clase

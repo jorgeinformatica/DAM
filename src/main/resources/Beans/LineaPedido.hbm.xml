@@ -2,16 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.LineaPedido" table="LINEA_PEDIDO" catalog="2aDISTRIBUCION" optimistic-lock="version">
-        <composite-id name="id" class="Beans.LineaPedidoId">
-            <key-property name="numLinPed" type="short">
-                <column name="Num_Lin_Ped" />
-            </key-property>
-            <key-property name="numPed" type="int">
-                <column name="Num_Ped" />
-            </key-property>
-        </composite-id>
-        <many-to-one name="pedido" class="Beans.Pedido" update="false" insert="false" fetch="select">
+    <class name="Beans.LineaPedido" table="LINEA_PEDIDO" catalog="3aDISTRIBUCION" optimistic-lock="version">
+        <id name="numLinPed" type="java.lang.Long">
+            <column name="Num_Lin_Ped" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pedido" class="Beans.Pedido" fetch="select">
             <column name="Num_Ped" not-null="true" />
         </many-to-one>
         <many-to-one name="producto" class="Beans.Producto" fetch="select">

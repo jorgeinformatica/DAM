@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class Ticket implements java.io.Serializable, BaseBean {
 
-    private Integer numTicket;
+    private Long numTicket;
     private Local local;
     private Date fecha;
     private String tipoTicket;
@@ -36,11 +36,11 @@ public class Ticket implements java.io.Serializable, BaseBean {
         this.lineaTickets = lineaTickets;
     }
 
-    public Integer getNumTicket() {
+    public Long getNumTicket() {
         return this.numTicket;
     }
 
-    public void setNumTicket(Integer numTicket) {
+    public void setNumTicket(Long numTicket) {
         this.numTicket = numTicket;
     }
 

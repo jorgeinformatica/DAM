@@ -1,7 +1,6 @@
 package BeansFX;
 
 import Beans.LineaTicket;
-import Beans.LineaTicketId;
 import Beans.Producto;
 import Beans.Ticket;
 import javafx.beans.property.ObjectProperty;
@@ -13,7 +12,7 @@ import javafx.beans.property.SimpleObjectProperty;
 public class LineaTicketFX extends BaseFX {
 
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<LineaTicketId> id;
+    private ObjectProperty<Long> id;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Producto> producto;
     @SuppressWarnings("FieldMayBeFinal")
@@ -30,7 +29,7 @@ public class LineaTicketFX extends BaseFX {
     }
 
     public LineaTicketFX(LineaTicket lineaTicket) {
-        this.id = new SimpleObjectProperty<>(lineaTicket.getId());
+        this.id = new SimpleObjectProperty<>(lineaTicket.getNumLinTicket());
         this.producto = new SimpleObjectProperty<>(lineaTicket.getProducto());
         this.ticket = new SimpleObjectProperty<>(lineaTicket.getTicket());
         this.cantidad = new SimpleObjectProperty<>(lineaTicket.getCantidad());
@@ -38,15 +37,15 @@ public class LineaTicketFX extends BaseFX {
         this.bean = lineaTicket;
     }
 
-    public LineaTicketId getId() {
+    public Long getId() {
         return id.get();
     }
 
-    public void setId(LineaTicketId id) {
+    public void setId(Long id) {
         this.id.set(id);
     }
 
-    public ObjectProperty<LineaTicketId> idProperty() {
+    public ObjectProperty<Long> idProperty() {
         return id;
     }
 
@@ -98,7 +97,7 @@ public class LineaTicketFX extends BaseFX {
 
     @Override
     public String toString() {
-        return " Linea: " + getId().getNumLinTicket() + " producto: " + getProducto().toString();
+        return " Linea: " + getId() + " producto: " + getProducto().toString();
     }
 
 }//fin de clase

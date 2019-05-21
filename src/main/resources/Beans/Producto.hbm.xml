@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Producto" table="PRODUCTO" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.Producto" table="PRODUCTO" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <id name="codProd" type="java.lang.Short">
             <column name="Cod_Prod" />
             <generator class="identity" />

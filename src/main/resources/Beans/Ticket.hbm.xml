@@ -2,8 +2,8 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Ticket" table="TICKET" catalog="2aDISTRIBUCION" optimistic-lock="version">
-        <id name="numTicket" type="java.lang.Integer">
+    <class name="Beans.Ticket" table="TICKET" catalog="3aDISTRIBUCION" optimistic-lock="version">
+        <id name="numTicket" type="long">
             <column name="Num_Ticket" />
             <generator class="identity" />
         </id>

@@ -7,10 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,7 +21,7 @@ import javafx.collections.FXCollections;
 public class PedidoFX extends BaseFX {
     
     @SuppressWarnings("FieldMayBeFinal")
-    private IntegerProperty numPed;
+    private ObjectProperty<Long> numPed;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Local> local;
     @SuppressWarnings("FieldMayBeFinal")
@@ -36,7 +34,7 @@ public class PedidoFX extends BaseFX {
     private SetProperty<LineaPedido> lineasPedido;
     
     public PedidoFX() {
-        this.numPed = new SimpleIntegerProperty();
+        this.numPed = new SimpleObjectProperty<>();
         this.local = new SimpleObjectProperty<>();
         this.fechaPed = new SimpleObjectProperty<>();
         this.fechaEntrega = new SimpleObjectProperty<>();
@@ -46,7 +44,7 @@ public class PedidoFX extends BaseFX {
     }
     
     public PedidoFX(Pedido pedido) {
-        this.numPed = new SimpleIntegerProperty(pedido.getNumPed());
+        this.numPed = new SimpleObjectProperty<>(pedido.getNumPed());
         this.local = new SimpleObjectProperty<>(pedido.getLocal());
         this.fechaPed = new SimpleObjectProperty<>(pedido.getFechaPed());
         this.fechaEntrega = new SimpleObjectProperty<>(pedido.getFechaEntrega());
@@ -56,15 +54,15 @@ public class PedidoFX extends BaseFX {
         this.bean = pedido;
     }
     
-    public Integer getNumPed() {
+    public Long getNumPed() {
         return numPed.get();
     }
     
-    public void setNumPed(Integer numPed) {
+    public void setNumPed(Long numPed) {
         this.numPed.set(numPed);
     }
     
-    public IntegerProperty numPedProperty() {
+    public ObjectProperty<Long> numPedProperty() {
         return numPed;
     }
     

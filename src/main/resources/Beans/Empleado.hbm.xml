@@ -2,13 +2,13 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Empleado" table="EMPLEADO" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.Empleado" table="EMPLEADO" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <id name="numEmpleado" type="java.lang.Integer">
             <column name="Num_Empleado" />
             <generator class="identity" />
         </id>
         <many-to-one name="direccion" class="Beans.Direccion" fetch="select">
-            <column name="Cod_Direc" />
+            <column name="Cod_Direc" unique="true" />
         </many-to-one>
         <many-to-one name="local" class="Beans.Local" fetch="select">
             <column name="Cod_Local" />

@@ -1,13 +1,14 @@
 package Beans;
 
 import BeansFX.BaseFX;
+import BeansFX.LineaPedidoFX;
 
 /**
  * @author Jorge Sempere
  */
 public class LineaPedido implements java.io.Serializable, BaseBean {
 
-    private LineaPedidoId id;
+    private Long numLinPed;
     private Pedido pedido;
     private Producto producto;
     private short cantidad;
@@ -16,20 +17,20 @@ public class LineaPedido implements java.io.Serializable, BaseBean {
     public LineaPedido() {
     }
 
-    public LineaPedido(LineaPedidoId id, Pedido pedido, Producto producto, short cantidad, String estado) {
-        this.id = id;
+    public LineaPedido(Long id, Pedido pedido, Producto producto, short cantidad, String estado) {
+        this.numLinPed = id;
         this.pedido = pedido;
         this.producto = producto;
         this.cantidad = cantidad;
         this.estado = estado;
     }
 
-    public LineaPedidoId getId() {
-        return this.id;
+    public Long getNumLinPed() {
+        return this.numLinPed;
     }
 
-    public void setId(LineaPedidoId id) {
-        this.id = id;
+    public void setNumLinPed(Long id) {
+        this.numLinPed = id;
     }
 
     public Pedido getPedido() {
@@ -66,12 +67,14 @@ public class LineaPedido implements java.io.Serializable, BaseBean {
 
     @Override
     public void actualizarDatos(BaseFX o) {
-
+        estado = ((LineaPedidoFX) o).getEstado();
+        cantidad=((LineaPedidoFX) o).getCantidad();
+        producto=(Producto) ((LineaPedidoFX) o).getProducto().getBean();
     }
 
     @Override
     public String toString() {
-        return "Linea: " + getId().getNumLinPed() + " producto: " + getProducto().toString();
+        return "Linea: " + numLinPed + " producto: " + producto;
     }
 
 }//fin de clase

@@ -46,6 +46,7 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/2aDISTRIBUCION?zeroDateTimeBehavior=convertToNull</property>
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.connection.password">L3vi0%4s</property>
+    <property name="hibernate.show_sql">true</property>
     <mapping resource="Beans/Ciudad.hbm.xml"/>
     <mapping resource="Beans/Empleado.hbm.xml"/>
     <mapping resource="Beans/LineaPedido.hbm.xml"/>

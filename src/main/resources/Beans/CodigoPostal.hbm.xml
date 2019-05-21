@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.CodigoPostal" table="CODIGO_POSTAL" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.CodigoPostal" table="CODIGO_POSTAL" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <id name="codPostal" type="string">
             <column name="Cod_Postal" length="5" />
             <generator class="assigned" />

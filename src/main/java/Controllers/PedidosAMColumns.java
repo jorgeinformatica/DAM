@@ -1,7 +1,6 @@
 package Controllers;
 
 import Beans.LineaPedido;
-import Beans.LineaPedidoId;
 import Beans.Pedido;
 import Beans.Producto;
 import BeansFX.LineaPedidoFX;
@@ -10,6 +9,7 @@ import Utils.MetodosEstaticos;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,9 +32,11 @@ public class PedidosAMColumns {
 
     private final PedidosAMController parentController;
     private ObservableList<TableColumn<LineaPedidoFX, ?>> listaColumnas;
+    private ObservableList<String> estados;
 
     public PedidosAMColumns(PedidosAMController parentController) {
         this.parentController = parentController;
+        estados = FXCollections.observableArrayList("EN PRODUCCION", "PREPARADO", "ENTREGADO", "ANULADO");
     }
 
     @SuppressWarnings("Convert2Lambda")
@@ -57,20 +59,23 @@ public class PedidosAMColumns {
                             btnBorrar.setTooltip(new Tooltip("Borrar linea de pedido"));
                             Button btnOk = GlyphsDude.createIconButton(FontAwesomeIcon.CHECK);
                             btnOk.setTooltip(new Tooltip("Aceptar cambios en la linea de pedido"));
-                            btnOk.setVisible(false);
                             Button btnCancel = GlyphsDude.createIconButton(FontAwesomeIcon.CLOSE);
                             btnCancel.setTooltip(new Tooltip("Cancelar cambios en la linea de pedido"));
-                            btnCancel.setVisible(false);
                             HBox h = new HBox(1, btnModif, btnBorrar, btnOk, btnCancel);
                             if (getTableView().getItems().size() - 1 == getIndex()) {
                                 Button btnNuevo = GlyphsDude.createIconButton(FontAwesomeIcon.PLUS);
                                 btnNuevo.setTooltip(new Tooltip("Añadir linea de pedido"));
                                 btnNuevo.setOnAction(eventoNuevo());
                                 h.getChildren().add(btnNuevo);
+                                btnNuevo.setDisable(linea.getEsEditable());
                             }
                             h.alignmentProperty().setValue(Pos.CENTER_LEFT);
                             setGraphic(h);
-                            btnModif.setOnAction(eventoModificar(linea, btnOk, btnCancel, btnBorrar, btnModif, this));
+                            btnOk.setVisible(linea.getEsEditable());
+                            btnCancel.setVisible(linea.getEsEditable());
+                            btnBorrar.setDisable(linea.getEsEditable());
+                            btnModif.setDisable(linea.getEsEditable());
+                            btnModif.setOnAction(eventoModificar(linea, this));
                             btnOk.setOnAction(eventoAceptar(linea, this));
                             btnCancel.setOnAction(eventoCancelar(linea, this));
                             btnBorrar.setOnAction(eventoEliminar(linea));
@@ -192,7 +197,7 @@ public class PedidosAMColumns {
                             setGraphic(null);
                         } else {
                             LineaPedidoFX linea = getTableView().getItems().get(getIndex());
-                            ComboBox<String> cbEstate = new ComboBox<>(parentController.getEstados());
+                            ComboBox<String> cbEstate = new ComboBox<>(estados);
                             HBox h = new HBox(1, cbEstate);
                             cbEstate.getSelectionModel().select(linea.getEstado());
                             cbEstate.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -211,35 +216,32 @@ public class PedidosAMColumns {
         });
     }
 
-    public EventHandler<ActionEvent> eventoModificar(LineaPedidoFX linea, Button btnOk, Button btnCancel, Button btnBorrar, Button btnModif, TableCell<LineaPedidoFX, Void> aThis) {
+    public EventHandler<ActionEvent> eventoModificar(LineaPedidoFX linea, TableCell<LineaPedidoFX, Void> aThis) {
         return (ActionEvent event) -> {
             linea.setEsEditable(true);
             aThis.getTableView().refresh();
-            btnOk.setVisible(true);
-            btnCancel.setVisible(true);
-            btnBorrar.setDisable(true);
-            btnModif.setDisable(true);
         };
     }
 
     public EventHandler<ActionEvent> eventoAceptar(LineaPedidoFX linea, TableCell<LineaPedidoFX, Void> aThis) {
         return (ActionEvent event) -> {
-            linea.setEsEditable(false);
             if (linea.comprobarCambios()) {
                 parentController.getViewControl().getLogic().getHibControl().initTransaction();
                 linea.getBean().actualizarDatos(linea);
                 parentController.getViewControl().getLogic().getHibControl().UpdateElement(linea.getBean());
             }
+            linea.setEsEditable(false);
             aThis.getTableView().refresh();
         };
     }
 
     public EventHandler<ActionEvent> eventoCancelar(LineaPedidoFX linea, TableCell<LineaPedidoFX, Void> aThis) {
         return (ActionEvent event) -> {
-            linea.setEsEditable(false);
+
             if (linea.comprobarCambios()) {
                 linea.sinCambios();
             }
+            linea.setEsEditable(false);
             aThis.getTableView().refresh();
         };
     }
@@ -257,14 +259,16 @@ public class PedidosAMColumns {
             if (parentController.getLocal() != null && parentController.getPedido() != null) {
                 parentController.getViewControl().getLogic().getHibControl().initTransaction();
                 LineaPedido tempo = new LineaPedido();
-                tempo.setId(new LineaPedidoId((short) 0, ((Pedido) parentController.getPedido().getBean()).getNumPed()));
                 tempo.setPedido((Pedido) parentController.getPedido().getBean());
                 tempo.setProducto((Producto) parentController.getViewControl().getLogic().getProductos().get(0).getBean());
                 tempo.setCantidad((short) 1);
                 tempo.setEstado("EN PRODUCCION");
                 parentController.getViewControl().getLogic().getHibControl().save(tempo);
-                parentController.getLinPedido().add(new LineaPedidoFX(tempo));
+                parentController.getViewControl().getLogic().getHibControl().refresco(parentController.getPedido().getBean());
+                parentController.refrescarVista();
+                
             }
+
         };
     }
 

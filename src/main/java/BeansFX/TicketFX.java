@@ -6,10 +6,8 @@ import Beans.Ticket;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,7 +20,7 @@ import javafx.collections.FXCollections;
 public class TicketFX extends BaseFX {
 
     @SuppressWarnings("FieldMayBeFinal")
-    private IntegerProperty numTicket;
+    private ObjectProperty<Long> numTicket;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Local> local;
     @SuppressWarnings("FieldMayBeFinal")
@@ -35,7 +33,7 @@ public class TicketFX extends BaseFX {
     private SetProperty<LineaTicket> lineaTickets;
 
     public TicketFX() {
-        this.numTicket = new SimpleIntegerProperty();
+        this.numTicket = new SimpleObjectProperty<>();
         this.local = new SimpleObjectProperty<>();
         this.fecha = new SimpleObjectProperty<>();
         this.tipoTicket = new SimpleStringProperty();
@@ -45,7 +43,7 @@ public class TicketFX extends BaseFX {
     }
 
     public TicketFX(Ticket ticket) {
-        this.numTicket = new SimpleIntegerProperty(ticket.getNumTicket());
+        this.numTicket = new SimpleObjectProperty<>(ticket.getNumTicket());
         this.local = new SimpleObjectProperty<>(ticket.getLocal());
         this.fecha = new SimpleObjectProperty<>(ticket.getFecha());
         this.tipoTicket = new SimpleStringProperty(ticket.getTipoTicket());
@@ -55,15 +53,15 @@ public class TicketFX extends BaseFX {
         this.bean=ticket;
     }
 
-    public Integer getNumTicket() {
+    public Long getNumTicket() {
         return numTicket.get();
     }
 
-    public void setNumTicket(Integer id) {
+    public void setNumTicket(Long id) {
         this.numTicket.set(id);
     }
 
-    public IntegerProperty numTicketProperty() {
+    public ObjectProperty<Long> numTicketProperty() {
         return numTicket;
     }
 

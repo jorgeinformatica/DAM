@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.CiudadConcp" table="CIUDAD_CONCP" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.CiudadConcp" table="CIUDAD_CONCP" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <composite-id name="id" class="Beans.CiudadConcpId">
             <key-property name="codCiudad" type="short">
                 <column name="Cod_Ciudad" />

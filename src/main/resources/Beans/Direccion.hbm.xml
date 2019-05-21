@@ -2,30 +2,30 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Direccion" table="DIRECCION" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.Direccion" table="DIRECCION" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <id name="codDirec" type="java.lang.Short">
             <column name="Cod_Direc" />
             <generator class="identity" />
         </id>
         <many-to-one name="ciudadConcp" class="Beans.CiudadConcp" fetch="select">
-            <column name="Cod_Ciudad" not-null="false" />
-            <column name="Cod_Postal" length="5" not-null="false" />
+            <column name="Cod_Ciudad" not-null="true" />
+            <column name="Cod_Postal" length="5" not-null="true" />
         </many-to-one>
         <property name="nombre" type="string">
-            <column name="Nombre" length="75" not-null="false" />
+            <column name="Nombre" length="75" not-null="true" />
         </property>
         <property name="numero" type="short">
-            <column name="Numero" not-null="false" />
+            <column name="Numero" not-null="true" />
         </property>
-        <set name="empleados" table="EMPLEADO" inverse="true" lazy="false" fetch="select">
+        <set name="empleados" table="EMPLEADO" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Cod_Direc" />
+                <column name="Cod_Direc" unique="true" />
             </key>
             <one-to-many class="Beans.Empleado" />
         </set>
-        <set name="locals" table="LOCAL" inverse="true" lazy="false" fetch="select">
+        <set name="locals" table="LOCAL" inverse="true" lazy="true" fetch="select">
             <key>
-                <column name="Cod_Direc" not-null="true" />
+                <column name="Cod_Direc" not-null="true" unique="true" />
             </key>
             <one-to-many class="Beans.Local" />
         </set>

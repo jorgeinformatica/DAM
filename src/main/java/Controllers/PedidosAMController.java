@@ -161,17 +161,17 @@ public class PedidosAMController implements Initializable {
         }
     }
 
-    private void refrescarVista() {
+    public void refrescarVista() {
         if (pedido != null) {
             numPedido.setText(pedido.getNumPed() + "");
             fechaPedidoDP.setValue(MetodosEstaticos.ToLocalDate(pedido.getFechaPed()));
             fechaEntregaDP.setValue(MetodosEstaticos.ToLocalDate(pedido.getFechaEntrega()));
             estadoCB.getSelectionModel().select(pedido.getEstado());
             linPedido.clear();
-            pedido.getLineasPedido().forEach((o) -> {
+            ((Pedido)pedido.getBean()).getLineaPedidos().forEach((o) -> {
                 linPedido.add(new LineaPedidoFX(((LineaPedido) o)));
             });
-            lineasTV.setItems(linPedido);
+            lineasTV.setItems(linPedido.sorted());
         }
     }
 

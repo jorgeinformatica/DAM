@@ -2,19 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.LineaTicket" table="LINEA_TICKET" catalog="2aDISTRIBUCION" optimistic-lock="version">
-        <composite-id name="id" class="Beans.LineaTicketId">
-            <key-property name="numLinTicket" type="short">
-                <column name="Num_Lin_Ticket" />
-            </key-property>
-            <key-property name="numTicket" type="int">
-                <column name="Num_Ticket" />
-            </key-property>
-        </composite-id>
+    <class name="Beans.LineaTicket" table="LINEA_TICKET" catalog="3aDISTRIBUCION" optimistic-lock="version">
+        <id name="numLinTicket" type="long">
+            <column name="Num_Lin_Ticket" />
+            <generator class="identity" />
+        </id>
         <many-to-one name="producto" class="Beans.Producto" fetch="select">
             <column name="Cod_Prod" not-null="true" />
         </many-to-one>
-        <many-to-one name="ticket" class="Beans.Ticket" update="false" insert="false" fetch="select">
+        <many-to-one name="ticket" class="Beans.Ticket" fetch="select">
             <column name="Num_Ticket" not-null="true" />
         </many-to-one>
         <property name="cantidad" type="short">

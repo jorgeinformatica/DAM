@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public class Pedido implements java.io.Serializable, BaseBean {
 
-    private Integer numPed;
+    private Long numPed;
     private Local local;
     private Date fechaPed;
     private Date fechaEntrega;
@@ -36,11 +36,11 @@ public class Pedido implements java.io.Serializable, BaseBean {
         this.lineaPedidos = lineaPedidos;
     }
 
-    public Integer getNumPed() {
+    public Long getNumPed() {
         return this.numPed;
     }
 
-    public void setNumPed(Integer numPed) {
+    public void setNumPed(Long numPed) {
         this.numPed = numPed;
     }
 

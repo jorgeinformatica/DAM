@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Ciudad" table="CIUDAD" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.Ciudad" table="CIUDAD" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <id name="codCiudad" type="java.lang.Short">
             <column name="Cod_Ciudad" />
             <generator class="identity" />

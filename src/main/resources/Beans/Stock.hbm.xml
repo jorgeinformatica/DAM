@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="Beans.Stock" table="STOCK" catalog="2aDISTRIBUCION" optimistic-lock="version">
+    <class name="Beans.Stock" table="STOCK" catalog="3aDISTRIBUCION" optimistic-lock="version">
         <composite-id name="id" class="Beans.StockId">
             <key-property name="codLocal" type="short">
                 <column name="Cod_Local" />

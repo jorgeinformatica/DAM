@@ -1,6 +1,7 @@
 package BeansFX;
 
 import Beans.LineaPedido;
+import java.util.Objects;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -14,7 +15,7 @@ import javafx.beans.property.StringProperty;
 public class LineaPedidoFX extends BaseFX {
 
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<LineaPedidoIdFX> idLineaPedido;
+    private ObjectProperty<Long> idLineaPedido;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<PedidoFX> pedido;
     @SuppressWarnings("FieldMayBeFinal")
@@ -37,7 +38,7 @@ public class LineaPedidoFX extends BaseFX {
     }
 
     public LineaPedidoFX(LineaPedido lineaPedido) {
-        this.idLineaPedido = new SimpleObjectProperty<>(new LineaPedidoIdFX(lineaPedido.getId()));
+        this.idLineaPedido = new SimpleObjectProperty<>(lineaPedido.getNumLinPed());
         this.pedido = new SimpleObjectProperty<>(new PedidoFX(lineaPedido.getPedido()));
         this.producto = new SimpleObjectProperty<>(new ProductoFX(lineaPedido.getProducto()));
         this.cantidad = new SimpleObjectProperty<>(lineaPedido.getCantidad());
@@ -47,15 +48,15 @@ public class LineaPedidoFX extends BaseFX {
         this.bean = lineaPedido;
     }
 
-    public LineaPedidoIdFX getIdLineaPedido() {
+    public Long getIdLineaPedido() {
         return idLineaPedido.get();
     }
 
-    public void setIdLineaPedido(LineaPedidoIdFX idLineaPedido) {
+    public void setIdLineaPedido(Long idLineaPedido) {
         this.idLineaPedido.set(idLineaPedido);
     }
 
-    public ObjectProperty<LineaPedidoIdFX> idLineaPedidoProperty() {
+    public ObjectProperty<Long> idLineaPedidoProperty() {
         return idLineaPedido;
     }
 
@@ -121,17 +122,25 @@ public class LineaPedidoFX extends BaseFX {
 
     @Override
     public boolean comprobarCambios() {
-        return false;
+        if (getCantidad() != ((LineaPedido) getBean()).getCantidad()) {
+            return true;
+        }
+        if (!getEstado().equalsIgnoreCase(((LineaPedido) getBean()).getEstado())) {
+            return true;
+        }
+        return !Objects.equals(getProducto().getCodProd(), ((LineaPedido) getBean()).getProducto().getCodProd());
     }
 
     @Override
     public void sinCambios() {
-
+        setCantidad(((LineaPedido) getBean()).getCantidad());
+        setEstado(((LineaPedido) getBean()).getEstado());
+        setProducto(new ProductoFX(((LineaPedido) getBean()).getProducto()));
     }
 
     @Override
     public String toString() {
-        return "Linea: " + getIdLineaPedido().getNumLinPed() + " producto: " + getProducto().toString();
+        return "Linea: " + getIdLineaPedido() + " producto: " + getProducto().toString();
     }
 
 }//fin de clase
