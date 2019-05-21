@@ -31,7 +31,6 @@ import javafx.util.Callback;
 public class PedidosAMColumns {
 
     private final PedidosAMController parentController;
-    private ObservableList<TableColumn<LineaPedidoFX, ?>> listaColumnas;
     private ObservableList<String> estados;
 
     public PedidosAMColumns(PedidosAMController parentController) {

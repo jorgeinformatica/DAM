@@ -10,7 +10,7 @@ import javafx.scene.control.TableView;
 
 /**
  *
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public class DashboardController implements Initializable {
 

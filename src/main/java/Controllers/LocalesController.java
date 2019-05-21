@@ -54,10 +54,6 @@ public class LocalesController implements Initializable {
     @FXML
     private TableColumn tcEmpleados;
     @FXML
-    private Button nuevoBTN1;
-    @FXML
-    private Button borrarBTN1;
-    @FXML
     private ComboBox<LocalFX> cbLocales;
     @FXML
     private TextField txtFiltro;

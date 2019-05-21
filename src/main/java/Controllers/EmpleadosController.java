@@ -68,10 +68,6 @@ public class EmpleadosController implements Initializable {
     private ComboBox<EmpleadoFX> cbEmpleados;
     @FXML
     private Label labLetra;
-    @FXML
-    private Button nuevoBTN;
-    @FXML
-    private Button borrarBTN;
 
     private EmpleadoFX empleado;
     private AAController viewControl;

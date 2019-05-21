@@ -9,6 +9,7 @@ import BeansFX.BaseFX;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
 import BeansFX.EmpleadoFX;
+import BeansFX.PedidoFX;
 import BeansFX.ProductoFX;
 import BeansFX.ProvinciaFX;
 import Controllers.AAController;
@@ -47,9 +48,11 @@ public class LogicController {
     private Parent root;
     private EmpleadoFX usuario;
     private ProductoFX producto;
+    private PedidoFX pedido;
 
     public LogicController(AAController viewControl) {
         this.producto = null;
+        this.pedido=null;
         this.viewControl = viewControl;
         this.provincias = FXCollections.observableArrayList();
         this.ciudades = FXCollections.observableArrayList();
@@ -132,6 +135,14 @@ public class LogicController {
 
     public void setProducto(ProductoFX producto) {
         this.producto = producto;
+    }
+
+    public PedidoFX getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(PedidoFX pedido) {
+        this.pedido = pedido;
     }
 
     public Parent getRoot() {

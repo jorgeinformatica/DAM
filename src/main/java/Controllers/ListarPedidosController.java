@@ -1,7 +1,14 @@
 package Controllers;
 
+import BeansFX.LineaPedidoFX;
+import BeansFX.LocalFX;
+import BeansFX.PedidoFX;
+import BeansFX.ProductoFX;
 import java.net.URL;
+import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -17,31 +24,37 @@ public class ListarPedidosController implements Initializable {
     @FXML
     private TextField txtBuscar;
     @FXML
-    private TableView<?> pedidosTV;
+    private TableView<PedidoFX> pedidosTV;
     @FXML
-    private TableColumn<?, ?> pedidoTC;
+    private TableColumn<PedidoFX, Long> pedidoTC;
     @FXML
-    private TableColumn<?, ?> fechaPedidoTC;
+    private TableColumn<PedidoFX, Date> fechaPedidoTC;
     @FXML
-    private TableColumn<?, ?> fechaEntregaTC;
+    private TableColumn<PedidoFX, Date> fechaEntregaTC;
     @FXML
-    private TableColumn<?, ?> accionesPedidosTC;
+    private TableColumn accionesPedidosTC;
     @FXML
-    private TableColumn<?, ?> localTC;
+    private TableColumn<PedidoFX, LocalFX> localTC;
     @FXML
-    private TableColumn<?, ?> estadoPedidoTC;
+    private TableColumn<PedidoFX, String> estadoPedidoTC;
     @FXML
-    private TableView<?> lineasTV;
+    private TableView<LineaPedidoFX> lineasTV;
     @FXML
-    private TableColumn<?, ?> accionesLineasTC;
+    private TableColumn accionesLineasTC;
     @FXML
-    private TableColumn<?, ?> lineaTC;
+    private TableColumn lineaTC;
     @FXML
-    private TableColumn<?, ?> productoTC;
+    private TableColumn<LineaPedidoFX, ProductoFX> productoTC;
     @FXML
-    private TableColumn<?, ?> cantidadTC;
+    private TableColumn<LineaPedidoFX, Short> cantidadTC;
     @FXML
-    private TableColumn<?, ?> estadoLineaTC;
+    private TableColumn estadoLineaTC;
+
+    private AAController viewControl;
+    private ObservableList<LineaPedidoFX> listaLineas;
+    private FilteredList<LineaPedidoFX> filterLineas;
+    private ObservableList<PedidoFX> listaPedidos;
+    private FilteredList<PedidoFX> filterPedidos;
 
     /**
      * @param url
@@ -57,6 +70,7 @@ public class ListarPedidosController implements Initializable {
     }
 
     void setViewControl(AAController aThis) {
+        viewControl = aThis;
     }
 
 }

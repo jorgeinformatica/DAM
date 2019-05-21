@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPrincipal" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProductosAMController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ProductosAMController">
    <children>
       <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -45,7 +45,7 @@
                   <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="nuevoBTN" mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
+                  <Button mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
                      <font>
                         <Font name="Noto Sans Bold" size="12.0" />
                      </font>
@@ -53,7 +53,7 @@
                         <Insets left="100.0" />
                      </GridPane.margin>
                   </Button>
-                  <Button fx:id="borrarBTN" mnemonicParsing="false" onAction="#borrarProducto" prefWidth="120.0" text="DESACTIVAR" GridPane.columnIndex="2">
+                  <Button mnemonicParsing="false" onAction="#borrarProducto" prefWidth="120.0" text="DESACTIVAR" GridPane.columnIndex="2">
                      <font>
                         <Font name="Noto Sans Bold" size="12.0" />
                      </font>

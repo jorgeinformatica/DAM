@@ -49,7 +49,7 @@
                         <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="nuevoBTN" mnemonicParsing="false" onAction="#nuevoPedido" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
+                        <Button mnemonicParsing="false" onAction="#nuevoPedido" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
                            <font>
                               <Font name="Noto Sans Bold" size="12.0" />
                            </font>

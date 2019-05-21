@@ -1,7 +1,6 @@
 package BeansFX;
 
 import Beans.LineaPedido;
-import Beans.Local;
 import Beans.Pedido;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,7 +22,7 @@ public class PedidoFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Long> numPed;
     @SuppressWarnings("FieldMayBeFinal")
-    private ObjectProperty<Local> local;
+    private ObjectProperty<LocalFX> local;
     @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Date> fechaPed;
     @SuppressWarnings("FieldMayBeFinal")
@@ -45,7 +44,7 @@ public class PedidoFX extends BaseFX {
     
     public PedidoFX(Pedido pedido) {
         this.numPed = new SimpleObjectProperty<>(pedido.getNumPed());
-        this.local = new SimpleObjectProperty<>(pedido.getLocal());
+        this.local = new SimpleObjectProperty<>(new LocalFX(pedido.getLocal()));
         this.fechaPed = new SimpleObjectProperty<>(pedido.getFechaPed());
         this.fechaEntrega = new SimpleObjectProperty<>(pedido.getFechaEntrega());
         this.estado = new SimpleStringProperty(pedido.getEstado());
@@ -66,15 +65,15 @@ public class PedidoFX extends BaseFX {
         return numPed;
     }
     
-    public Local getLocal() {
+    public LocalFX getLocal() {
         return local.get();
     }
     
-    public void setLocal(Local local) {
+    public void setLocal(LocalFX local) {
         this.local.set(local);
     }
     
-    public ObjectProperty<Local> localProperty() {
+    public ObjectProperty<LocalFX> localProperty() {
         return local;
     }
     
@@ -146,7 +145,7 @@ public class PedidoFX extends BaseFX {
         setEstado(((Pedido) getBean()).getEstado());
         setFechaPed(((Pedido) getBean()).getFechaPed());
         setFechaEntrega(((Pedido) getBean()).getFechaEntrega());
-        setLocal(((Pedido) getBean()).getLocal());
+        setLocal(new LocalFX(((Pedido) getBean()).getLocal()));
     }
     
     @Override

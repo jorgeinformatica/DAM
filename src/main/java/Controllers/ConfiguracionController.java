@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 
 /**
- * @author Yop-Note
+ * @author Jorge Sempere Jimenez
  */
 public class ConfiguracionController implements Initializable {
 
@@ -25,4 +25,4 @@ public class ConfiguracionController implements Initializable {
     void setViewControl(AAController aThis) {
     }
 
-}//fin de la clase
+}//fin de clase

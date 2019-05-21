@@ -62,8 +62,6 @@ public class PedidosAMController implements Initializable {
     @FXML
     private ChoiceBox<String> estadoCB;
     @FXML
-    private Button nuevoBTN;
-    @FXML
     private ComboBox<LocalFX> cbLocales;
     @FXML
     private TextField txtFiltroLocales;

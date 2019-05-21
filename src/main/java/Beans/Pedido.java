@@ -89,7 +89,7 @@ public class Pedido implements java.io.Serializable, BaseBean {
         fechaPed = ((PedidoFX) o).getFechaPed();
         fechaEntrega = ((PedidoFX) o).getFechaEntrega();
         estado = ((PedidoFX) o).getEstado();
-        local = ((PedidoFX) o).getLocal();
+        local = (Local) ((PedidoFX) o).getLocal().getBean();
     }
 
     @Override

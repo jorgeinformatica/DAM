@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public class AAController implements Initializable {
 

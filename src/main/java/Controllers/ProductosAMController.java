@@ -22,23 +22,17 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.AnchorPane;
 
 /**
  * @author Jorge Sempere
  */
 public class ProductosAMController implements Initializable {
 
-    @FXML
-    private Button nuevoBTN;
-    @FXML
-    private Button borrarBTN;
     @FXML
     private TextField nombreTXT;
     @FXML
@@ -69,8 +63,6 @@ public class ProductosAMController implements Initializable {
     private Label infoFiltro;
     @FXML
     private ComboBox<ProductoFX> cbElementos;
-    @FXML
-    private AnchorPane anchorPrincipal;
 
     private AAController viewControl;
     private ProductoFX producto;
