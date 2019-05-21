@@ -3,6 +3,7 @@ package Controllers;
 import Beans.LineaPedido;
 import Beans.Local;
 import Beans.Pedido;
+import Beans.Producto;
 import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
@@ -114,7 +115,7 @@ public class PedidosAMController implements Initializable {
         estados = FXCollections.observableArrayList("INCOMPLETO", "TERMINADO", "ANULADO");
         linPedido = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "1=1")).forEach((Object lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "Estado=1")).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
@@ -124,7 +125,7 @@ public class PedidosAMController implements Initializable {
             listaPedido.add(new PedidoFX((Pedido) ped));
         });
         filterPedido = new FilteredList<>(listaPedido, p -> true);
-        cbPedidos.setItems(filterPedido.sorted());
+        cbPedidos.setItems(filterPedido);
         tableController.doColumnLineasPedido(lineaTC);
         tableController.doColumnProductoPedido(productoTC);
         tableController.doColumnCantidadPedido(cantidadTC);
@@ -188,7 +189,15 @@ public class PedidosAMController implements Initializable {
             viewControl.getLogic().getHibControl().save(tempo);
             pedido = new PedidoFX(tempo);
             listaPedido.add(pedido);
-            cbPedidos.getSelectionModel().select(pedido);
+            viewControl.getLogic().getHibControl().initTransaction();
+            LineaPedido linea = new LineaPedido();
+            linea.setPedido(tempo);
+            linea.setProducto((Producto) viewControl.getLogic().getProductos().get(0).getBean());
+            linea.setCantidad((short) 1);
+            linea.setEstado("EN PRODUCCION");
+            viewControl.getLogic().getHibControl().save(linea);
+            viewControl.getLogic().getHibControl().refresco(tempo);
+            refrescarVista();
         } else {
             Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Por favor, seleccione un local.", ButtonType.OK);
             aviso.show();
