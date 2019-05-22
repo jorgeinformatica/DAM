@@ -1,8 +1,5 @@
 package Controllers;
 
-import Beans.LineaPedido;
-import Beans.Pedido;
-import Beans.Producto;
 import BeansFX.LineaPedidoFX;
 import BeansFX.PedidoFX;
 import de.jensd.fx.glyphs.GlyphsDude;
@@ -111,7 +108,7 @@ public class ListarPedidosColumns {
                             Button btn = GlyphsDude.createIconButton(FontAwesomeIcon.EYE);
                             btn.setOnAction((event) -> {
                                 parentController.getViewControl().getLogic().setPedido(pedido);
-                                parentController.getViewControl().getmItModProd().fire();
+                                parentController.getViewControl().getmItModPed().fire();
                             });
                             btn.setTooltip(new Tooltip("Ver en detalle el producto"));
                             HBox h = new HBox(5, btn);

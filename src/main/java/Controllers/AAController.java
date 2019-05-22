@@ -163,6 +163,10 @@ public class AAController implements Initializable {
         return mItModProd;
     }
 
+    public MenuItem getmItModPed() {
+        return mItModPed;
+    }
+
     public Initializable getSceneActiva() {
         return sceneActiva;
     }

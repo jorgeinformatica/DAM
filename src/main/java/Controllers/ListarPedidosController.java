@@ -1,5 +1,6 @@
 package Controllers;
 
+import Beans.LineaPedido;
 import Beans.Pedido;
 import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
@@ -8,20 +9,23 @@ import BeansFX.ProductoFX;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 
 /**
  * @author Jorge Sempere Jimenez
  */
 public class ListarPedidosController implements Initializable {
-    
+
     @FXML
     private TextField txtBuscar;
     @FXML
@@ -50,7 +54,7 @@ public class ListarPedidosController implements Initializable {
     private TableColumn<LineaPedidoFX, Short> cantidadTC;
     @FXML
     private TableColumn estadoLineaTC;
-    
+
     private AAController viewControl;
     private ObservableList<LineaPedidoFX> listaLineas;
     private ObservableList<PedidoFX> listaPedidos;
@@ -63,14 +67,15 @@ public class ListarPedidosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }
-    
+
     void init() {
         initValues();
+        configurarPedidosTV();
         configurarTxtBuscar();
     }
-    
+
     private void initValues() {
         tableController = new ListarPedidosColumns(this);
         listaLineas = FXCollections.observableArrayList();
@@ -89,10 +94,11 @@ public class ListarPedidosController implements Initializable {
         tableController.doColumnLineasPedido(lineaTC);
         tableController.doColumnEstadoPedido(estadoLineaTC);
         tableController.doColumnActionPedido(accionesPedidosTC);
+        tableController.doColumnActionsPedido(accionesLineasTC);
         pedidosTV.getItems().addAll(filterPedidos);
         lineasTV.getItems().addAll(listaLineas);
     }
-    
+
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
@@ -100,15 +106,15 @@ public class ListarPedidosController implements Initializable {
     public AAController getViewControl() {
         return viewControl;
     }
-    
+
     public ObservableList<LineaPedidoFX> getListaLineas() {
         return listaLineas;
     }
-    
+
     public FilteredList<PedidoFX> getFilterPedidos() {
         return filterPedidos;
     }
-    
+
     private void configurarTxtBuscar() {
         txtBuscar.textProperty().addListener((oble, oV, nV) -> {
             filterPedidos.setPredicate(p -> {
@@ -120,5 +126,21 @@ public class ListarPedidosController implements Initializable {
             });
         });
     }
-    
+
+    private void configurarPedidosTV() {
+        pedidosTV.setRowFactory(ptv -> {
+            TableRow<PedidoFX> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
+                    Set lineasPed = row.getItem().getLineasPedido();
+                    lineasTV.getItems().clear();
+                    lineasPed.forEach((linea) -> {
+                        lineasTV.getItems().add(new LineaPedidoFX((LineaPedido) linea));
+                    });
+                }
+            });
+            return row;
+        });
+    }
+
 }//fin de clase
