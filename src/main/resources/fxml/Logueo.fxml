@@ -69,12 +69,12 @@
                   <Insets />
                </GridPane.margin>
             </PasswordField>
-            <Button fx:id="btnLog" mnemonicParsing="false" onAction="#AccederApp" prefWidth="150.0" text="Acceder" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onAction="#AccederApp" prefWidth="150.0" text="Acceder" GridPane.rowIndex="3">
                <font>
                   <Font name="Noto Sans Bold" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="btnExit" mnemonicParsing="false" onAction="#salirApp" prefWidth="150.0" text="Salir" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button mnemonicParsing="false" onAction="#salirApp" prefWidth="150.0" text="Salir" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="Noto Sans Bold" size="12.0" />
                </font>

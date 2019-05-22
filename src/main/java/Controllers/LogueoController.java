@@ -22,10 +22,6 @@ public class LogueoController implements Initializable {
     private TextField txtUser;
     @FXML
     private PasswordField txtPass;
-    @FXML
-    private Button btnLog;
-    @FXML
-    private Button btnExit;
     
     private AAController viewControl;
 

@@ -1,7 +1,11 @@
 package Controllers;
 
+import BeansFX.PedidoFX;
+import BeansFX.ProductoFX;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
@@ -17,13 +21,17 @@ public class DashboardController implements Initializable {
     @FXML
     private ScrollPane scrollPanel;
     @FXML
-    private TableColumn<?, ?> tcProductos;
+    private TableColumn<ProductoFX, String> tcProductos;
     @FXML
-    private TableColumn<?, ?> tcClientes;
+    private TableColumn tcClientes;
     @FXML
-    private TableColumn<?, ?> tcTotal;
+    private TableColumn tcTotal;
     @FXML
-    private TableView<?> tvCuadro;
+    private TableView<ProductoFX> tvCuadro;
+
+    private AAController viewControl;
+    private ObservableList<PedidoFX> listaPedido;
+    private FilteredList<ProductoFX> filterProducto;
 
     /**
      * @param url
@@ -31,7 +39,7 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     void init() {
@@ -39,6 +47,7 @@ public class DashboardController implements Initializable {
     }
 
     void setViewControl(AAController aThis) {
+        viewControl = aThis;
     }
 
 }//fin de la clase

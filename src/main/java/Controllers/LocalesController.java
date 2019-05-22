@@ -24,11 +24,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
@@ -48,18 +50,26 @@ public class LocalesController implements Initializable {
     @FXML
     private ComboBox<ProvinciaFX> cbProv;
     @FXML
-    private TableView<EmpleadoFX> tvEmpleados;
-    @FXML
-    private TableColumn tcAsignados;
-    @FXML
-    private TableColumn tcEmpleados;
-    @FXML
     private ComboBox<LocalFX> cbLocales;
     @FXML
     private TextField txtFiltro;
     @FXML
     private Label infoFiltro;
-
+    @FXML
+    private PieChart tartaPorcentaje;
+    @FXML
+    private LineChart<?, ?> lineasEvolutivo;
+    @FXML
+    private NumberAxis evoPreAx;
+    @FXML
+    private CategoryAxis evoDiaAx;
+    @FXML
+    private BarChart<?, ?> barrasComparativo;
+    @FXML
+    private NumberAxis comPreAx;
+    @FXML
+    private CategoryAxis comLocAx;
+    
     private LocalFX local;
     private AAController viewControl;
     private FilteredList<CiudadFX> filterCiudad;
@@ -85,7 +95,7 @@ public class LocalesController implements Initializable {
         configurarTxtCalle();
         configurarTxtNum();
         configurarTxtFiltro();
-        configurarTablaEmpl();
+        configurarGraficos();
         configurarBase(base);
     }
 
@@ -235,7 +245,7 @@ public class LocalesController implements Initializable {
         });
     }
 
-    private void configurarTablaEmpl() {
+    private void configurarGraficos() {
 
     }
 
