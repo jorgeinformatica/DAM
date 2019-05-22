@@ -116,7 +116,7 @@ public class AAController implements Initializable {
         logic.setNodo(loader);
         PedidosAMController controller = loader.getController();
         ((PedidosAMController) sceneActiva).setViewControl(this);
-        controller.init(getBase().getChildren());
+        controller.init(logic.getPedido(), getBase().getChildren());
     }
 
     @FXML

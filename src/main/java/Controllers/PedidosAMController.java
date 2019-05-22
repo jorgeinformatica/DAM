@@ -25,7 +25,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -40,7 +39,7 @@ import javafx.scene.control.Tooltip;
  * @author Jorge Sempere Jimenez
  */
 public class PedidosAMController implements Initializable {
-
+    
     @FXML
     private TextField numPedido;
     @FXML
@@ -73,7 +72,7 @@ public class PedidosAMController implements Initializable {
     private Label infoFiltroLocal;
     @FXML
     private Label infoFiltroPedido;
-
+    
     private AAController viewControl;
     private PedidoFX pedido;
     private LocalFX local;
@@ -91,13 +90,13 @@ public class PedidosAMController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
     }
-
-    public void init(ObservableList<Node> base) {
+    
+    public void init(PedidoFX ped, ObservableList<Node> base) {
         initValues();
-        configurarComboLocal();
-        configurarComboPedido();
+        configurarComboLocal(ped);
+        configurarComboPedido(ped);
         configurarComboEstado();
         configurarTxtFiltroLocal();
         configurarTxtFiltroPedido();
@@ -105,7 +104,7 @@ public class PedidosAMController implements Initializable {
         configurarDPentrega();
         configurarBase(base);
     }
-
+    
     private void initValues() {
         tableController = new PedidosAMColumns(this);
         infoFiltroLocal.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
@@ -130,37 +129,37 @@ public class PedidosAMController implements Initializable {
         tableController.doColumnEstadoPedido(estadoTC);
         tableController.doColumnActionsPedido(accionesTC);
     }
-
+    
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
-
+    
     public AAController getViewControl() {
         return viewControl;
     }
-
+    
     public ObservableList<String> getEstados() {
         return estados;
     }
-
+    
     public PedidoFX getPedido() {
         return pedido;
     }
-
+    
     public LocalFX getLocal() {
         return local;
     }
-
+    
     public ObservableList<LineaPedidoFX> getLinPedido() {
         return linPedido;
     }
-
+    
     private void actualizarPedido(PedidoFX p) {
         if (viewControl.getLogic().actualizarMsg(p)) {
             refrescarVista();
         }
     }
-
+    
     public void refrescarVista() {
         if (pedido != null) {
             numPedido.setText(pedido.getNumPed() + "");
@@ -174,7 +173,7 @@ public class PedidosAMController implements Initializable {
             lineasTV.setItems(linPedido.sorted());
         }
     }
-
+    
     @FXML
     private void nuevoPedido(ActionEvent event) {
         if (local != null) {
@@ -201,7 +200,7 @@ public class PedidosAMController implements Initializable {
             aviso.show();
         }
     }
-
+    
     private void configurarTxtFiltroLocal() {
         txtFiltroLocales.textProperty().addListener((obs, oldValue, newValue) -> {
             LocalFX selected = cbLocales.getSelectionModel().getSelectedItem();
@@ -214,7 +213,7 @@ public class PedidosAMController implements Initializable {
             });
         });
     }
-
+    
     private void configurarTxtFiltroPedido() {
         txtFiltroPedidos.textProperty().addListener((obs, oldValue, newValue) -> {
             PedidoFX selected = cbPedidos.getSelectionModel().getSelectedItem();
@@ -227,8 +226,8 @@ public class PedidosAMController implements Initializable {
             });
         });
     }
-
-    private void configurarComboPedido() {
+    
+    private void configurarComboPedido(PedidoFX elPed) {
         cbPedidos.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (local != null && nV) {
                 filterPedido.setPredicate(ped -> {
@@ -246,10 +245,15 @@ public class PedidosAMController implements Initializable {
                         }
                     }
                 });
-        cbPedidos.getSelectionModel().selectFirst();
+        if (elPed == null) {
+            cbPedidos.getSelectionModel().selectFirst();
+        } else {
+            cbPedidos.getSelectionModel().select(elPed);
+            viewControl.getLogic().setPedido(null);
+        }
     }
-
-    private void configurarComboLocal() {
+    
+    private void configurarComboLocal(PedidoFX ped) {
         cbLocales.valueProperty().addListener(
                 (ObservableValue<? extends LocalFX> lo, LocalFX oV, LocalFX nV) -> {
                     if (nV != null) {
@@ -260,21 +264,25 @@ public class PedidosAMController implements Initializable {
                         }
                     }
                 });
-        cbLocales.getSelectionModel().selectFirst();
+        if (ped == null) {
+            cbLocales.getSelectionModel().selectFirst();
+        } else {
+            cbLocales.getSelectionModel().select(ped.getLocal());
+        }
     }
-
+    
     private void configurarDPpedido() {
         fechaPedidoDP.setOnAction((ActionEvent event) -> {
             pedido.setFechaPed(MetodosEstaticos.ToDate(fechaPedidoDP.getValue()));
         });
     }
-
+    
     private void configurarDPentrega() {
         fechaEntregaDP.setOnAction((ActionEvent event) -> {
             pedido.setFechaEntrega(MetodosEstaticos.ToDate(fechaEntregaDP.getValue()));
         });
     }
-
+    
     private void configurarComboEstado() {
         estadoCB.setItems(estados);
         estadoCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -283,11 +291,11 @@ public class PedidosAMController implements Initializable {
             }
         });
     }
-
+    
     private boolean recorrerPedidos(PedidoFX ped, Set lista) {
         return lista.stream().anyMatch((o) -> Objects.equals(ped.getNumPed(), ((Pedido) o).getNumPed()));
     }
-
+    
     private void configurarBase(ObservableList<Node> base) {
         base.addListener(new InvalidationListener() {
             @Override
@@ -297,5 +305,5 @@ public class PedidosAMController implements Initializable {
             }
         });
     }
-
+    
 }//fin de clase

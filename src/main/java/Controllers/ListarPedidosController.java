@@ -1,5 +1,6 @@
 package Controllers;
 
+import Beans.Pedido;
 import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
@@ -7,6 +8,7 @@ import BeansFX.ProductoFX;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
@@ -16,11 +18,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
 /**
- *
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public class ListarPedidosController implements Initializable {
-
+    
     @FXML
     private TextField txtBuscar;
     @FXML
@@ -49,12 +50,12 @@ public class ListarPedidosController implements Initializable {
     private TableColumn<LineaPedidoFX, Short> cantidadTC;
     @FXML
     private TableColumn estadoLineaTC;
-
+    
     private AAController viewControl;
     private ObservableList<LineaPedidoFX> listaLineas;
-    private FilteredList<LineaPedidoFX> filterLineas;
     private ObservableList<PedidoFX> listaPedidos;
     private FilteredList<PedidoFX> filterPedidos;
+    private ListarPedidosColumns tableController;
 
     /**
      * @param url
@@ -62,15 +63,62 @@ public class ListarPedidosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
     }
-
+    
     void init() {
-
+        initValues();
+        configurarTxtBuscar();
     }
-
+    
+    private void initValues() {
+        tableController = new ListarPedidosColumns(this);
+        listaLineas = FXCollections.observableArrayList();
+        listaPedidos = FXCollections.observableArrayList();
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, "1=1")).forEach((Object ped) -> {
+            listaPedidos.add(new PedidoFX((Pedido) ped));
+        });
+        filterPedidos = new FilteredList<>(listaPedidos, p -> true);
+        pedidoTC.setCellValueFactory(pedido -> pedido.getValue().numPedProperty());
+        fechaPedidoTC.setCellValueFactory(pedido -> pedido.getValue().fechaPedProperty());
+        fechaEntregaTC.setCellValueFactory(pedido -> pedido.getValue().fechaEntregaProperty());
+        localTC.setCellValueFactory(pedido -> pedido.getValue().localProperty());
+        estadoPedidoTC.setCellValueFactory(pedido -> pedido.getValue().estadoProperty());
+        productoTC.setCellValueFactory(linea -> linea.getValue().productoProperty());
+        cantidadTC.setCellValueFactory(linea -> linea.getValue().cantidadProperty());
+        tableController.doColumnLineasPedido(lineaTC);
+        tableController.doColumnEstadoPedido(estadoLineaTC);
+        tableController.doColumnActionPedido(accionesPedidosTC);
+        pedidosTV.getItems().addAll(filterPedidos);
+        lineasTV.getItems().addAll(listaLineas);
+    }
+    
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
 
-}
+    public AAController getViewControl() {
+        return viewControl;
+    }
+    
+    public ObservableList<LineaPedidoFX> getListaLineas() {
+        return listaLineas;
+    }
+    
+    public FilteredList<PedidoFX> getFilterPedidos() {
+        return filterPedidos;
+    }
+    
+    private void configurarTxtBuscar() {
+        txtBuscar.textProperty().addListener((oble, oV, nV) -> {
+            filterPedidos.setPredicate(p -> {
+                if (nV == null || nV.isEmpty()) {
+                    return true;
+                }
+                String letras = nV.toLowerCase();
+                return p.toString().toLowerCase().contains(letras);
+            });
+        });
+    }
+    
+}//fin de clase

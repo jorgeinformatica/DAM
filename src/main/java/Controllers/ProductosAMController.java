@@ -32,7 +32,7 @@ import javafx.scene.control.Tooltip;
  * @author Jorge Sempere
  */
 public class ProductosAMController implements Initializable {
-
+    
     @FXML
     private TextField nombreTXT;
     @FXML
@@ -63,7 +63,7 @@ public class ProductosAMController implements Initializable {
     private Label infoFiltro;
     @FXML
     private ComboBox<ProductoFX> cbElementos;
-
+    
     private AAController viewControl;
     private ProductoFX producto;
     private FilteredList<ProductoFX> filteredItems;
@@ -75,7 +75,7 @@ public class ProductosAMController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
-
+    
     public void init(ProductoFX pro, ObservableList<Node> base) {
         configurarTxtPrecio();
         configurarTxtNombre();
@@ -85,13 +85,13 @@ public class ProductosAMController implements Initializable {
         configurarTxtFiltro();
         configurarGraficos();
         configurarBase(base);
-
+        
     }
-
+    
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
-
+    
     @FXML
     private void nuevoProducto(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
@@ -106,7 +106,7 @@ public class ProductosAMController implements Initializable {
         viewControl.getLogic().getProductos().add(producto);
         cbElementos.getSelectionModel().select(producto);
     }
-
+    
     @FXML
     private void borrarProducto(ActionEvent event) {
         if (producto != null) {
@@ -115,7 +115,7 @@ public class ProductosAMController implements Initializable {
             }
         }
     }
-
+    
     private void configurarComboProductos(ProductoFX pro) {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS PRODUCTOS EN BASE AL TEXTO INTRODUCIDO"));
         filteredItems = new FilteredList<>(viewControl.getLogic().getProductos(), p -> true);
@@ -134,9 +134,10 @@ public class ProductosAMController implements Initializable {
             cbElementos.getSelectionModel().selectFirst();
         } else {
             cbElementos.getSelectionModel().select(pro);
+            viewControl.getLogic().setProducto(null);
         }
     }
-
+    
     private void configurarComboIvas() {
         ObservableList ivas = FXCollections.observableArrayList("GENERAL", "REDUCIDO", "SUPERREDUCIDO");
         ivaCB.setItems(ivas);
@@ -146,7 +147,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarTxtPrecio() {
         precioTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(precioTXT, 6));
         precioTXT.setTextFormatter(MetodosEstaticos.soloDecimales());
@@ -163,7 +164,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarTxtNombre() {
         nombreTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(nombreTXT, 59));
         nombreTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -175,7 +176,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarTxtDescripcion() {
         descripcionTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(descripcionTXT, 254));
         descripcionTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -187,17 +188,17 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarGraficos() {
-
+        
     }
-
+    
     private void actualizarProducto(ProductoFX p) {
         if (viewControl.getLogic().actualizarMsg(p)) {
             refrescarVista();
         }
     }
-
+    
     private void configurarTxtFiltro() {
         txtFiltro.textProperty().addListener((obs, oldValue, newValue) -> {
             ProductoFX selected = cbElementos.getSelectionModel().getSelectedItem();
@@ -210,7 +211,7 @@ public class ProductosAMController implements Initializable {
             });
         });
     }
-
+    
     private void refrescarVista() {
         nombreTXT.setText(producto.getNombre());
         numCod.setText(producto.getCodProd() + "");
@@ -218,7 +219,7 @@ public class ProductosAMController implements Initializable {
         ivaCB.getSelectionModel().select(producto.getTipoIva());
         descripcionTXT.setText(producto.getDescripcion());
     }
-
+    
     private void configurarBase(ObservableList<Node> base) {
         base.addListener(new InvalidationListener() {
             @Override
@@ -228,5 +229,5 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
 }

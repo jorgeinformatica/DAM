@@ -236,7 +236,6 @@ public class PedidosAMColumns {
 
     public EventHandler<ActionEvent> eventoCancelar(LineaPedidoFX linea, TableCell<LineaPedidoFX, Void> aThis) {
         return (ActionEvent event) -> {
-
             if (linea.comprobarCambios()) {
                 linea.sinCambios();
             }
