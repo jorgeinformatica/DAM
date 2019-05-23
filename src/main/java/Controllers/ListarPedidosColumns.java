@@ -26,7 +26,7 @@ import javafx.util.Callback;
 public class ListarPedidosColumns {
 
     private final ListarPedidosController parentController;
-    private ObservableList<String> estados;
+    private final ObservableList<String> estados;
 
     public ListarPedidosColumns(ListarPedidosController parentController) {
         this.parentController = parentController;

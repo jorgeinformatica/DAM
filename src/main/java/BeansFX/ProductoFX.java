@@ -5,6 +5,7 @@ import Beans.LineaTicket;
 import Beans.Producto;
 import Beans.Stock;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.Set;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
