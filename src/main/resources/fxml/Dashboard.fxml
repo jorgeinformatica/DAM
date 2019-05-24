@@ -24,12 +24,11 @@
       </Separator>
       <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane fx:id="scrollPanel" HBox.hgrow="ALWAYS">
+            <ScrollPane HBox.hgrow="ALWAYS">
                <content>
-                  <TableView fx:id="tvCuadro" tableMenuButtonVisible="true">
+                  <TableView fx:id="tvCuadro" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" tableMenuButtonVisible="true">
                      <columns>
                         <TableColumn fx:id="tcProductos" editable="false" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="PRODUCTOS" />
-                        <TableColumn fx:id="tcClientes" editable="false" maxWidth="-1.0" minWidth="500.0" prefWidth="-1.0" sortable="false" text="CLIENTES" />
                         <TableColumn fx:id="tcTotal" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="100.0" sortable="false" text="TOTAL UND" />
                      </columns>
                   </TableView>

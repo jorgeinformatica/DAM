@@ -7,6 +7,7 @@ import Beans.Producto;
 import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
+import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import java.net.URL;
 import java.time.LocalDate;
@@ -76,7 +77,6 @@ public class PedidosAMController implements Initializable {
     private AAController viewControl;
     private PedidoFX pedido;
     private LocalFX local;
-    private ObservableList<String> estados;
     private ObservableList<LineaPedidoFX> linPedido;
     private ObservableList<PedidoFX> listaPedido;
     private FilteredList<PedidoFX> filterPedido;
@@ -109,7 +109,6 @@ public class PedidosAMController implements Initializable {
         tableController = new PedidosAMColumns(this);
         infoFiltroLocal.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         infoFiltroPedido.setTooltip(new Tooltip("FILTRA LOS PEDIDOS EN BASE AL TEXTO INTRODUCIDO"));
-        estados = FXCollections.observableArrayList("INCOMPLETO", "TERMINADO", "ANULADO");
         linPedido = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
         FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "Estado=1")).forEach((Object lo) -> {
@@ -136,10 +135,6 @@ public class PedidosAMController implements Initializable {
     
     public AAController getViewControl() {
         return viewControl;
-    }
-    
-    public ObservableList<String> getEstados() {
-        return estados;
     }
     
     public PedidoFX getPedido() {
@@ -284,7 +279,10 @@ public class PedidosAMController implements Initializable {
     }
     
     private void configurarComboEstado() {
-        estadoCB.setItems(estados);
+        estadoCB.setItems(FXCollections.observableArrayList(
+                                    Constantes.EstadosPedido.TERMINADO.getNom(),
+                                    Constantes.EstadosPedido.INCOMPLETO.getNom(),
+                                    Constantes.EstadosPedido.ANULADO.getNom()));
         estadoCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (pedido != null && !nV) {
                 pedido.setEstado(estadoCB.getValue());

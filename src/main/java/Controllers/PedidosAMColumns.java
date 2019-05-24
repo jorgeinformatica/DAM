@@ -5,12 +5,12 @@ import Beans.Pedido;
 import Beans.Producto;
 import BeansFX.LineaPedidoFX;
 import BeansFX.ProductoFX;
+import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -31,11 +31,9 @@ import javafx.util.Callback;
 public class PedidosAMColumns {
 
     private final PedidosAMController parentController;
-    private final ObservableList<String> estados;
 
     public PedidosAMColumns(PedidosAMController parentController) {
         this.parentController = parentController;
-        estados = FXCollections.observableArrayList("EN PRODUCCION", "PREPARADO", "ENTREGADO", "ANULADO");
     }
 
     @SuppressWarnings("Convert2Lambda")
@@ -196,7 +194,11 @@ public class PedidosAMColumns {
                             setGraphic(null);
                         } else {
                             LineaPedidoFX linea = getTableView().getItems().get(getIndex());
-                            ComboBox<String> cbEstate = new ComboBox<>(estados);
+                            ComboBox<String> cbEstate = new ComboBox<>(FXCollections.observableArrayList(
+                                    Constantes.EstadosLinea.ENTREGADO.getNom(),
+                                    Constantes.EstadosLinea.PREPARADO.getNom(),
+                                    Constantes.EstadosLinea.PRODUCCION.getNom(),                                    
+                                    Constantes.EstadosLinea.ANULADO.getNom()));
                             HBox h = new HBox(1, cbEstate);
                             cbEstate.getSelectionModel().select(linea.getEstado());
                             cbEstate.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {

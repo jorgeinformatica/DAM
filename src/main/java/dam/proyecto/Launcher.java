@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /**
- *
  * @author Jorge Sempere Jimenez
  */
 public class Launcher extends Application {
@@ -50,7 +49,7 @@ public class Launcher extends Application {
             Parent root = loader.load();
             viewController = loader.<AAController>getController();
             scene = new Scene(root);
-           // new JMetro(JMetro.Style.LIGHT).applyTheme(root);
+           //new JMetro(JMetro.Style.LIGHT).applyTheme(root);
             scene.getStylesheets().add("/styles/Styles.css");
             new LogicController(viewController);
         } catch (IOException ex) {
@@ -58,4 +57,4 @@ public class Launcher extends Application {
         }
     }
 
-}//Fin de la clase MainApp
+}//Fin de clase 
