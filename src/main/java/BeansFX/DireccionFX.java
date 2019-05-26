@@ -128,8 +128,10 @@ public class DireccionFX extends BaseFX {
 
     @Override
     public boolean comprobarCambios() {
-        if (getRelCpCiu().comprobarCambios()) {
+        if (getRelCpCiu().getId().getCodCiudad() != ((Direccion) getBean()).getCiudadConcp().getId().getCodCiudad()
+                || !getRelCpCiu().getId().getCodPostal().equals(((Direccion) getBean()).getCiudadConcp().getId().getCodPostal())) {
             return true;
+        } else {
         }
         if (!getNombre().equalsIgnoreCase(((Direccion) getBean()).getNombre())) {
             return true;
