@@ -1,11 +1,13 @@
 package dam.proyecto;
 
 import Beans.Ciudad;
+import Beans.CiudadConcp;
 import Beans.CodigoPostal;
 import Beans.Empleado;
 import Beans.Producto;
 import Beans.Provincia;
 import BeansFX.BaseFX;
+import BeansFX.CiudadConcpFX;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
 import BeansFX.EmpleadoFX;
@@ -44,6 +46,7 @@ public class LogicController {
     private static ObservableList<CiudadFX> ciudades;
     private static ObservableList<ProvinciaFX> provincias;
     private static ObservableList<CodigoPostalFX> cps;
+    private static ObservableList<CiudadConcpFX> ccps;
     private ObservableList<ProductoFX> productos;
     private Parent root;
     private EmpleadoFX usuario;
@@ -52,7 +55,7 @@ public class LogicController {
 
     public LogicController(AAController viewControl) {
         this.producto = null;
-        this.pedido=null;
+        this.pedido = null;
         this.viewControl = viewControl;
         this.provincias = FXCollections.observableArrayList();
         this.ciudades = FXCollections.observableArrayList();
@@ -77,6 +80,9 @@ public class LogicController {
         });
         FXCollections.observableList(hibControl.getList(CodigoPostal.class, "1=1")).forEach((cp) -> {
             this.cps.add(new CodigoPostalFX((CodigoPostal) cp));
+        });
+        FXCollections.observableList(hibControl.getList(CiudadConcp.class, "1=1")).forEach((ccp) -> {
+            this.ccps.add(new CiudadConcpFX((CiudadConcp) ccp));
         });
         FXCollections.observableList(hibControl.getList(Producto.class, " Estado = 1 ")).forEach((pro) -> {
             this.productos.add(new ProductoFX((Producto) pro));
@@ -253,5 +259,25 @@ public class LogicController {
             }
         }
         return null;
+    }
+
+    public static Optional<CiudadConcpFX> getCCFX(ProvinciaFX prov) {
+        return ccps.stream().filter((p) -> {
+            return Objects.equals(((CiudadConcpFX) p).getProvincia().getCodProvincia(), prov.getCodProvincia());
+        }).findFirst();
+    }
+
+    public static Optional<CiudadConcpFX> getCCFX(ProvinciaFX prov, CiudadFX ciu) {
+        return ccps.stream().filter((p) -> {
+            return Objects.equals(((CiudadConcpFX) p).getProvincia().getCodProvincia(), prov.getCodProvincia()) && Objects.equals(((CiudadConcpFX) p).getCiudad().getCodCiudad(), ciu.getCodCiudad());
+        }).findFirst();
+    }
+
+    public static Optional<CiudadConcpFX> getCCFX(ProvinciaFX prov, CiudadFX ciu, CodigoPostalFX cp) {
+        return ccps.stream().filter((p) -> {
+            return Objects.equals(((CiudadConcpFX) p).getProvincia().getCodProvincia(), prov.getCodProvincia()) 
+                    && Objects.equals(((CiudadConcpFX) p).getCiudad().getCodCiudad(), ciu.getCodCiudad())
+                    && ((CiudadConcpFX) p).getCodigoPostal().getCodPostal().equals(cp.getCodPostal());
+        }).findFirst();
     }
 }//fin de la clase

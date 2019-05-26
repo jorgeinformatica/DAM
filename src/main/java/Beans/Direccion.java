@@ -86,7 +86,7 @@ public class Direccion implements java.io.Serializable, BaseBean {
     public void actualizarDatos(BaseFX o) {
         nombre = ((DireccionFX) o).getNombre();
         numero=((DireccionFX) o).getNumero();
-        ciudadConcp.actualizarDatos(((DireccionFX) o).getRelCpCiu());
+        ciudadConcp=(CiudadConcp) ((DireccionFX) o).getRelCpCiu().getBean();
     }
 
     @Override

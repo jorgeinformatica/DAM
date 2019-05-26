@@ -19,7 +19,7 @@ import javafx.collections.FXCollections;
  */
 public class CiudadConcpFX extends BaseFX {
 
-    private ObjectProperty<CiudadConcpId> id;
+    private ObjectProperty<CiudadConcpIdFX> id;
     private ObjectProperty<CiudadFX> ciudad;
     private ObjectProperty<CodigoPostalFX> codigoPostal;
     private ObjectProperty<ProvinciaFX> provincia;
@@ -36,7 +36,7 @@ public class CiudadConcpFX extends BaseFX {
 
     public CiudadConcpFX(CiudadConcp cccp) {
         this.beanFX = new SimpleObjectProperty<>(this);
-        this.id = new SimpleObjectProperty<>(cccp.getId());
+        this.id = new SimpleObjectProperty<>(new CiudadConcpIdFX(cccp.getId()));
         this.ciudad = new SimpleObjectProperty<>(new CiudadFX(cccp.getCiudad()));
         this.codigoPostal = new SimpleObjectProperty<>(new CodigoPostalFX(cccp.getCodigoPostal()));
         this.provincia = new SimpleObjectProperty<>(new ProvinciaFX(cccp.getProvincia()));
@@ -44,15 +44,15 @@ public class CiudadConcpFX extends BaseFX {
         this.bean = cccp;
     }
 
-    public ObjectProperty<CiudadConcpId> getId() {
-        return id;
+    public CiudadConcpIdFX getId() {
+        return id.get();
     }
 
-    public void setId(ObjectProperty<CiudadConcpId> id) {
-        this.id = id;
+    public void setId(CiudadConcpIdFX id) {
+        this.id.set(id);
     }
 
-    public ObjectProperty<CiudadConcpId> idProperty() {
+    public ObjectProperty<CiudadConcpIdFX> idProperty() {
         return id;
     }
 

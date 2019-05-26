@@ -10,6 +10,7 @@ import BeansFX.EmpleadoFX;
 import BeansFX.LocalFX;
 import BeansFX.ProvinciaFX;
 import Utils.MetodosEstaticos;
+import dam.proyecto.LogicController;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -69,7 +70,7 @@ public class LocalesController implements Initializable {
     private NumberAxis comPreAx;
     @FXML
     private CategoryAxis comLocAx;
-    
+
     private LocalFX local;
     private AAController viewControl;
     private FilteredList<CiudadFX> filterCiudad;
@@ -154,6 +155,8 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!Objects.equals(cbProv.getValue().getCodProvincia(), local.getDireccion().getRelCpCiu().getProvincia().getCodProvincia())) {
                     local.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
+                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getProvincia())
+                            .orElse(local.getDireccion().getRelCpCiu()));
                 }
             }
         });
@@ -169,6 +172,9 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!Objects.equals(cbCiudad.getValue().getCodCiudad(), local.getDireccion().getRelCpCiu().getCiudad().getCodCiudad())) {
                     local.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
+                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(
+                            local.getDireccion().getRelCpCiu().getProvincia(), local.getDireccion().getRelCpCiu().getCiudad())
+                            .orElse(local.getDireccion().getRelCpCiu()));
                 }
             }
         });
@@ -184,6 +190,9 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!cbCP.getValue().getCodPostal().equalsIgnoreCase(local.getDireccion().getRelCpCiu().getCodigoPostal().getCodPostal())) {
                     local.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
+                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getProvincia(), 
+                            local.getDireccion().getRelCpCiu().getCiudad(),local.getDireccion().getRelCpCiu().getCodigoPostal())
+                            .orElse(local.getDireccion().getRelCpCiu()));
                 }
             }
         });
