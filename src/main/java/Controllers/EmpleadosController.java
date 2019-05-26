@@ -138,7 +138,7 @@ public class EmpleadosController implements Initializable {
         direc.setCiudadConcp(ccCP);
         viewControl.getLogic().getHibControl().save(direc);
         viewControl.getLogic().getHibControl().initTransaction();
-        Empleado tempo = new Empleado("23232323T", direc, (Local)cbLocal.getItems().get(0).getBean(), "nombre", "primer Apellido", "segundo Apellido", "999999999", "Correo electrónico", true);
+        Empleado tempo = new Empleado("23232323T", direc, (Local) cbLocal.getItems().get(0).getBean(), "nombre", "primer Apellido", "segundo Apellido", "999999999", "Correo electrónico", true);
         viewControl.getLogic().getHibControl().save(tempo);
         empleado = new EmpleadoFX(tempo);
         listaEmpleados.add(empleado);
@@ -283,9 +283,9 @@ public class EmpleadosController implements Initializable {
             }
             if (empleado != null && !nV) {
                 empleado.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
-                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getProvincia(), 
-                            empleado.getDireccion().getRelCpCiu().getCiudad(),empleado.getDireccion().getRelCpCiu().getCodigoPostal())
-                            .orElse(empleado.getDireccion().getRelCpCiu()));
+                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal())
+                        == null ? empleado.getDireccion().getRelCpCiu()
+                                : LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal()));
             }
         });
     }
@@ -294,8 +294,9 @@ public class EmpleadosController implements Initializable {
         cbProv.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
-                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getProvincia())
-                            .orElse(empleado.getDireccion().getRelCpCiu()));
+                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal())
+                        == null ? empleado.getDireccion().getRelCpCiu()
+                                : LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal()));
             }
         });
     }
@@ -309,9 +310,9 @@ public class EmpleadosController implements Initializable {
             }
             if (empleado != null && !nV) {
                 empleado.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
-                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(
-                            empleado.getDireccion().getRelCpCiu().getProvincia(), empleado.getDireccion().getRelCpCiu().getCiudad())
-                            .orElse(empleado.getDireccion().getRelCpCiu()));
+                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal())
+                        == null ? empleado.getDireccion().getRelCpCiu()
+                                : LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal()));
             }
         });
     }

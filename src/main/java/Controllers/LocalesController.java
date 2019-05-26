@@ -155,8 +155,9 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!Objects.equals(cbProv.getValue().getCodProvincia(), local.getDireccion().getRelCpCiu().getProvincia().getCodProvincia())) {
                     local.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
-                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getProvincia())
-                            .orElse(local.getDireccion().getRelCpCiu()));
+                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getCiudad(), local.getDireccion().getRelCpCiu().getCodigoPostal())
+                            == null ? local.getDireccion().getRelCpCiu()
+                                    : LogicController.getCCFX(local.getDireccion().getRelCpCiu().getCiudad(), local.getDireccion().getRelCpCiu().getCodigoPostal()));
                 }
             }
         });
@@ -172,9 +173,9 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!Objects.equals(cbCiudad.getValue().getCodCiudad(), local.getDireccion().getRelCpCiu().getCiudad().getCodCiudad())) {
                     local.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
-                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(
-                            local.getDireccion().getRelCpCiu().getProvincia(), local.getDireccion().getRelCpCiu().getCiudad())
-                            .orElse(local.getDireccion().getRelCpCiu()));
+                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getCiudad(), local.getDireccion().getRelCpCiu().getCodigoPostal())
+                            == null ? local.getDireccion().getRelCpCiu()
+                                    : LogicController.getCCFX(local.getDireccion().getRelCpCiu().getCiudad(), local.getDireccion().getRelCpCiu().getCodigoPostal()));
                 }
             }
         });
@@ -190,9 +191,9 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!cbCP.getValue().getCodPostal().equalsIgnoreCase(local.getDireccion().getRelCpCiu().getCodigoPostal().getCodPostal())) {
                     local.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
-                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getProvincia(), 
-                            local.getDireccion().getRelCpCiu().getCiudad(),local.getDireccion().getRelCpCiu().getCodigoPostal())
-                            .orElse(local.getDireccion().getRelCpCiu()));
+                    local.getDireccion().setRelCpCiu(LogicController.getCCFX(local.getDireccion().getRelCpCiu().getCiudad(), local.getDireccion().getRelCpCiu().getCodigoPostal())
+                            == null ? local.getDireccion().getRelCpCiu()
+                                    : LogicController.getCCFX(local.getDireccion().getRelCpCiu().getCiudad(), local.getDireccion().getRelCpCiu().getCodigoPostal()));
                 }
             }
         });

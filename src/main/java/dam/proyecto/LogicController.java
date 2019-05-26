@@ -57,10 +57,11 @@ public class LogicController {
         this.producto = null;
         this.pedido = null;
         this.viewControl = viewControl;
-        this.provincias = FXCollections.observableArrayList();
-        this.ciudades = FXCollections.observableArrayList();
+        LogicController.provincias = FXCollections.observableArrayList();
+        LogicController.ciudades = FXCollections.observableArrayList();
         this.productos = FXCollections.observableArrayList();
-        this.cps = FXCollections.observableArrayList();
+        LogicController.cps = FXCollections.observableArrayList();
+        LogicController.ccps = FXCollections.observableArrayList();
         initHibernate();
         initOList();
         initmapProperties();
@@ -261,23 +262,14 @@ public class LogicController {
         return null;
     }
 
-    public static Optional<CiudadConcpFX> getCCFX(ProvinciaFX prov) {
-        return ccps.stream().filter((p) -> {
-            return Objects.equals(((CiudadConcpFX) p).getProvincia().getCodProvincia(), prov.getCodProvincia());
-        }).findFirst();
+    public static CiudadConcpFX getCCFX(CiudadFX ciu, CodigoPostalFX cp) {
+        for (CiudadConcpFX ccp : ccps) {
+            if (Objects.equals(ccp.getId().getCodCiudad(), ciu.getCodCiudad())
+                    && cp.getCodPostal().equals(ccp.getId().getCodPostal())) {
+                return ccp;
+            }
+        }
+        return null;
     }
 
-    public static Optional<CiudadConcpFX> getCCFX(ProvinciaFX prov, CiudadFX ciu) {
-        return ccps.stream().filter((p) -> {
-            return Objects.equals(((CiudadConcpFX) p).getProvincia().getCodProvincia(), prov.getCodProvincia()) && Objects.equals(((CiudadConcpFX) p).getCiudad().getCodCiudad(), ciu.getCodCiudad());
-        }).findFirst();
-    }
-
-    public static Optional<CiudadConcpFX> getCCFX(ProvinciaFX prov, CiudadFX ciu, CodigoPostalFX cp) {
-        return ccps.stream().filter((p) -> {
-            return Objects.equals(((CiudadConcpFX) p).getProvincia().getCodProvincia(), prov.getCodProvincia()) 
-                    && Objects.equals(((CiudadConcpFX) p).getCiudad().getCodCiudad(), ciu.getCodCiudad())
-                    && ((CiudadConcpFX) p).getCodigoPostal().getCodPostal().equals(cp.getCodPostal());
-        }).findFirst();
-    }
 }//fin de la clase

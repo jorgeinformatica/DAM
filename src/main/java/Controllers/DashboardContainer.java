@@ -55,7 +55,7 @@ public class DashboardContainer {
     }
 
     private String agregarProd(String get, short cantidad, boolean opc) {
-        String[] split = get.split("|");
+        String[] split = get.split("[|]");
         int preparacion = Integer.valueOf(split[0]);
         int produccion = Integer.valueOf(split[1]);
         produccion += cantidad;

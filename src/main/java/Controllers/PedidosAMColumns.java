@@ -262,7 +262,7 @@ public class PedidosAMColumns {
                 tempo.setPedido((Pedido) parentController.getPedido().getBean());
                 tempo.setProducto((Producto) parentController.getViewControl().getLogic().getProductos().get(0).getBean());
                 tempo.setCantidad((short) 1);
-                tempo.setEstado("EN PRODUCCION");
+                tempo.setEstado(Constantes.EstadosLinea.PRODUCCION.getNom());
                 parentController.getViewControl().getLogic().getHibControl().save(tempo);
                 parentController.getViewControl().getLogic().getHibControl().refresco(parentController.getPedido().getBean());
                 parentController.refrescarVista();
