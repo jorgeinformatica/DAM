@@ -24,21 +24,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
 
 /**
  * @author Jorge Sempere Jimenez
  */
 public class DashboardController implements Initializable {
-
+    
     @FXML
     private TableColumn<ProductoFX, String> tcProductos;
     @FXML
     private TableColumn tcTotal;
     @FXML
     private TableView<ProductoFX> tvCuadro;
-
+    
     private AAController viewControl;
     private ObservableList<PedidoFX> listaPedido;
     private FilteredList<ProductoFX> filterProducto;
@@ -50,13 +49,13 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        
     }
-
+    
     void init() {
         listaCont = FXCollections.observableArrayList();
         listaPedido = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, "1=1")).forEach((Object ped) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, "Date_format(Fecha_Entrega,'%d-%m-%Y')='25-05-2019'")).forEach((Object ped) -> {
             listaPedido.add(new PedidoFX((Pedido) ped));
         });
         initColProduct();
@@ -65,15 +64,15 @@ public class DashboardController implements Initializable {
         doColumnTotalProducto(tcTotal);
         tvCuadro.getItems().addAll(filterProducto);
     }
-
+    
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
-
+    
     private boolean recorrerPedidos(ProductoFX pro, PedidoFX ped) {
         return ped.getLineasPedido().stream().anyMatch((lin) -> Objects.equals(pro.getCodProd(), ((LineaPedido) lin).getProducto().getCodProd()));
     }
-
+    
     private int contarUnidades(ProductoFX prod) {
         int cuentas = 0;
         for (PedidoFX ped : listaPedido) {
@@ -85,34 +84,28 @@ public class DashboardController implements Initializable {
         }
         return cuentas;
     }
-
+    
     private void initColProduct() {
         filterProducto = new FilteredList<>(viewControl.getLogic().getProductos(), pro -> {
             return listaPedido.stream().anyMatch((ped) -> (recorrerPedidos(pro, ped)));
         });
         tcProductos.setCellValueFactory((TableColumn.CellDataFeatures<ProductoFX, String> producto) -> producto.getValue().nombreProperty());
     }
-
+    
     private void initContenedores() {
         listaPedido.forEach((pedFX) -> {
-            if (listaCont.stream().anyMatch(p -> p.getId() == pedFX.getLocal().getCodLocal())) {
-                listaCont.stream().filter((dC) -> (dC.getId() == pedFX.getLocal().getCodLocal())).forEachOrdered((dC) -> {
-                    rellenarMap(pedFX, dC);
-                });
-            } else {
-                DashboardContainer dC = new DashboardContainer(pedFX.getLocal().getCodLocal(), "");
-                rellenarMap(pedFX, dC);
-                listaCont.add(dC);
-            }
+            DashboardContainer dC = new DashboardContainer(pedFX.getLocal().getCodLocal(), "");
+            rellenarMap(pedFX, dC);
+            listaCont.add(dC);
         });
     }
-
+    
     private void rellenarMap(PedidoFX pedFX, DashboardContainer dC) {
         pedFX.getLineasPedido().stream().map((o) -> (LineaPedido) o).forEachOrdered((lp) -> {
             dC.addProduct((LineaPedido) lp);
         });
     }
-
+    
     private void initColumnas() {
         TableColumn[] colPed = new TableColumn[listaCont.size()];
         for (int i = 0; i < listaCont.size(); i++) {
@@ -122,7 +115,16 @@ public class DashboardController implements Initializable {
             tvCuadro.getColumns().add(1, colPed[i]);
         }
     }
-
+    
+    private void configurarBoton(DashboardContainer dC, ProductoFX prod, Button btn) {
+        String[] split = dC.getCantidad(prod.getCodProd()).split("|");
+        if (split[0].equals("0")) {
+            btn.setId(Constantes.EstadosLinea.PRODUCCION.getId());
+        } else {
+            btn.setId(Constantes.EstadosLinea.PREPARADO.getId());
+        }
+    }
+    
     private EventHandler<? super MouseEvent> eventosClick(DashboardContainer dC, ProductoFX prod, Button btn) {
         return new EventHandler<MouseEvent>() {
             @Override
@@ -135,24 +137,21 @@ public class DashboardController implements Initializable {
                                     viewControl.getLogic().getHibControl().initTransaction();
                                     ((LineaPedido) o).setEstado(Constantes.EstadosLinea.PREPARADO.getNom());
                                     viewControl.getLogic().getHibControl().UpdateElement(o);
-                                    btn.setStyle("-fx-background-color: linear-gradient(#f0ff35, #a9ff00),"
-                                            + "radial-gradient(center 50% -40%, radius 200%, #b8ee36 45%, #80c800 50%);"
-                                            + "-fx-background-radius: 6, 5;"
-                                            + "-fx-background-insets: 0, 1;"
-                                            + "-fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );"
-                                            + "-fx-text-fill: #395306;");
+                                    btn.setId(Constantes.EstadosLinea.PREPARADO.getId());
+                                    String []texto = dC.getCantidad(prod.getCodProd()).split("|");
+                                    btn.setText(texto[2] + "|" + texto[2]);
                                 }
                             }
                         }
                     }
                 }
                 if (event.getButton() == MouseButton.SECONDARY) {
-
+                    
                 }
             }
         };
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
     public void doColumnPedidoProducto(TableColumn pedidoTC) {
         pedidoTC.setCellValueFactory(new PropertyValueFactory<>("ProductoFX"));
@@ -170,18 +169,15 @@ public class DashboardController implements Initializable {
                             Button btn = null;
                             for (DashboardContainer dC : listaCont) {
                                 if (dC.getId() == Short.valueOf(pedidoTC.getText())) {
-                                    int valor = dC.getCantidad(prod.getCodProd());
-                                    if (valor > 0) {
-                                        btn = new Button(valor + "");
-                                        btn.setId("dashButton");
+                                    String valor = dC.getCantidad(prod.getCodProd());
+                                    if (!valor.isEmpty()) {
+                                        btn = new Button(valor);
+                                        configurarBoton(dC, prod, btn);
                                         btn.setOnMouseClicked(eventosClick(dC, prod, btn));
-                                    } else {
-                                        btn = new Button();
-                                        btn.setDisable(true);
                                     }
                                 }
                             }
-                            HBox h = new HBox(1, btn);
+                            HBox h = new HBox(1, btn != null ? btn : new Label());
                             h.alignmentProperty().setValue(Pos.CENTER);
                             setGraphic(h);
                         }
@@ -191,7 +187,7 @@ public class DashboardController implements Initializable {
             }
         });
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
     public void doColumnTotalProducto(TableColumn TotalTC) {
         TotalTC.setCellValueFactory(new PropertyValueFactory<>("ProductoFX"));

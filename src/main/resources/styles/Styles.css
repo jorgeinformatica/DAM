@@ -1,3 +1,63 @@
-.button {
-    -fx-font-weight: bold;
+#btn-produccion {
+    -fx-background-color: linear-gradient(#FFE0B2,#E65100),radial-gradient(center 50% -40%, radius 200%, #FF9800 45%, #FF6D00 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #ffffff;
+}
+#btn-produccion:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #FF9800 0%, #FF6D00 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #FFE0B2,#E65100);
+}
+#btn-produccion:pressed {
+    -fx-padding: 4 6 4 6;
+    -fx-background-insets: 2 0 0 0,2 0 4 0, 2 0 4 0, 2 0 4 0;
+}
+
+#btn-preparado {
+    -fx-background-color: linear-gradient(#C8E6C9,#1B5E20),radial-gradient(center 50% -40%, radius 200%, #4CAF50 45%, #00C853 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #ffffff;
+}
+#btn-preparado:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #4CAF50 0%, #00C853 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #C8E6C9,#1B5E20);
+}
+#btn-preparado:pressed {
+    -fx-padding: 4 6 4 6;
+    -fx-background-insets: 2 0 0 0,2 0 4 0, 2 0 4 0, 2 0 4 0;
+}
+
+#btn-entregado {
+    -fx-background-color: linear-gradient(#FFF9C4,#F57F17),radial-gradient(center 50% -40%, radius 200%, #FFEB3B 45%, #FFD600 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+#btn-entregado:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #FFEB3B 0%, #FFD600 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #FFF9C4,#F57F17);
+}
+#btn-entregado:pressed {
+    -fx-padding: 4 6 4 6;
+    -fx-background-insets: 2 0 0 0,2 0 4 0, 2 0 4 0, 2 0 4 0;
+}
+
+#btn-anulado {
+    -fx-background-color: linear-gradient(#78909C,#455A64),radial-gradient(center 50% -40%, radius 200%, #607D8B 45%, #546E7A 50%);
+    -fx-background-radius: 6, 5;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
+    -fx-text-fill: #395306;
+}
+#btn-anulado:hover {
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #607D8B 0%, #546E7A 100%),#9d4024,#d86e3a,radial-gradient(center 50% 50%, radius 100%, #78909C,#455A64);
+}
+#btn-anulado:pressed {
+    -fx-padding: 4 6 4 6;
+    -fx-background-insets: 2 0 0 0,2 0 4 0, 2 0 4 0, 2 0 4 0;
 }
