@@ -10,6 +10,7 @@ import BeansFX.EmpleadoFX;
 import BeansFX.LocalFX;
 import BeansFX.ProvinciaFX;
 import Utils.MetodosEstaticos;
+import dam.proyecto.LogicController;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
@@ -282,6 +283,9 @@ public class EmpleadosController implements Initializable {
             }
             if (empleado != null && !nV) {
                 empleado.getDireccion().getRelCpCiu().setCodigoPostal(cbCP.getValue());
+                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getProvincia(), 
+                            empleado.getDireccion().getRelCpCiu().getCiudad(),empleado.getDireccion().getRelCpCiu().getCodigoPostal())
+                            .orElse(empleado.getDireccion().getRelCpCiu()));
             }
         });
     }
@@ -290,6 +294,8 @@ public class EmpleadosController implements Initializable {
         cbProv.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.getDireccion().getRelCpCiu().setProvincia(cbProv.getValue());
+                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getProvincia())
+                            .orElse(empleado.getDireccion().getRelCpCiu()));
             }
         });
     }
@@ -303,6 +309,9 @@ public class EmpleadosController implements Initializable {
             }
             if (empleado != null && !nV) {
                 empleado.getDireccion().getRelCpCiu().setCiudad(cbCiudad.getValue());
+                empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(
+                            empleado.getDireccion().getRelCpCiu().getProvincia(), empleado.getDireccion().getRelCpCiu().getCiudad())
+                            .orElse(empleado.getDireccion().getRelCpCiu()));
             }
         });
     }
