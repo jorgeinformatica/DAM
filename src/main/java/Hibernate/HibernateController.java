@@ -2,6 +2,7 @@ package Hibernate;
 
 import java.io.Serializable;
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 /**
@@ -84,5 +85,5 @@ public class HibernateController {
         return session.createQuery("SELECT elemento FROM "
                 + c.getName() + " elemento WHERE " + condition).uniqueResult();
     }
-
+    
 }//fin de la clase

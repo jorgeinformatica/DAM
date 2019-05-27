@@ -12,6 +12,7 @@ import Utils.MetodosEstaticos;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -29,10 +30,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -178,7 +181,7 @@ public class PedidosAMController implements Initializable {
             Pedido tempo = new Pedido();
             tempo.setLocal((Local) local.getBean());
             tempo.setFechaPed(MetodosEstaticos.ToDate(LocalDate.now()));
-            tempo.setFechaEntrega(MetodosEstaticos.ToDate(LocalDate.now().plusDays(1)));
+            tempo.setFechaEntrega(MetodosEstaticos.ToDate(elegirFecha()));
             tempo.setEstado("INCOMPLETO");
             viewControl.getLogic().getHibControl().save(tempo);
             pedido = new PedidoFX(tempo);
@@ -191,6 +194,7 @@ public class PedidosAMController implements Initializable {
             linea.setEstado("EN PRODUCCION");
             viewControl.getLogic().getHibControl().save(linea);
             viewControl.getLogic().getHibControl().refresco(tempo);
+            viewControl.getLogic().getHibControl().refresco(local.getBean());
             refrescarVista();
         } else {
             Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Por favor, seleccione un local.", ButtonType.OK);
@@ -270,11 +274,25 @@ public class PedidosAMController implements Initializable {
 
     private void configurarDPentrega() {
         fechaEntregaDP.setOnAction((ActionEvent event) -> {
-            if (comprobarFechaPed(fechaEntregaDP.getValue())) {
+            PedidoFX tempo = comprobarFechaPed(MetodosEstaticos.ToDate(fechaEntregaDP.getValue()));
+            if (tempo == null) {
                 pedido.setFechaEntrega(MetodosEstaticos.ToDate(fechaEntregaDP.getValue()));
             } else {
                 if (confirmarCambio()) {
-//cambiar el numero de pedido de las lineas y luego borrar el pedido del que derivan las lineas movidas
+                    for (Object linPed : ((Pedido) pedido.getBean()).getLineaPedidos()) {
+                        viewControl.getLogic().getHibControl().initTransaction();
+                        ((LineaPedido) linPed).setPedido((Pedido) tempo.getBean());
+                        viewControl.getLogic().getHibControl().UpdateElement(linPed);
+                    }
+                    viewControl.getLogic().getHibControl().initTransaction();
+                    viewControl.getLogic().getHibControl().remove(pedido.getBean());
+                    listaPedido.remove(pedido);
+                    viewControl.getLogic().getHibControl().refresco(tempo.getBean());
+                    pedido = tempo;
+                    listaPedido.add(pedido);
+                    cbPedidos.getSelectionModel().select(pedido);
+                } else {
+                    fechaEntregaDP.setValue(MetodosEstaticos.ToLocalDate(pedido.getFechaEntrega()));
                 }
             }
         });
@@ -282,28 +300,24 @@ public class PedidosAMController implements Initializable {
 
     private void configurarComboEstado() {
         estadoCB.setItems(FXCollections.observableArrayList(
-                Constantes.EstadosPedido.TERMINADO.getNom(),
-                Constantes.EstadosPedido.INCOMPLETO.getNom(),
-                Constantes.EstadosPedido.ENTREGADO.getNom(),
-                Constantes.EstadosPedido.ANULADO.getNom()));
+                Constantes.EstadoPedido.TERMINADO.getNom(),
+                Constantes.EstadoPedido.INCOMPLETO.getNom(),
+                Constantes.EstadoPedido.ENTREGADO.getNom(),
+                Constantes.EstadoPedido.ANULADO.getNom()));
         estadoCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (pedido != null && !nV) {
-                if (estadoCB.getValue().equals(Constantes.EstadosPedido.TERMINADO.getNom())) {
-                    if (confirmarCambio(Constantes.EstadosPedido.TERMINADO.getNom())) {
-                        pedido.setEstado(estadoCB.getValue());
-                    }
-                } else if (estadoCB.getValue().equals(Constantes.EstadosPedido.ANULADO.getNom())) {
-                    if (confirmarCambio(Constantes.EstadosPedido.ANULADO.getNom())) {
-                        pedido.setEstado(estadoCB.getValue());
-                    }
-                } else if (estadoCB.getValue().equals(Constantes.EstadosPedido.INCOMPLETO.getNom())) {
-                    if (confirmarCambio(Constantes.EstadosPedido.INCOMPLETO.getNom())) {
-                        pedido.setEstado(estadoCB.getValue());
-                    }
-                } else if (estadoCB.getValue().equals(Constantes.EstadosPedido.ENTREGADO.getNom())) {
-                    if (confirmarCambio(Constantes.EstadosPedido.INCOMPLETO.getNom())) {
-                        pedido.setEstado(estadoCB.getValue());
-                    }
+                if (estadoCB.getValue().equals(Constantes.EstadoPedido.TERMINADO.getNom())) {
+                    pedido.setEstado(estadoCB.getValue());
+                    lineasSetEstado(Constantes.EstadoLinea.PREPARADO.getNom());
+                } else if (estadoCB.getValue().equals(Constantes.EstadoPedido.ANULADO.getNom())) {
+                    pedido.setEstado(estadoCB.getValue());
+                    lineasSetEstado(Constantes.EstadoLinea.ANULADO.getNom());
+                } else if (estadoCB.getValue().equals(Constantes.EstadoPedido.INCOMPLETO.getNom())) {
+                    pedido.setEstado(estadoCB.getValue());
+                    lineasSetEstado(Constantes.EstadoLinea.PRODUCCION.getNom());
+                } else if (estadoCB.getValue().equals(Constantes.EstadoPedido.ENTREGADO.getNom())) {
+                    pedido.setEstado(estadoCB.getValue());
+                    lineasSetEstado(Constantes.EstadoLinea.ENTREGADO.getNom());
                 }
             }
         });
@@ -323,12 +337,17 @@ public class PedidosAMController implements Initializable {
         });
     }
 
-    private boolean comprobarFechaPed(LocalDate value) {
-        Pedido tempo=new Pedido();
-        tempo.setLocal((Local) pedido.getLocal().getBean());
-        tempo.setFechaEntrega(MetodosEstaticos.ToDate(value));
-        
-        return false;
+    private PedidoFX comprobarFechaPed(Date value) {
+        for (PedidoFX pedFX : listaPedido) {
+            if (Objects.equals(pedFX.getLocal().getCodLocal(), pedido.getLocal().getCodLocal())) {
+                String init = new SimpleDateFormat("dd-MM-yyyy").format(value);
+                String end = new SimpleDateFormat("dd-MM-yyyy").format(pedFX.getFechaEntrega());
+                if (init.equals(end) && !Objects.equals(pedido.getNumPed(), pedFX.getNumPed())) {
+                    return pedFX;
+                }
+            }
+        }
+        return null;
     }
 
     private boolean confirmarCambio(String nom) {
@@ -351,6 +370,37 @@ public class PedidosAMController implements Initializable {
         alert.setContentText(null);
         Optional<ButtonType> result = alert.showAndWait();
         return result.get() == ButtonType.OK;
+    }
+
+    private void lineasSetEstado(String nom) {
+        if (confirmarCambio(nom)) {
+            for (Object o : ((Pedido) pedido.getBean()).getLineaPedidos()) {
+                viewControl.getLogic().getHibControl().initTransaction();
+                ((LineaPedido) o).setEstado(nom);
+                viewControl.getLogic().getHibControl().UpdateElement(o);
+            }
+            viewControl.getLogic().getHibControl().refresco(pedido.getBean());
+            lineasTV.refresh();
+        } else {
+            pedido.setEstado(((Pedido) pedido.getBean()).getEstado());
+            estadoCB.getSelectionModel().select(pedido.getEstado());
+        }
+    }
+
+    private LocalDate elegirFecha() {
+        Dialog<LocalDate> dialog = new Dialog<>();
+        dialog.setTitle(null);
+        dialog.setGraphic(null);
+        dialog.setContentText(null);
+        dialog.setHeaderText("¿Para cuando quieres el pedido?");
+        ButtonType btnOk = new ButtonType("OK", ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(btnOk);
+        DatePicker dp = new DatePicker(LocalDate.now().plusDays(1));
+        dialog.getDialogPane().setContent(dp);
+        dialog.setResultConverter(dialogBtn -> {
+            return dp.getValue();
+        });
+        return dialog.showAndWait().get();
     }
 
 }//fin de clase

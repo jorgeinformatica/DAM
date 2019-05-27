@@ -5,7 +5,7 @@ package Utils;
  */
 public class Constantes {
 
-    public enum EstadosLinea {
+    public enum EstadoLinea {
         PRODUCCION("EN PRODUCCION", "btn-produccion"),
         PREPARADO("PREPARADO", "btn-preparado"),
         ENTREGADO("ENTREGADO", "btn-entregado"),
@@ -13,7 +13,7 @@ public class Constantes {
         private final String nom;
         private final String id;
 
-        private EstadosLinea(String nom, String id) {
+        private EstadoLinea(String nom, String id) {
             this.nom = nom;
             this.id = id;
         }
@@ -28,14 +28,14 @@ public class Constantes {
 
     }
 
-    public enum EstadosPedido {
+    public enum EstadoPedido {
         INCOMPLETO("INCOMPLETO"),
         TERMINADO("TERMINADO"),
         ENTREGADO("ENTREGADO"),
         ANULADO("ANULADO");
         private final String nom;
 
-        private EstadosPedido(String nom) {
+        private EstadoPedido(String nom) {
             this.nom = nom;
         }
 
@@ -44,4 +44,20 @@ public class Constantes {
         }
 
     }
+
+    public enum HQLCondicion {
+        NEUTRO("1=1"),
+        FECHAENTREGAPEDIDO(" WHERE Cod_local= :elem0 AND Fecha_Entrega like :elem1 ");
+        private String sentencia;
+
+        private HQLCondicion(String sentencia) {
+            this.sentencia = sentencia;
+        }
+
+        public String getSentencia() {
+            return sentencia;
+        }
+
+    }
+
 }//fin de clase

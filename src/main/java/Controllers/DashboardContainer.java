@@ -29,14 +29,14 @@ public class DashboardContainer {
     }
 
     public void addProduct(LineaPedido lp) {
-        if (Constantes.EstadosLinea.PRODUCCION.getNom().equalsIgnoreCase(lp.getEstado())) {
+        if (Constantes.EstadoLinea.PRODUCCION.getNom().equalsIgnoreCase(lp.getEstado())) {
             if (lineaTot.containsKey(lp.getProducto().getCodProd())) {
                 String sub = agregarProd(lineaTot.get(lp.getProducto().getCodProd()), lp.getCantidad(), false);
                 lineaTot.replace(lp.getProducto().getCodProd(), sub);
             } else {
                 lineaTot.put(lp.getProducto().getCodProd(), "0|" + lp.getCantidad());
             }
-        } else if (Constantes.EstadosLinea.PREPARADO.getNom().equalsIgnoreCase(lp.getEstado())) {
+        } else if (Constantes.EstadoLinea.PREPARADO.getNom().equalsIgnoreCase(lp.getEstado())) {
             if (lineaTot.containsKey(lp.getProducto().getCodProd())) {
                 String sub = agregarProd(lineaTot.get(lp.getProducto().getCodProd()), lp.getCantidad(), true);
                 lineaTot.replace(lp.getProducto().getCodProd(), sub);
