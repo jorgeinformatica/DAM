@@ -139,15 +139,15 @@
                            </GridPane.margin>
                         </Label>
                         <Label alignment="CENTER" contentDisplay="BOTTOM" prefWidth="200.0" text="FECHA DEL PEDIDO" GridPane.columnIndex="1">
-                           <graphic>
-                              <DatePicker fx:id="fechaPedidoDP" editable="false" prefWidth="190.0" showWeekNumbers="true" />
-                           </graphic>
                            <font>
                               <Font name="Noto Sans Bold" size="14.0" />
                            </font>
                            <GridPane.margin>
                               <Insets left="20.0" right="20.0" />
                            </GridPane.margin>
+                           <graphic>
+                              <TextField fx:id="txtFechaPedido" editable="false" />
+                           </graphic>
                         </Label>
                         <Label contentDisplay="BOTTOM" text="NUM PEDIDO">
                            <font>
