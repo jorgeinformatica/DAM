@@ -177,25 +177,35 @@ public class PedidosAMController implements Initializable {
     @FXML
     private void nuevoPedido(ActionEvent event) {
         if (local != null) {
-            viewControl.getLogic().getHibControl().initTransaction();
-            Pedido tempo = new Pedido();
-            tempo.setLocal((Local) local.getBean());
-            tempo.setFechaPed(MetodosEstaticos.ToDate(LocalDate.now()));
-            tempo.setFechaEntrega(MetodosEstaticos.ToDate(elegirFecha()));
-            tempo.setEstado("INCOMPLETO");
-            viewControl.getLogic().getHibControl().save(tempo);
-            pedido = new PedidoFX(tempo);
-            listaPedido.add(pedido);
-            viewControl.getLogic().getHibControl().initTransaction();
-            LineaPedido linea = new LineaPedido();
-            linea.setPedido(tempo);
-            linea.setProducto((Producto) viewControl.getLogic().getProductos().get(0).getBean());
-            linea.setCantidad((short) 1);
-            linea.setEstado("EN PRODUCCION");
-            viewControl.getLogic().getHibControl().save(linea);
-            viewControl.getLogic().getHibControl().refresco(tempo);
-            viewControl.getLogic().getHibControl().refresco(local.getBean());
-            refrescarVista();
+            LocalDate fecha = elegirFecha();
+            PedidoFX pedidoTempo = comprobarFechaPed(MetodosEstaticos.ToDate(fecha));
+            if (pedidoTempo == null) {
+                viewControl.getLogic().getHibControl().initTransaction();
+                Pedido tempo = new Pedido();
+                tempo.setLocal((Local) local.getBean());
+                tempo.setFechaPed(MetodosEstaticos.ToDate(LocalDate.now()));
+                tempo.setFechaEntrega(MetodosEstaticos.ToDate(elegirFecha()));
+                tempo.setEstado("INCOMPLETO");
+                viewControl.getLogic().getHibControl().save(tempo);
+                pedido = new PedidoFX(tempo);
+                listaPedido.add(pedido);
+                viewControl.getLogic().getHibControl().initTransaction();
+                LineaPedido linea = new LineaPedido();
+                linea.setPedido(tempo);
+                linea.setProducto((Producto) viewControl.getLogic().getProductos().get(0).getBean());
+                linea.setCantidad((short) 1);
+                linea.setEstado("EN PRODUCCION");
+                viewControl.getLogic().getHibControl().save(linea);
+                viewControl.getLogic().getHibControl().refresco(tempo);
+                viewControl.getLogic().getHibControl().refresco(local.getBean());
+                refrescarVista();
+            } else {
+                Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Ya existe un pedido para la fecha idicada,"
+                        + System.lineSeparator() + "añade ahi lo que deseas.", ButtonType.OK);
+                aviso.show();
+                pedido = pedidoTempo;
+                refrescarVista();
+            }
         } else {
             Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Por favor, seleccione un local.", ButtonType.OK);
             aviso.show();
@@ -259,6 +269,7 @@ public class PedidosAMController implements Initializable {
                 (ObservableValue<? extends LocalFX> lo, LocalFX oV, LocalFX nV) -> {
                     if (nV != null) {
                         local = nV;
+                        limpiarNodos();
                         refrescarVista();
                         if (oV != null) {
                             actualizarPedido(pedido);
@@ -300,24 +311,28 @@ public class PedidosAMController implements Initializable {
 
     private void configurarComboEstado() {
         estadoCB.setItems(FXCollections.observableArrayList(
-                Constantes.EstadoPedido.TERMINADO.getNom(),
-                Constantes.EstadoPedido.INCOMPLETO.getNom(),
-                Constantes.EstadoPedido.ENTREGADO.getNom(),
-                Constantes.EstadoPedido.ANULADO.getNom()));
-        estadoCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (pedido != null && !nV) {
-                if (estadoCB.getValue().equals(Constantes.EstadoPedido.TERMINADO.getNom())) {
-                    pedido.setEstado(estadoCB.getValue());
-                    lineasSetEstado(Constantes.EstadoLinea.PREPARADO.getNom());
-                } else if (estadoCB.getValue().equals(Constantes.EstadoPedido.ANULADO.getNom())) {
-                    pedido.setEstado(estadoCB.getValue());
-                    lineasSetEstado(Constantes.EstadoLinea.ANULADO.getNom());
-                } else if (estadoCB.getValue().equals(Constantes.EstadoPedido.INCOMPLETO.getNom())) {
-                    pedido.setEstado(estadoCB.getValue());
-                    lineasSetEstado(Constantes.EstadoLinea.PRODUCCION.getNom());
-                } else if (estadoCB.getValue().equals(Constantes.EstadoPedido.ENTREGADO.getNom())) {
-                    pedido.setEstado(estadoCB.getValue());
-                    lineasSetEstado(Constantes.EstadoLinea.ENTREGADO.getNom());
+                Constantes.Estados.PREPARADO.getNom(),
+                Constantes.Estados.ENPRODUCCION.getNom(),
+                Constantes.Estados.ENTREGADO.getNom(),
+                Constantes.Estados.ANULADO.getNom()));
+        estadoCB.getSelectionModel().selectedItemProperty().addListener((observable, oV, nV) -> {
+            if (pedido != null && nV != null && !nV.equals(oV) && !pedido.getEstado().equals(nV)) {
+                if (confirmarCambio(nV)) {
+                    Pedido tempo = (Pedido) pedido.getBean();
+                    viewControl.getLogic().getHibControl().initTransaction();
+                    tempo.setEstado(nV);
+                    for (Object lP : tempo.getLineaPedidos()) {
+                        ((LineaPedido) lP).setEstado(nV);
+                    }
+                    viewControl.getLogic().getHibControl().UpdateElement(tempo);
+                    viewControl.getLogic().getHibControl().refresco(tempo);
+                    listaPedido.remove(pedido);
+                    pedido = new PedidoFX(tempo);
+                    listaPedido.add(pedido);
+                    refrescarVista();
+                } else {
+                    pedido.setEstado(((Pedido) pedido.getBean()).getEstado());
+                    estadoCB.getSelectionModel().select(pedido.getEstado());
                 }
             }
         });
@@ -372,21 +387,6 @@ public class PedidosAMController implements Initializable {
         return result.get() == ButtonType.OK;
     }
 
-    private void lineasSetEstado(String nom) {
-        if (confirmarCambio(nom)) {
-            for (Object o : ((Pedido) pedido.getBean()).getLineaPedidos()) {
-                viewControl.getLogic().getHibControl().initTransaction();
-                ((LineaPedido) o).setEstado(nom);
-                viewControl.getLogic().getHibControl().UpdateElement(o);
-            }
-            viewControl.getLogic().getHibControl().refresco(pedido.getBean());
-            lineasTV.refresh();
-        } else {
-            pedido.setEstado(((Pedido) pedido.getBean()).getEstado());
-            estadoCB.getSelectionModel().select(pedido.getEstado());
-        }
-    }
-
     private LocalDate elegirFecha() {
         Dialog<LocalDate> dialog = new Dialog<>();
         dialog.setTitle(null);
@@ -401,6 +401,16 @@ public class PedidosAMController implements Initializable {
             return dp.getValue();
         });
         return dialog.showAndWait().get();
+    }
+
+    private void limpiarNodos() {
+        cbPedidos.getSelectionModel().clearSelection();
+        estadoCB.getSelectionModel().clearSelection();
+        txtFechaPedido.setText("");
+        numPedido.setText("");
+        fechaEntregaDP.setValue(LocalDate.now());
+        linPedido.clear();
+        pedido = null;
     }
 
 }//fin de clase

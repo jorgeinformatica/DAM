@@ -195,10 +195,10 @@ public class PedidosAMColumns {
                         } else {
                             LineaPedidoFX linea = getTableView().getItems().get(getIndex());
                             ComboBox<String> cbEstate = new ComboBox<>(FXCollections.observableArrayList(
-                                    Constantes.EstadoLinea.ENTREGADO.getNom(),
-                                    Constantes.EstadoLinea.PREPARADO.getNom(),
-                                    Constantes.EstadoLinea.PRODUCCION.getNom(),                                    
-                                    Constantes.EstadoLinea.ANULADO.getNom()));
+                                    Constantes.Estados.ENTREGADO.getNom(),
+                                    Constantes.Estados.PREPARADO.getNom(),
+                                    Constantes.Estados.ENPRODUCCION.getNom(),                                    
+                                    Constantes.Estados.ANULADO.getNom()));
                             HBox h = new HBox(1, cbEstate);
                             cbEstate.getSelectionModel().select(linea.getEstado());
                             cbEstate.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -262,7 +262,7 @@ public class PedidosAMColumns {
                 tempo.setPedido((Pedido) parentController.getPedido().getBean());
                 tempo.setProducto((Producto) parentController.getViewControl().getLogic().getProductos().get(0).getBean());
                 tempo.setCantidad((short) 1);
-                tempo.setEstado(Constantes.EstadoLinea.PRODUCCION.getNom());
+                tempo.setEstado(Constantes.Estados.ENPRODUCCION.getNom());
                 parentController.getViewControl().getLogic().getHibControl().save(tempo);
                 parentController.getViewControl().getLogic().getHibControl().refresco(parentController.getPedido().getBean());
                 parentController.refrescarVista();

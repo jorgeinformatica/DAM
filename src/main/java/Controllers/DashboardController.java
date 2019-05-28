@@ -125,9 +125,9 @@ public class DashboardController implements Initializable {
     private void configurarBoton(DashboardContainer dC, ProductoFX prod, Button btn) {
         String[] split = dC.getCantidad(prod.getCodProd()).split("|");
         if (split[0].equals("0")) {
-            btn.setId(Constantes.EstadoLinea.PRODUCCION.getId());
+            btn.setId(Constantes.Estados.ENPRODUCCION.getId());
         } else {
-            btn.setId(Constantes.EstadoLinea.PREPARADO.getId());
+            btn.setId(Constantes.Estados.PREPARADO.getId());
         }
     }
 
@@ -137,7 +137,7 @@ public class DashboardController implements Initializable {
                 for (Object o : pedFX.getLineasPedido()) {
                     if (Objects.equals(((LineaPedido) o).getProducto().getCodProd(), prod.getCodProd())) {
                         viewControl.getLogic().getHibControl().initTransaction();
-                        ((LineaPedido) o).setEstado(Constantes.EstadoLinea.PREPARADO.getNom());
+                        ((LineaPedido) o).setEstado(Constantes.Estados.PREPARADO.getNom());
                         viewControl.getLogic().getHibControl().UpdateElement(o);
                     }
                 }
@@ -153,14 +153,14 @@ public class DashboardController implements Initializable {
                     if (Objects.equals(((LineaPedido) o).getProducto().getCodProd(), prod.getCodProd()) && valor > 0) {
                         if (((LineaPedido) o).getCantidad() < valor) {
                             viewControl.getLogic().getHibControl().initTransaction();
-                            ((LineaPedido) o).setEstado(Constantes.EstadoLinea.PREPARADO.getNom());
+                            ((LineaPedido) o).setEstado(Constantes.Estados.PREPARADO.getNom());
                             viewControl.getLogic().getHibControl().UpdateElement(o);
                             valor -= ((LineaPedido) o).getCantidad();
                         } else {
                             viewControl.getLogic().getHibControl().initTransaction();
                             ((LineaPedido) o).setCantidad((short) (((LineaPedido) o).getCantidad() - valor));
                             viewControl.getLogic().getHibControl().UpdateElement(o);
-                            lineaExtra(dC, prod, valor, Constantes.EstadoLinea.PREPARADO.getNom());
+                            lineaExtra(dC, prod, valor, Constantes.Estados.PREPARADO.getNom());
                         }
                     }
                 }
@@ -171,7 +171,7 @@ public class DashboardController implements Initializable {
     private ContextMenu crearContextMenu(DashboardContainer dC, ProductoFX prod, Button btn) {
         ContextMenu cm = new ContextMenu();
         MenuItem mi_1 = new MenuItem("Definir cantidad preparada");
-        if (btn.getId().equals(Constantes.EstadoLinea.PREPARADO.getId())) {
+        if (btn.getId().equals(Constantes.Estados.PREPARADO.getId())) {
             mi_1.setDisable(true);
         } else {
             mi_1.setDisable(false);
@@ -190,8 +190,8 @@ public class DashboardController implements Initializable {
                     int valor = Integer.valueOf(result.get()) - Integer.valueOf(split[1]);
                     btn.setText(result.get() + "|" + result.get());
                     marcarPreparado(dC, prod);
-                    lineaExtra(dC, prod, valor, Constantes.EstadoLinea.PRODUCCION.getNom());
-                    btn.setId(Constantes.EstadoLinea.PREPARADO.getId());
+                    lineaExtra(dC, prod, valor, Constantes.Estados.ENPRODUCCION.getNom());
+                    btn.setId(Constantes.Estados.PREPARADO.getId());
                 } else {
                     btn.setText(result.get() + "|" + split[1]);
                     marcarPreparadoParcial(dC, prod, Integer.valueOf(result.get()));
@@ -224,7 +224,7 @@ public class DashboardController implements Initializable {
         return (MouseEvent event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 marcarPreparado(dC, prod);
-                btn.setId(Constantes.EstadoLinea.PREPARADO.getId());
+                btn.setId(Constantes.Estados.PREPARADO.getId());
                 String[] texto = dC.getCantidad(prod.getCodProd()).split("[|]");
                 btn.setText(texto[1] + "|" + texto[1]);
             }

@@ -5,15 +5,15 @@ package Utils;
  */
 public class Constantes {
 
-    public enum EstadoLinea {
-        PRODUCCION("EN PRODUCCION", "btn-produccion"),
+    public enum Estados {
+        ENPRODUCCION("INCOMPLETO", "btn-produccion"),
         PREPARADO("PREPARADO", "btn-preparado"),
         ENTREGADO("ENTREGADO", "btn-entregado"),
         ANULADO("ANULADO", "btn-anulado");
         private final String nom;
         private final String id;
 
-        private EstadoLinea(String nom, String id) {
+        private Estados(String nom, String id) {
             this.nom = nom;
             this.id = id;
         }
@@ -24,23 +24,6 @@ public class Constantes {
 
         public String getId() {
             return id;
-        }
-
-    }
-
-    public enum EstadoPedido {
-        INCOMPLETO("INCOMPLETO"),
-        TERMINADO("TERMINADO"),
-        ENTREGADO("ENTREGADO"),
-        ANULADO("ANULADO");
-        private final String nom;
-
-        private EstadoPedido(String nom) {
-            this.nom = nom;
-        }
-
-        public String getNom() {
-            return nom;
         }
 
     }
