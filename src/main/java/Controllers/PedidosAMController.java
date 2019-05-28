@@ -256,9 +256,7 @@ public class PedidosAMController implements Initializable {
                         }
                     }
                 });
-        if (elPed == null) {
-            cbPedidos.getSelectionModel().selectFirst();
-        } else {
+        if (elPed != null) {
             cbPedidos.getSelectionModel().select(elPed);
             viewControl.getLogic().setPedido(null);
         }
