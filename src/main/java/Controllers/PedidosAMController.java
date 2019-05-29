@@ -116,13 +116,13 @@ public class PedidosAMController implements Initializable {
         infoFiltroPedido.setTooltip(new Tooltip("FILTRA LOS PEDIDOS EN BASE AL TEXTO INTRODUCIDO"));
         linPedido = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, "Estado=1")).forEach((Object lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.LOCAL.getSentencia())).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
         cbLocales.setItems(filterLocal.sorted());
         listaPedido = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, "1=1")).forEach((Object ped) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, Constantes.HQLCondicion.PEDIDO.getSentencia())).forEach((Object ped) -> {
             listaPedido.add(new PedidoFX((Pedido) ped));
         });
         filterPedido = new FilteredList<>(listaPedido, p -> true);

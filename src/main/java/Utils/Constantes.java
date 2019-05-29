@@ -30,7 +30,8 @@ public class Constantes {
 
     public enum HQLCondicion {
         NEUTRO("1=1"),
-        FECHAENTREGAPEDIDO(" WHERE Cod_local= :elem0 AND Fecha_Entrega like :elem1 ");
+        PEDIDO(" elemento.local.estado = 1 "),
+        LOCAL("elemento.estado = 1");
         private String sentencia;
 
         private HQLCondicion(String sentencia) {

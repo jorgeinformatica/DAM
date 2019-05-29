@@ -73,7 +73,7 @@ public class HibernateController {
      * parámetro
      */
     public synchronized List<Object> getList(Class c, String condition) {
-        return session.createQuery("FROM " + c.getName() + " WHERE " + condition).list();
+        return session.createQuery("FROM " + c.getName() + " elemento WHERE " + condition).list();
     }
 
     /**
