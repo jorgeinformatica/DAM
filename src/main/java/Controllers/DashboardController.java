@@ -3,10 +3,12 @@ package Controllers;
 import Beans.LineaPedido;
 import Beans.Pedido;
 import Beans.Producto;
+import BeansFX.LineaPedidoFX;
 import BeansFX.PedidoFX;
 import BeansFX.ProductoFX;
 import Utils.Constantes;
 import Utils.MetodosEstaticos;
+import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -15,14 +17,19 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
@@ -54,7 +61,6 @@ public class DashboardController implements Initializable {
 
     private AAController viewControl;
     private ObservableList<PedidoFX> listaPedido;
-    private FilteredList<PedidoFX> filterPedido;
     private FilteredList<ProductoFX> filterProducto;
     private ObservableList<DashboardContainer> listaCont;
     private Date fecha;
@@ -222,6 +228,26 @@ public class DashboardController implements Initializable {
         });
         MenuItem mi_2 = new MenuItem("Revisar estado lineas");
         mi_2.setOnAction((event) -> {
+            ObservableList<LineaPedidoFX> lineas = FXCollections.observableArrayList();
+            for (PedidoFX pedFX : listaPedido) {
+                if (pedFX.getLocal().getCodLocal() == dC.getId()) {
+                    for (Object linea : pedFX.getLineasPedido()) {
+                        if (Objects.equals(((LineaPedido) linea).getProducto().getCodProd(), prod.getCodProd())) {
+                            lineas.add(new LineaPedidoFX((LineaPedido) linea));
+                        }
+                    }
+                }
+            }
+            Alert aviso = new Alert(AlertType.INFORMATION);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LineasPedido.fxml"));
+            try {
+                aviso.getDialogPane().setContent(loader.load());
+            } catch (IOException ex) {
+                Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DashboardLinPed controller = loader.getController();
+            controller.init(lineas);
+            aviso.showAndWait();
         });
         cm.getItems().addAll(mi_1, mi_2);
         return cm;
