@@ -2,11 +2,9 @@ package Controllers;
 
 import Beans.CiudadConcp;
 import Beans.Direccion;
-import Beans.Empleado;
 import Beans.Local;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
-import BeansFX.EmpleadoFX;
 import BeansFX.LocalFX;
 import BeansFX.ProvinciaFX;
 import Utils.Constantes;

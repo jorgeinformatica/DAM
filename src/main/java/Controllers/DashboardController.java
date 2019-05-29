@@ -8,18 +8,24 @@ import BeansFX.ProductoFX;
 import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
@@ -43,11 +49,15 @@ public class DashboardController implements Initializable {
     private TableColumn tcTotal;
     @FXML
     private TableView<ProductoFX> tvCuadro;
+    @FXML
+    private DatePicker dpFecha;
 
     private AAController viewControl;
     private ObservableList<PedidoFX> listaPedido;
+    private FilteredList<PedidoFX> filterPedido;
     private FilteredList<ProductoFX> filterProducto;
     private ObservableList<DashboardContainer> listaCont;
+    private Date fecha;
 
     /**
      * @param url
@@ -55,19 +65,27 @@ public class DashboardController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        fecha = Date.from(Instant.now());
+        dpFecha.setOnAction((ActionEvent event) -> {
+            fecha = MetodosEstaticos.ToDate(dpFecha.getValue());
+            init();
+        });
+        dpFecha.setValue(LocalDate.now());
     }
 
     void init() {
         listaCont = FXCollections.observableArrayList();
         listaPedido = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, "Date_format(Fecha_Entrega,'%d-%m-%Y')='25-05-2019'")).forEach((Object ped) -> {
-            listaPedido.add(new PedidoFX((Pedido) ped));
-        });
-        initColProduct();
+        FXCollections.observableList(viewControl.getLogic().getHibControl()
+                .getList(Pedido.class, " elemento.fechaEntrega like '" + new SimpleDateFormat("yyyy-MM-dd").format(fecha) + "%'"))
+                .forEach((Object ped) -> {
+                    listaPedido.add(new PedidoFX((Pedido) ped));
+                });
         initContenedores();
+        initColProduct();
         initColumnas();
         doColumnTotalProducto(tcTotal);
+        tvCuadro.getItems().clear();
         tvCuadro.getItems().addAll(filterProducto);
     }
 
@@ -113,6 +131,9 @@ public class DashboardController implements Initializable {
     }
 
     private void initColumnas() {
+        if (tvCuadro.getColumns().size() > 2) {
+            tvCuadro.getColumns().remove(1, tvCuadro.getColumns().size() - 1);
+        }
         TableColumn[] colPed = new TableColumn[listaCont.size()];
         for (int i = 0; i < listaCont.size(); i++) {
             colPed[i] = new TableColumn(listaCont.get(i).getId() + "");
@@ -120,6 +141,7 @@ public class DashboardController implements Initializable {
             doColumnPedidoProducto(colPed[i]);
             tvCuadro.getColumns().add(1, colPed[i]);
         }
+
     }
 
     private void configurarBoton(DashboardContainer dC, ProductoFX prod, Button btn) {
@@ -296,6 +318,14 @@ public class DashboardController implements Initializable {
                 return cell;
             }
         });
+    }
+
+    private void initCalendar() {
+        fecha = Date.from(Instant.now());
+        dpFecha.setOnAction((ActionEvent event) -> {
+            fecha = MetodosEstaticos.ToDate(dpFecha.getValue());
+        });
+        dpFecha.setValue(LocalDate.now());
     }
 
 }//fin de la clase
