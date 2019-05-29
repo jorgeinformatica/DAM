@@ -9,6 +9,7 @@ import BeansFX.CodigoPostalFX;
 import BeansFX.EmpleadoFX;
 import BeansFX.LocalFX;
 import BeansFX.ProvinciaFX;
+import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import dam.proyecto.LogicController;
 import java.net.URL;
@@ -77,7 +78,6 @@ public class LocalesController implements Initializable {
     private FilteredList<CodigoPostalFX> filterCP;
     private FilteredList<LocalFX> filterLocal;
     private ObservableList<LocalFX> listaLocal;
-    private ObservableList<EmpleadoFX> listaEmpleados;
 
     /**
      * @param url
@@ -102,9 +102,8 @@ public class LocalesController implements Initializable {
 
     private void initValues() {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
-        listaEmpleados = FXCollections.observableArrayList();
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, " Estado = 1 ")).forEach((Object lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getSentencia())).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
@@ -114,10 +113,6 @@ public class LocalesController implements Initializable {
         cbCiudad.setItems(filterCiudad.sorted());
         filterCP = new FilteredList<>(viewControl.getLogic().getCps(), p -> true);
         cbCP.setItems(filterCP.sorted());
-        listaEmpleados = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Empleado.class, "1=1")).forEach((Object emp) -> {
-            listaEmpleados.add(new EmpleadoFX((Empleado) emp));
-        });
     }
 
     public void setViewControl(AAController aThis) {
@@ -127,7 +122,7 @@ public class LocalesController implements Initializable {
     @FXML
     private void nuevoProducto(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
-        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, "Cod_Ciudad=265 AND Cod_Postal='03802'");
+        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, Constantes.HQLCondicion.CENTRALREF.getSentencia());
         Direccion direc = new Direccion();
         direc.setNumero((short) 1);
         direc.setNombre("CALLE");

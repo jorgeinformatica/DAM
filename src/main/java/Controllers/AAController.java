@@ -199,4 +199,4 @@ public class AAController implements Initializable {
         this.logic = logic;
     }
 
-}//fin de la clase
+}//fin de clase

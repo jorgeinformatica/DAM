@@ -29,10 +29,11 @@ public class Constantes {
     }
 
     public enum HQLCondicion {
-        NEUTRO("1=1"),
+        NEUTRO(" 1 = 1 "),
         PEDIDO(" elemento.local.estado = 1 "),
-        LOCAL("elemento.estado = 1");
-        private String sentencia;
+        CENTRALREF(" elemento.ciudad.codCiudad = 265 AND elemento.codigoPostal.codPostal= '03802' "),
+        ESTADO(" elemento.estado = 1" );
+        private final String sentencia;
 
         private HQLCondicion(String sentencia) {
             this.sentencia = sentencia;

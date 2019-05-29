@@ -17,6 +17,7 @@ import BeansFX.ProvinciaFX;
 import Controllers.AAController;
 import Controllers.LogueoController;
 import Hibernate.HibernateController;
+import Utils.Constantes;
 import Utils.PropertiesUtil;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -73,19 +74,19 @@ public class LogicController {
     }
 
     private void initOList() {
-        FXCollections.observableList(hibControl.getList(Provincia.class, "1=1")).forEach((pro) -> {
+        FXCollections.observableList(hibControl.getList(Provincia.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((pro) -> {
             this.provincias.add(new ProvinciaFX((Provincia) pro));
         });
-        FXCollections.observableList(hibControl.getList(Ciudad.class, "1=1")).forEach((ciu) -> {
+        FXCollections.observableList(hibControl.getList(Ciudad.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((ciu) -> {
             this.ciudades.add(new CiudadFX((Ciudad) ciu));
         });
-        FXCollections.observableList(hibControl.getList(CodigoPostal.class, "1=1")).forEach((cp) -> {
+        FXCollections.observableList(hibControl.getList(CodigoPostal.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((cp) -> {
             this.cps.add(new CodigoPostalFX((CodigoPostal) cp));
         });
-        FXCollections.observableList(hibControl.getList(CiudadConcp.class, "1=1")).forEach((ccp) -> {
+        FXCollections.observableList(hibControl.getList(CiudadConcp.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((ccp) -> {
             this.ccps.add(new CiudadConcpFX((CiudadConcp) ccp));
         });
-        FXCollections.observableList(hibControl.getList(Producto.class, " Estado = 1 ")).forEach((pro) -> {
+        FXCollections.observableList(hibControl.getList(Producto.class, Constantes.HQLCondicion.ESTADO.getSentencia())).forEach((pro) -> {
             this.productos.add(new ProductoFX((Producto) pro));
         });
     }

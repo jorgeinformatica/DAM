@@ -6,7 +6,9 @@ import BeansFX.LineaPedidoFX;
 import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
 import BeansFX.ProductoFX;
+import Utils.Constantes;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -80,7 +82,7 @@ public class ListarPedidosController implements Initializable {
         tableController = new ListarPedidosColumns(this);
         listaLineas = FXCollections.observableArrayList();
         listaPedidos = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, "1=1")).forEach((Object ped) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((Object ped) -> {
             listaPedidos.add(new PedidoFX((Pedido) ped));
         });
         filterPedidos = new FilteredList<>(listaPedidos, p -> true);
@@ -116,13 +118,22 @@ public class ListarPedidosController implements Initializable {
     }
 
     private void configurarTxtBuscar() {
-        txtBuscar.textProperty().addListener((oble, oV, nV) -> {
-            filterPedidos.setPredicate(p -> {
+        txtBuscar.textProperty().addListener((ob, oV, nV) -> {
+            filterPedidos.setPredicate(pedido -> {
                 if (nV == null || nV.isEmpty()) {
                     return true;
                 }
                 String letras = nV.toLowerCase();
-                return p.toString().toLowerCase().contains(letras);
+                if (String.valueOf(pedido.getLocal().getCodLocal()).contains(letras)) {
+                    return true;
+                }
+                if (new SimpleDateFormat("dd/MM/yyyy").format(pedido.getFechaPed()).contains(letras)) {
+                    return true;
+                }
+                if (new SimpleDateFormat("dd/MM/yyyy").format(pedido.getFechaEntrega()).contains(letras)) {
+                    return true;
+                }
+                return String.valueOf(pedido.getNumPed()).contains(letras);
             });
         });
     }

@@ -15,7 +15,7 @@ public class ConfiguracionController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       
     }
 
     void init() {
