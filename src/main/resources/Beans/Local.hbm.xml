@@ -13,6 +13,9 @@
         <property name="estado" type="boolean">
             <column name="Estado" not-null="true" />
         </property>
+        <property name="nombre" type="string">
+            <column name="Nombre" length="40" not-null="true" />
+        </property>
         <set name="empleados" table="EMPLEADO" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="Cod_Local" />

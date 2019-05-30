@@ -4,15 +4,14 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Controllers.DashboardLinPed">
+<AnchorPane id="AnchorPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.DashboardLinPed">
    <children>
-      <TableView fx:id="tvLineas" layoutX="177.0" layoutY="68.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <TableView fx:id="tvLineas" layoutX="177.0" layoutY="68.0" prefHeight="300.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn fx:id="ltcLinea" prefWidth="75.0" text="LINEA" />
-          <TableColumn fx:id="tcProducto" prefWidth="75.0" text="PRODUCTO" />
-            <TableColumn fx:id="tcCantidad" prefWidth="75.0" text="CANTIDAD" />
-            <TableColumn fx:id="tcEstado" prefWidth="75.0" text="ESTADO" />
+          <TableColumn fx:id="ltcLinea" minWidth="50.0" prefWidth="75.0" text="LINEA" />
+          <TableColumn fx:id="tcProducto" minWidth="100.0" prefWidth="123.0" text="PRODUCTO" />
+            <TableColumn fx:id="tcCantidad" minWidth="50.0" prefWidth="75.0" text="CANTIDAD" />
+            <TableColumn fx:id="tcEstado" minWidth="100.0" prefWidth="123.0" text="ESTADO" />
         </columns>
       </TableView>
    </children>

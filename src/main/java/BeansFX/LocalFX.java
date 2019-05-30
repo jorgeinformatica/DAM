@@ -12,6 +12,8 @@ import javafx.beans.property.SetProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 
 /**
@@ -26,6 +28,8 @@ public class LocalFX extends BaseFX {
     @SuppressWarnings("FieldMayBeFinal")
     private BooleanProperty estado;
     @SuppressWarnings("FieldMayBeFinal")
+    private StringProperty nombre;
+    @SuppressWarnings("FieldMayBeFinal")
     private SetProperty<Pedido> pedidos;
     @SuppressWarnings("FieldMayBeFinal")
     private SetProperty<Empleado> empleados;
@@ -38,6 +42,7 @@ public class LocalFX extends BaseFX {
         this.estado = new SimpleBooleanProperty();
         this.codLocal = new SimpleObjectProperty<>();
         this.direccion = new SimpleObjectProperty<>();
+        this.nombre = new SimpleStringProperty();
         this.pedidos = new SimpleSetProperty<>(FXCollections.observableSet());
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet());
         this.tickets = new SimpleSetProperty<>(FXCollections.observableSet());
@@ -48,6 +53,7 @@ public class LocalFX extends BaseFX {
     public LocalFX(Local local) {
         this.estado = new SimpleBooleanProperty(local.getEstado());
         this.codLocal = new SimpleObjectProperty<>(local.getCodLocal());
+        this.nombre = new SimpleStringProperty(local.getNombre());
         this.direccion = new SimpleObjectProperty<>(new DireccionFX(local.getDireccion()));
         this.pedidos = new SimpleSetProperty<>(FXCollections.observableSet(local.getPedidos()));
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet(local.getEmpleados()));
@@ -91,6 +97,18 @@ public class LocalFX extends BaseFX {
 
     public ObjectProperty<DireccionFX> direccionProperty() {
         return direccion;
+    }
+
+    public String getNombre() {
+        return nombre.get();
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre.set(nombre);
+    }
+
+    public StringProperty nombreProperty() {
+        return nombre;
     }
 
     public Set getPedidos() {
@@ -147,17 +165,21 @@ public class LocalFX extends BaseFX {
 
     @Override
     public boolean comprobarCambios() {
+        if(!((Local)getBean()).getNombre().equalsIgnoreCase(getNombre())){
+            return true;
+        }
         return getDireccion().comprobarCambios();
     }
 
     @Override
     public void sinCambios() {
+        setNombre(((Local)getBean()).getNombre());
         getDireccion().sinCambios();
     }
 
     @Override
     public String toString() {
-        return "Local: " + getCodLocal() + " " + getDireccion().toString();
+        return "Local: " + getNombre();
     }
 
 }//fin de clase

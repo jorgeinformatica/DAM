@@ -2,10 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -16,9 +20,14 @@
             <Font name="Noto Sans Bold" size="24.0" />
          </font>
          <VBox.margin>
-            <Insets bottom="5.0" />
+            <Insets />
          </VBox.margin>
       </Label>
+      <Separator blendMode="DIFFERENCE" prefWidth="200.0">
+         <VBox.margin>
+            <Insets bottom="5.0" />
+         </VBox.margin>
+      </Separator>
       <Label contentDisplay="RIGHT" text="BUSCAR: ">
          <graphic>
             <TextField fx:id="txtBuscar" />
@@ -30,30 +39,51 @@
             <Insets bottom="5.0" left="5.0" top="5.0" />
          </VBox.margin>
       </Label>
+      <GridPane VBox.vgrow="NEVER">
+        <columnConstraints>
+          <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="LINEAS DE PEDIDOS" GridPane.columnIndex="1">
+               <font>
+                  <Font name="Noto Sans Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label text="PEDIDOS">
+               <font>
+                  <Font name="Noto Sans Bold" size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </GridPane>
       <SplitPane dividerPositions="0.5" VBox.vgrow="ALWAYS">
          <items>
             <TableView fx:id="pedidosTV">
                <columns>
-                  <TableColumn fx:id="accionesPedidosTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ACCIONES" />
-                  <TableColumn fx:id="localTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="LOCAL" />
-                  <TableColumn fx:id="pedidoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="PEDIDO" />
-                  <TableColumn fx:id="fechaPedidoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="FECHA PEDIDO" />
-                  <TableColumn fx:id="fechaEntregaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="FECHA ENTREGA" />
-                  <TableColumn fx:id="estadoPedidoTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ESTADO" />
+                  <TableColumn fx:id="accionesPedidosTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="ACCIONES" />
+                  <TableColumn fx:id="localTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="LOCAL" />
+                  <TableColumn fx:id="pedidoTC" maxWidth="100.0" minWidth="50.0" prefWidth="75.0" text="PEDIDO" />
+                  <TableColumn fx:id="fechaPedidoTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="FECHA PEDIDO" />
+                  <TableColumn fx:id="fechaEntregaTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="FECHA ENTREGA" />
+                  <TableColumn fx:id="estadoPedidoTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="ESTADO" />
                </columns>
             </TableView>
             <TableView fx:id="lineasTV">
               <columns>
-                  <TableColumn fx:id="accionesLineasTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ACCIONES" />
-                <TableColumn fx:id="lineaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="LINEA" />
-                <TableColumn fx:id="productoTC" maxWidth="-1.0" minWidth="200.0" prefWidth="-1.0" text="PRODUCTO" />
-                  <TableColumn fx:id="cantidadTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="CANTIDAD" />
-                  <TableColumn fx:id="estadoLineaTC" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" text="ESTADO" />
+                  <TableColumn fx:id="accionesLineasTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="ACCIONES" />
+                <TableColumn fx:id="lineaTC" maxWidth="100.0" minWidth="50.0" prefWidth="75.0" text="LINEA" />
+                <TableColumn fx:id="productoTC" maxWidth="200.0" minWidth="100.0" prefWidth="150.0" text="PRODUCTO" />
+                  <TableColumn fx:id="cantidadTC" maxWidth="100.0" minWidth="50.0" prefWidth="75.0" text="CANTIDAD" />
+                  <TableColumn fx:id="estadoLineaTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="ESTADO" />
               </columns>
             </TableView>
          </items>
          <VBox.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="10.0" left="10.0" right="10.0" />
          </VBox.margin>
       </SplitPane>
    </children>

@@ -124,7 +124,7 @@ public class DashboardController implements Initializable {
 
     private void initContenedores() {
         listaPedido.forEach((pedFX) -> {
-            DashboardContainer dC = new DashboardContainer(pedFX.getLocal().getCodLocal(), "");
+            DashboardContainer dC = new DashboardContainer(pedFX.getLocal().getCodLocal(), pedFX.getLocal().getNombre());
             rellenarMap(pedFX, dC);
             listaCont.add(dC);
         });
@@ -142,8 +142,8 @@ public class DashboardController implements Initializable {
         }
         TableColumn[] colPed = new TableColumn[listaCont.size()];
         for (int i = 0; i < listaCont.size(); i++) {
-            colPed[i] = new TableColumn(listaCont.get(i).getId() + "");
-            colPed[i].setCellValueFactory(new PropertyValueFactory<>(listaCont.get(i).getId() + ""));
+            colPed[i] = new TableColumn(listaCont.get(i).getNombre());
+            colPed[i].setCellValueFactory(new PropertyValueFactory<>(listaCont.get(i).getNombre()));
             doColumnPedidoProducto(colPed[i]);
             tvCuadro.getColumns().add(1, colPed[i]);
         }
@@ -161,7 +161,7 @@ public class DashboardController implements Initializable {
 
     private void marcarPreparado(DashboardContainer dC, ProductoFX prod) {
         for (PedidoFX pedFX : listaPedido) {
-            if (pedFX.getLocal().getCodLocal() == dC.getId()) {
+            if (pedFX.getLocal().getNombre().equalsIgnoreCase(dC.getNombre())) {
                 for (Object o : pedFX.getLineasPedido()) {
                     if (Objects.equals(((LineaPedido) o).getProducto().getCodProd(), prod.getCodProd())) {
                         viewControl.getLogic().getHibControl().initTransaction();
@@ -176,7 +176,7 @@ public class DashboardController implements Initializable {
     private void marcarPreparadoParcial(DashboardContainer dC, ProductoFX prod, int v) {
         int valor = v;
         for (PedidoFX pedFX : listaPedido) {
-            if (pedFX.getLocal().getCodLocal() == dC.getId()) {
+            if (pedFX.getLocal().getNombre().equalsIgnoreCase(dC.getNombre())) {
                 for (Object o : pedFX.getLineasPedido()) {
                     if (Objects.equals(((LineaPedido) o).getProducto().getCodProd(), prod.getCodProd()) && valor > 0) {
                         if (((LineaPedido) o).getCantidad() < valor) {
@@ -230,7 +230,7 @@ public class DashboardController implements Initializable {
         mi_2.setOnAction((event) -> {
             ObservableList<LineaPedidoFX> lineas = FXCollections.observableArrayList();
             for (PedidoFX pedFX : listaPedido) {
-                if (pedFX.getLocal().getCodLocal() == dC.getId()) {
+                if (pedFX.getLocal().getNombre().equalsIgnoreCase(dC.getNombre())) {
                     for (Object linea : pedFX.getLineasPedido()) {
                         if (Objects.equals(((LineaPedido) linea).getProducto().getCodProd(), prod.getCodProd())) {
                             lineas.add(new LineaPedidoFX((LineaPedido) linea));
@@ -255,7 +255,7 @@ public class DashboardController implements Initializable {
 
     private void lineaExtra(DashboardContainer dC, ProductoFX prod, int valor, String estado) {
         for (PedidoFX pedFX : listaPedido) {
-            if (pedFX.getLocal().getCodLocal() == dC.getId()) {
+            if (pedFX.getLocal().getNombre().equalsIgnoreCase(dC.getNombre())) {
                 viewControl.getLogic().getHibControl().initTransaction();
                 LineaPedido tempo = new LineaPedido();
                 tempo.setPedido((Pedido) pedFX.getBean());
@@ -299,7 +299,7 @@ public class DashboardController implements Initializable {
                             ProductoFX prod = getTableView().getItems().get(getIndex());
                             Button btn = null;
                             for (DashboardContainer dC : listaCont) {
-                                if (dC.getId() == Short.valueOf(pedidoTC.getText())) {
+                                if (dC.getNombre().equalsIgnoreCase(pedidoTC.getText())) {
                                     String valor = dC.getCantidad(prod.getCodProd());
                                     if (!valor.isEmpty()) {
                                         btn = new Button(valor);

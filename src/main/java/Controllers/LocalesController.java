@@ -69,6 +69,8 @@ public class LocalesController implements Initializable {
     private NumberAxis comPreAx;
     @FXML
     private CategoryAxis comLocAx;
+    @FXML
+    private TextField txtNombre;
 
     private LocalFX local;
     private AAController viewControl;
@@ -93,6 +95,7 @@ public class LocalesController implements Initializable {
         configurarComboCP();
         configurarTxtCalle();
         configurarTxtNum();
+        configurarTxtNombre();
         configurarTxtFiltro();
         configurarGraficos();
         configurarBase(base);
@@ -118,7 +121,7 @@ public class LocalesController implements Initializable {
     }
 
     @FXML
-    private void nuevoProducto(ActionEvent event) {
+    private void nuevoLocal(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
         CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, Constantes.HQLCondicion.CENTRALREF.getSentencia());
         Direccion direc = new Direccion();
@@ -127,7 +130,7 @@ public class LocalesController implements Initializable {
         direc.setCiudadConcp(ccCP);
         viewControl.getLogic().getHibControl().save(direc);
         viewControl.getLogic().getHibControl().initTransaction();
-        Local tempo = new Local(direc, true);
+        Local tempo = new Local(direc, true, "-");
         viewControl.getLogic().getHibControl().save(tempo);
         local = new LocalFX(tempo);
         listaLocal.add(local);
@@ -135,7 +138,7 @@ public class LocalesController implements Initializable {
     }
 
     @FXML
-    private void borrarProducto(ActionEvent event) {
+    private void desactivarLocal(ActionEvent event) {
         if (local != null) {
             if (viewControl.getLogic().desactivarMsg(local)) {
                 listaLocal.remove(local);
@@ -253,6 +256,7 @@ public class LocalesController implements Initializable {
     }
 
     private void refrescarVista() {
+        txtNombre.setText(local.getNombre());
         txtCalle.setText(local.getDireccion().getNombre());
         txtNum.setText(local.getDireccion().getNumero() + "");
         cbProv.getSelectionModel().select(local.getDireccion().getRelCpCiu().getProvincia());
@@ -282,6 +286,20 @@ public class LocalesController implements Initializable {
             public void invalidated(Observable observable) {
                 actualizarLocal(local);
                 base.removeListener(this);
+            }
+        });
+    }
+
+    private void configurarTxtNombre() {
+        txtNombre.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtNombre, 39));
+        txtNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
+            if (local != null && !nV) {
+                if (!txtNombre.getText().toUpperCase().equalsIgnoreCase(local.getNombre())) {
+                    local.setNombre(txtNombre.getText().toUpperCase());
+                }
+            }
+            if (txtNombre.getText().isEmpty()) {
+                txtNombre.requestFocus();
             }
         });
     }

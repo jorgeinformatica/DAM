@@ -29,7 +29,7 @@
             <Insets bottom="5.0" left="5.0" top="5.0" />
          </VBox.margin>
       </Label>
-      <TableView fx:id="productosTV" prefHeight="500.0" prefWidth="200.0">
+      <TableView fx:id="productosTV" prefHeight="500.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <columns>
             <TableColumn fx:id="accionesTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="ACCIONES" />
             <TableColumn fx:id="nombreTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="NOMBRE" />
