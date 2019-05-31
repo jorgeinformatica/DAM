@@ -82,6 +82,14 @@
                                     <OctIconView fill="#3cb478" glyphName="INFO" size="22" />
                                  </graphic>
                               </Label>
+                              <Button fx:id="btnAceptarCambio" mnemonicParsing="false" text="ACEPTAR CAMBIOS">
+                                 <font>
+                                    <Font name="Noto Sans Bold" size="12.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Button>
                            </children>
                            <GridPane.margin>
                               <Insets right="200.0" />

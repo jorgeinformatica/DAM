@@ -22,6 +22,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -63,6 +64,8 @@ public class ProductosAMController implements Initializable {
     private Label infoFiltro;
     @FXML
     private ComboBox<ProductoFX> cbElementos;
+    @FXML
+    private Button btnAceptarCambio;
     
     private AAController viewControl;
     private ProductoFX producto;
@@ -74,6 +77,7 @@ public class ProductosAMController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnAceptarCambio.setVisible(false);
     }
     
     public void init(ProductoFX pro, ObservableList<Node> base) {
@@ -144,6 +148,7 @@ public class ProductosAMController implements Initializable {
         ivaCB.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (producto != null && !nV) {
                 producto.setTipoIva(ivaCB.getValue());
+                aceptarCambios();
             }
         });
     }
@@ -155,6 +160,7 @@ public class ProductosAMController implements Initializable {
             if (producto != null && !nV) {
                 try {
                     producto.setPrecio(BigDecimal.valueOf(Double.valueOf(precioTXT.getText())));
+                    aceptarCambios();
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR EN EL PARSEO");
                 }
@@ -170,6 +176,7 @@ public class ProductosAMController implements Initializable {
         nombreTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (producto != null && !nV) {
                 producto.setNombre(nombreTXT.getText().toUpperCase());
+                aceptarCambios();
             }
             if (nombreTXT.getText().isEmpty()) {
                 nombreTXT.requestFocus();
@@ -182,6 +189,7 @@ public class ProductosAMController implements Initializable {
         descripcionTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (producto != null && !nV) {
                 producto.setDescripcion(descripcionTXT.getText().toUpperCase());
+                aceptarCambios();
             }
             if (nombreTXT.getText().isEmpty()) {
                 nombreTXT.requestFocus();
@@ -229,5 +237,10 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-    
-}
+       private void aceptarCambios() {
+        if (!btnAceptarCambio.isVisible() && producto.comprobarCambios()) {
+            viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, producto);
+        }
+    }
+       
+}//fin de clase

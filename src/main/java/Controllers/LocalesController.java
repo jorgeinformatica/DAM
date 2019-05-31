@@ -29,6 +29,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -71,7 +72,9 @@ public class LocalesController implements Initializable {
     private CategoryAxis comLocAx;
     @FXML
     private TextField txtNombre;
-
+    @FXML
+    private Button btnAceptarCambio;
+    
     private LocalFX local;
     private AAController viewControl;
     private FilteredList<CiudadFX> filterCiudad;
@@ -85,6 +88,7 @@ public class LocalesController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnAceptarCambio.setVisible(false);
     }
 
     public void init(ObservableList<Node> base) {
@@ -216,6 +220,7 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!Objects.equals(Short.valueOf(txtNum.getText()), local.getDireccion().getNumero())) {
                     local.getDireccion().setNumero(Short.valueOf(txtNum.getText()));
+                    aceptarCambios();
                 }
             }
             if (txtNum.getText().isEmpty()) {
@@ -230,6 +235,7 @@ public class LocalesController implements Initializable {
             if (local != null && !nV) {
                 if (!txtCalle.getText().toUpperCase().equalsIgnoreCase(local.getDireccion().getNombre())) {
                     local.getDireccion().setNombre(txtCalle.getText().toUpperCase());
+                    aceptarCambios();
                 }
             }
             if (txtCalle.getText().isEmpty()) {
@@ -303,5 +309,11 @@ public class LocalesController implements Initializable {
             }
         });
     }
-
+    
+    private void aceptarCambios() {
+        if (!btnAceptarCambio.isVisible() && local.comprobarCambios()) {
+            viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, local);
+        }
+    }
+    
 }//fin de la clase

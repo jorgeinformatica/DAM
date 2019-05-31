@@ -1,5 +1,6 @@
 package dam.proyecto;
 
+import Beans.BaseBean;
 import Beans.Ciudad;
 import Beans.CiudadConcp;
 import Beans.CodigoPostal;
@@ -27,13 +28,20 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.Duration;
 
 /**
  *
@@ -234,6 +242,24 @@ public class LogicController {
             }
         }
         return false;
+    }
+
+    public void aceptarCambiosBtn(Button btn, BaseFX bean) {
+        btn.setVisible(true);
+        Timeline flash = new Timeline(
+                new KeyFrame(Duration.seconds(0), evt -> btn.setStyle(" -fx-text-fill: rgba(183, 28, 28,0)")),
+                new KeyFrame(Duration.seconds(0.50), evt -> btn.setStyle(" -fx-text-fill: rgba(183, 28, 28,0.5)")),
+                new KeyFrame(Duration.seconds(1), evt -> btn.setStyle(" -fx-text-fill: rgba(183, 28, 28,1)"))
+        );
+        flash.setCycleCount(Animation.INDEFINITE);
+        flash.play();
+        btn.setOnAction((ActionEvent evt) -> {
+            hibControl.initTransaction();
+            bean.getBean().actualizarDatos(bean);
+            viewControl.getLogic().getHibControl().UpdateElement(bean.getBean());
+            flash.stop();
+            btn.setVisible(false);
+        });
     }
 
     public static ProvinciaFX getProvFX(Provincia pro) {

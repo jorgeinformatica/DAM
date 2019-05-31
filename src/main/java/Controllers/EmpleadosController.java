@@ -26,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -69,6 +70,8 @@ public class EmpleadosController implements Initializable {
     private ComboBox<EmpleadoFX> cbEmpleados;
     @FXML
     private Label labLetra;
+    @FXML
+    private Button btnAceptarCambio;
 
     private EmpleadoFX empleado;
     private AAController viewControl;
@@ -84,6 +87,7 @@ public class EmpleadosController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnAceptarCambio.setVisible(false);
     }
 
     void init(ObservableList<Node> base) {
@@ -170,8 +174,8 @@ public class EmpleadosController implements Initializable {
                     int modulo = Integer.valueOf(txtDni.getText()) % 23;
                     labLetra.setText(juegoCaracteres.charAt(modulo) + "");
                     empleado.setDni(txtDni.getText() + labLetra.getText());
+                    aceptarCambios();
                 }
-
             }
         });
     }
@@ -181,6 +185,7 @@ public class EmpleadosController implements Initializable {
         txtNom.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.setNombre(txtNom.getText().toUpperCase());
+                aceptarCambios();
             }
             if (txtNom.getText().isEmpty()) {
                 txtNom.requestFocus();
@@ -193,6 +198,7 @@ public class EmpleadosController implements Initializable {
         txtApe1.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.setApe1(txtApe1.getText().toUpperCase());
+                aceptarCambios();
             }
             if (txtApe1.getText().isEmpty()) {
                 txtApe1.requestFocus();
@@ -205,6 +211,7 @@ public class EmpleadosController implements Initializable {
         txtApe2.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.setApe2(txtApe2.getText().toUpperCase());
+                aceptarCambios();
             }
             if (txtApe2.getText().isEmpty()) {
                 txtApe2.requestFocus();
@@ -217,6 +224,7 @@ public class EmpleadosController implements Initializable {
         txtEmail.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.setEmail(txtEmail.getText().toUpperCase());
+                aceptarCambios();
             }
             if (txtEmail.getText().isEmpty()) {
                 txtEmail.requestFocus();
@@ -230,6 +238,7 @@ public class EmpleadosController implements Initializable {
         txtTel.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.setTelefono(txtTel.getText().toUpperCase());
+                aceptarCambios();
             }
             if (txtTel.getText().isEmpty()) {
                 txtTel.requestFocus();
@@ -242,6 +251,7 @@ public class EmpleadosController implements Initializable {
         txtCalle.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.getDireccion().setNombre(txtCalle.getText().toUpperCase());
+                aceptarCambios();
             }
             if (txtCalle.getText().isEmpty()) {
                 txtCalle.requestFocus();
@@ -255,6 +265,7 @@ public class EmpleadosController implements Initializable {
         txtNum.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.getDireccion().setNumero(Short.valueOf(txtNum.getText().toUpperCase()));
+                aceptarCambios();
             }
             if (txtNum.getText().isEmpty()) {
                 txtNum.requestFocus();
@@ -287,6 +298,7 @@ public class EmpleadosController implements Initializable {
                 empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal())
                         == null ? empleado.getDireccion().getRelCpCiu()
                                 : LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal()));
+                aceptarCambios();
             }
         });
     }
@@ -298,6 +310,7 @@ public class EmpleadosController implements Initializable {
                 empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal())
                         == null ? empleado.getDireccion().getRelCpCiu()
                                 : LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal()));
+                aceptarCambios();
             }
         });
     }
@@ -314,6 +327,7 @@ public class EmpleadosController implements Initializable {
                 empleado.getDireccion().setRelCpCiu(LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal())
                         == null ? empleado.getDireccion().getRelCpCiu()
                                 : LogicController.getCCFX(empleado.getDireccion().getRelCpCiu().getCiudad(), empleado.getDireccion().getRelCpCiu().getCodigoPostal()));
+                aceptarCambios();
             }
         });
     }
@@ -336,6 +350,7 @@ public class EmpleadosController implements Initializable {
         cbLocal.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
             if (empleado != null && !nV) {
                 empleado.setLocal(cbLocal.getValue());
+                aceptarCambios();
             }
         });
     }
@@ -380,4 +395,9 @@ public class EmpleadosController implements Initializable {
         });
     }
 
+    private void aceptarCambios() {
+        if (!btnAceptarCambio.isVisible() && empleado.comprobarCambios()) {
+            viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, empleado);
+        }
+    }
 }//fin de la clase

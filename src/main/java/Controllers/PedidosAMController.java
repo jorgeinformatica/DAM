@@ -30,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
@@ -79,6 +80,8 @@ public class PedidosAMController implements Initializable {
     private Label infoFiltroPedido;
     @FXML
     private TextField txtFechaPedido;
+    @FXML
+    private Button btnAceptarCambio;
 
     private AAController viewControl;
     private PedidoFX pedido;
@@ -96,7 +99,7 @@ public class PedidosAMController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        btnAceptarCambio.setVisible(false);
     }
 
     public void init(PedidoFX ped, ObservableList<Node> base) {
@@ -184,8 +187,8 @@ public class PedidosAMController implements Initializable {
                 Pedido tempo = new Pedido();
                 tempo.setLocal((Local) local.getBean());
                 tempo.setFechaPed(MetodosEstaticos.ToDate(LocalDate.now()));
-                tempo.setFechaEntrega(MetodosEstaticos.ToDate(elegirFecha()));
-                tempo.setEstado("INCOMPLETO");
+                tempo.setFechaEntrega(MetodosEstaticos.ToDate(fecha));
+                tempo.setEstado(Constantes.Estados.ENPRODUCCION.getNom());
                 viewControl.getLogic().getHibControl().save(tempo);
                 pedido = new PedidoFX(tempo);
                 listaPedido.add(pedido);
@@ -194,7 +197,7 @@ public class PedidosAMController implements Initializable {
                 linea.setPedido(tempo);
                 linea.setProducto((Producto) viewControl.getLogic().getProductos().get(0).getBean());
                 linea.setCantidad((short) 1);
-                linea.setEstado("EN PRODUCCION");
+                linea.setEstado(Constantes.Estados.ENPRODUCCION.getNom());
                 viewControl.getLogic().getHibControl().save(linea);
                 viewControl.getLogic().getHibControl().refresco(tempo);
                 viewControl.getLogic().getHibControl().refresco(local.getBean());
@@ -350,13 +353,23 @@ public class PedidosAMController implements Initializable {
         });
     }
 
+    private void aceptarCambios() {
+        if (!btnAceptarCambio.isVisible() && pedido.comprobarCambios()) {
+            viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, pedido);
+        }
+    }
+
     private PedidoFX comprobarFechaPed(Date value) {
-        for (PedidoFX pedFX : listaPedido) {
-            if (Objects.equals(pedFX.getLocal().getCodLocal(), pedido.getLocal().getCodLocal())) {
-                String init = new SimpleDateFormat("dd-MM-yyyy").format(value);
-                String end = new SimpleDateFormat("dd-MM-yyyy").format(pedFX.getFechaEntrega());
-                if (init.equals(end) && !Objects.equals(pedido.getNumPed(), pedFX.getNumPed())) {
-                    return pedFX;
+        if (!local.getPedidos().isEmpty()) {
+            for (Object ped : local.getPedidos()) {
+                for (PedidoFX pedFX : listaPedido) {
+                    if (Objects.equals(pedFX.getLocal().getCodLocal(), local.getCodLocal())) {
+                        String init = new SimpleDateFormat("dd-MM-yyyy").format(value);
+                        String end = new SimpleDateFormat("dd-MM-yyyy").format(pedFX.getFechaEntrega());
+                        if (init.equals(end) && !Objects.equals(((Pedido)ped).getNumPed(), pedFX.getNumPed())) {
+                            return pedFX;
+                        }
+                    }
                 }
             }
         }

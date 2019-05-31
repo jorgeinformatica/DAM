@@ -48,7 +48,7 @@ public class MetodosEstaticos {
     }
 
     /**
-     * 
+     *
      * @param date la fecha a transformar
      * @return la fecha en tipo "Date"
      */
