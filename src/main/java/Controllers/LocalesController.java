@@ -74,7 +74,7 @@ public class LocalesController implements Initializable {
     private TextField txtNombre;
     @FXML
     private Button btnAceptarCambio;
-    
+
     private LocalFX local;
     private AAController viewControl;
     private FilteredList<CiudadFX> filterCiudad;
@@ -229,6 +229,21 @@ public class LocalesController implements Initializable {
         });
     }
 
+    private void configurarTxtNombre() {
+        txtNombre.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtNombre, 39));
+        txtNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
+            if (local != null && !nV) {
+                if (!txtNombre.getText().toUpperCase().equalsIgnoreCase(local.getNombre())) {
+                    local.setNombre(txtNombre.getText().toUpperCase());
+                    aceptarCambios();
+                }
+            }
+            if (txtNombre.getText().isEmpty()) {
+                txtNombre.requestFocus();
+            }
+        });
+    }
+
     private void configurarTxtCalle() {
         txtCalle.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtCalle, 74));
         txtCalle.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -296,24 +311,10 @@ public class LocalesController implements Initializable {
         });
     }
 
-    private void configurarTxtNombre() {
-        txtNombre.lengthProperty().addListener(MetodosEstaticos.longMaxima(txtNombre, 39));
-        txtNombre.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
-            if (local != null && !nV) {
-                if (!txtNombre.getText().toUpperCase().equalsIgnoreCase(local.getNombre())) {
-                    local.setNombre(txtNombre.getText().toUpperCase());
-                }
-            }
-            if (txtNombre.getText().isEmpty()) {
-                txtNombre.requestFocus();
-            }
-        });
-    }
-    
     private void aceptarCambios() {
         if (!btnAceptarCambio.isVisible() && local.comprobarCambios()) {
             viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, local);
         }
     }
-    
+
 }//fin de la clase

@@ -181,7 +181,7 @@ public class PedidosAMController implements Initializable {
     private void nuevoPedido(ActionEvent event) {
         if (local != null) {
             LocalDate fecha = elegirFecha();
-            PedidoFX pedidoTempo = comprobarFechaPed(MetodosEstaticos.ToDate(fecha));
+            Pedido pedidoTempo = comprobarFechaPed(MetodosEstaticos.ToDate(fecha));
             if (pedidoTempo == null) {
                 viewControl.getLogic().getHibControl().initTransaction();
                 Pedido tempo = new Pedido();
@@ -205,8 +205,8 @@ public class PedidosAMController implements Initializable {
             } else {
                 Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Ya existe un pedido para la fecha idicada,"
                         + System.lineSeparator() + "añade ahi lo que deseas.", ButtonType.OK);
-                aviso.show();
-                pedido = pedidoTempo;
+                aviso.showAndWait();
+                pedido = recorrerPedidos(pedidoTempo);
                 refrescarVista();
             }
         } else {
@@ -286,21 +286,21 @@ public class PedidosAMController implements Initializable {
 
     private void configurarDPentrega() {
         fechaEntregaDP.setOnAction((ActionEvent event) -> {
-            PedidoFX tempo = comprobarFechaPed(MetodosEstaticos.ToDate(fechaEntregaDP.getValue()));
+            Pedido tempo = comprobarFechaPed(MetodosEstaticos.ToDate(fechaEntregaDP.getValue()));
             if (tempo == null) {
                 pedido.setFechaEntrega(MetodosEstaticos.ToDate(fechaEntregaDP.getValue()));
             } else {
                 if (confirmarCambio()) {
                     for (Object linPed : ((Pedido) pedido.getBean()).getLineaPedidos()) {
                         viewControl.getLogic().getHibControl().initTransaction();
-                        ((LineaPedido) linPed).setPedido((Pedido) tempo.getBean());
+                        ((LineaPedido) linPed).setPedido(tempo);
                         viewControl.getLogic().getHibControl().UpdateElement(linPed);
                     }
                     viewControl.getLogic().getHibControl().initTransaction();
                     viewControl.getLogic().getHibControl().remove(pedido.getBean());
                     listaPedido.remove(pedido);
-                    viewControl.getLogic().getHibControl().refresco(tempo.getBean());
-                    pedido = tempo;
+                    viewControl.getLogic().getHibControl().refresco(tempo);
+                    pedido = recorrerPedidos(tempo);
                     listaPedido.add(pedido);
                     cbPedidos.getSelectionModel().select(pedido);
                 } else {
@@ -343,6 +343,15 @@ public class PedidosAMController implements Initializable {
         return lista.stream().anyMatch((o) -> Objects.equals(ped.getNumPed(), ((Pedido) o).getNumPed()));
     }
 
+    private PedidoFX recorrerPedidos(Pedido ped) {
+        for (PedidoFX pedFX : listaPedido) {
+            if (Objects.equals(pedFX.getNumPed(), ped.getNumPed())) {
+                return pedFX;
+            }
+        }
+        return null;
+    }
+
     private void configurarBase(ObservableList<Node> base) {
         base.addListener(new InvalidationListener() {
             @Override
@@ -359,16 +368,18 @@ public class PedidosAMController implements Initializable {
         }
     }
 
-    private PedidoFX comprobarFechaPed(Date value) {
+    private Pedido comprobarFechaPed(Date value) {
         if (!local.getPedidos().isEmpty()) {
             for (Object ped : local.getPedidos()) {
-                for (PedidoFX pedFX : listaPedido) {
-                    if (Objects.equals(pedFX.getLocal().getCodLocal(), local.getCodLocal())) {
-                        String init = new SimpleDateFormat("dd-MM-yyyy").format(value);
-                        String end = new SimpleDateFormat("dd-MM-yyyy").format(pedFX.getFechaEntrega());
-                        if (init.equals(end) && !Objects.equals(((Pedido)ped).getNumPed(), pedFX.getNumPed())) {
-                            return pedFX;
-                        }
+                String opc = new SimpleDateFormat("dd-MM-yyyy").format(value);
+                String fecha = new SimpleDateFormat("dd-MM-yyyy").format(((Pedido) ped).getFechaEntrega());
+                if (pedido == null) {
+                    if (opc.equals(fecha)) {
+                        return ((Pedido) ped);
+                    }
+                } else {
+                    if (opc.equals(fecha) && !Objects.equals(pedido.getNumPed(), ((Pedido) ped).getNumPed())) {
+                        return ((Pedido) ped);
                     }
                 }
             }
