@@ -82,7 +82,7 @@ public class ListarPedidosController implements Initializable {
         tableController = new ListarPedidosColumns(this);
         listaLineas = FXCollections.observableArrayList();
         listaPedidos = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((Object ped) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, Constantes.HQLCondicion.NEUTRO.getCondicion())).forEach((Object ped) -> {
             listaPedidos.add(new PedidoFX((Pedido) ped));
         });
         filterPedidos = new FilteredList<>(listaPedidos, p -> true);

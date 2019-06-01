@@ -112,13 +112,13 @@ public class EmpleadosController implements Initializable {
     private void initValues() {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS EMPLEADOS EN BASE AL TEXTO INTRODUCIDO"));
         listaEmpleados = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Empleado.class, Constantes.HQLCondicion.ESTADO.getSentencia())).forEach((Object emp) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Empleado.class, Constantes.HQLCondicion.ESTADO.getCondicion())).forEach((Object emp) -> {
             listaEmpleados.add(new EmpleadoFX((Empleado) emp));
         });
         filterEmpleados = new FilteredList<>(listaEmpleados, p -> true);
         cbEmpleados.setItems(filterEmpleados.sorted());
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getSentencia())).forEach((Object lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getCondicion())).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         cbLocal.setItems(listaLocal);
@@ -136,7 +136,7 @@ public class EmpleadosController implements Initializable {
     @FXML
     private void nuevoEmpleado(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
-        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, Constantes.HQLCondicion.CENTRALREF.getSentencia());
+        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, Constantes.HQLCondicion.CENTRALREF.getCondicion());
         Direccion direc = new Direccion();
         direc.setNumero((short) 1);
         direc.setNombre("CALLE");

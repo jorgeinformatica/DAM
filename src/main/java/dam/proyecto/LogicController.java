@@ -82,19 +82,19 @@ public class LogicController {
     }
 
     private void initOList() {
-        FXCollections.observableList(hibControl.getList(Provincia.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((pro) -> {
+        FXCollections.observableList(hibControl.getList(Provincia.class, Constantes.HQLCondicion.NEUTRO.getCondicion())).forEach((pro) -> {
             this.provincias.add(new ProvinciaFX((Provincia) pro));
         });
-        FXCollections.observableList(hibControl.getList(Ciudad.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((ciu) -> {
+        FXCollections.observableList(hibControl.getList(Ciudad.class, Constantes.HQLCondicion.NEUTRO.getCondicion())).forEach((ciu) -> {
             this.ciudades.add(new CiudadFX((Ciudad) ciu));
         });
-        FXCollections.observableList(hibControl.getList(CodigoPostal.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((cp) -> {
+        FXCollections.observableList(hibControl.getList(CodigoPostal.class, Constantes.HQLCondicion.NEUTRO.getCondicion())).forEach((cp) -> {
             this.cps.add(new CodigoPostalFX((CodigoPostal) cp));
         });
-        FXCollections.observableList(hibControl.getList(CiudadConcp.class, Constantes.HQLCondicion.NEUTRO.getSentencia())).forEach((ccp) -> {
+        FXCollections.observableList(hibControl.getList(CiudadConcp.class, Constantes.HQLCondicion.NEUTRO.getCondicion())).forEach((ccp) -> {
             this.ccps.add(new CiudadConcpFX((CiudadConcp) ccp));
         });
-        FXCollections.observableList(hibControl.getList(Producto.class, Constantes.HQLCondicion.ESTADO.getSentencia())).forEach((pro) -> {
+        FXCollections.observableList(hibControl.getList(Producto.class, Constantes.HQLCondicion.ESTADO.getCondicion())).forEach((pro) -> {
             this.productos.add(new ProductoFX((Producto) pro));
         });
     }

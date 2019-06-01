@@ -108,7 +108,7 @@ public class LocalesController implements Initializable {
     private void initValues() {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         listaLocal = FXCollections.observableArrayList();
-        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getSentencia())).forEach((Object lo) -> {
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getCondicion())).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
         filterLocal = new FilteredList<>(listaLocal, p -> true);
@@ -127,7 +127,7 @@ public class LocalesController implements Initializable {
     @FXML
     private void nuevoLocal(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
-        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, Constantes.HQLCondicion.CENTRALREF.getSentencia());
+        CiudadConcp ccCP = (CiudadConcp) viewControl.getLogic().getHibControl().searchElement(CiudadConcp.class, Constantes.HQLCondicion.CENTRALREF.getCondicion());
         Direccion direc = new Direccion();
         direc.setNumero((short) 1);
         direc.setNombre("CALLE");

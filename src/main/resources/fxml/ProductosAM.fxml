@@ -211,7 +211,7 @@
                   </LineChart>
                   <BarChart fx:id="barrasComparativo" prefWidth="450.0" title="Comparativo de pedidos" GridPane.columnIndex="1">
                      <xAxis>
-                        <CategoryAxis fx:id="comLocAx" label="Despachos" side="BOTTOM" />
+                        <CategoryAxis fx:id="comLocAx" label="Locales" side="BOTTOM" />
                      </xAxis>
                      <yAxis>
                         <NumberAxis fx:id="comCantAx" label="Cantidad" side="LEFT" />
