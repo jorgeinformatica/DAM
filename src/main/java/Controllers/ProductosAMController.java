@@ -6,6 +6,7 @@ import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -24,6 +25,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
@@ -251,15 +253,50 @@ public class ProductosAMController implements Initializable {
     }
 
     private void configurarEvolutivo(List<Object> evolutivo) {
-
+        lineasEvolutivo.setLegendVisible(false);
+        XYChart.Series series = new XYChart.Series();
+        evolutivo.stream().map((o) -> (Object[]) o).forEachOrdered((elem) -> {
+            series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(elem[1]), (Long) elem[0]));
+        });
+        lineasEvolutivo.getData().clear();
+        lineasEvolutivo.getData().add(series);
+        
     }
 
     private void configurarBarrasLocales(List<Object> locales) {
-
+        barrasComparativo.setLegendVisible(false);
+        barrasComparativo.getData().clear();
+        if (!locales.isEmpty()) {
+            for (Object loc : locales) {
+                Object[] elem = (Object[]) loc;
+                XYChart.Series data = new XYChart.Series();
+                data.setName((String) elem[1]);
+                data.getData().add(new XYChart.Data<>((String) elem[1], (Long) elem[0]));
+                barrasComparativo.getData().add(data);
+            }
+        }
     }
 
     private void configurarTartas(List<Object> totalProducto, List<Object> restoProductos) {
+        if (!totalProducto.isEmpty()) {
+            tartaPorcentaje.setLegendVisible(false);
+            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+            data.add(new PieChart.Data(producto.getNombre(), (Long) totalProducto.get(0)));
+            data.add(new PieChart.Data("Resto", (Long) restoProductos.get(0)));
+            tartaPorcentaje.setData(data);
+            tartaPorcentaje.getData().forEach((t) -> {
+                toolTipPie(t, (Long) totalProducto.get(0) + (Long) restoProductos.get(0));
+            });
+        } else {
+            tartaPorcentaje.getData().clear();
+        }
+    }
 
+    private void toolTipPie(PieChart.Data dato, Long tot) {
+        Tooltip ttPie = new Tooltip("Cantidad: " + dato.getPieValue()
+                + System.lineSeparator() + "Porcentaje: " + Math.round((100 * dato.getPieValue()) / tot) + "%");
+        ttPie.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
+        Tooltip.install(dato.getNode(), ttPie);
     }
 
 }//fin de clase
