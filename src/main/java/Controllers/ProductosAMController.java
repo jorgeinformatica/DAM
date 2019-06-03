@@ -38,7 +38,7 @@ import javafx.scene.text.Font;
  * @author Jorge Sempere
  */
 public class ProductosAMController implements Initializable {
-    
+
     @FXML
     private TextField nombreTXT;
     @FXML
@@ -71,7 +71,7 @@ public class ProductosAMController implements Initializable {
     private ComboBox<ProductoFX> cbElementos;
     @FXML
     private Button btnAceptarCambio;
-    
+
     private AAController viewControl;
     private ProductoFX producto;
     private FilteredList<ProductoFX> filteredItems;
@@ -84,7 +84,7 @@ public class ProductosAMController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);
     }
-    
+
     public void init(ProductoFX pro, ObservableList<Node> base) {
         configurarTxtPrecio();
         configurarTxtNombre();
@@ -94,13 +94,13 @@ public class ProductosAMController implements Initializable {
         configurarTxtFiltro();
         configurarGraficos();
         configurarBase(base);
-        
+
     }
-    
+
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
-    
+
     @FXML
     private void nuevoProducto(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
@@ -115,7 +115,7 @@ public class ProductosAMController implements Initializable {
         viewControl.getLogic().getProductos().add(producto);
         cbElementos.getSelectionModel().select(producto);
     }
-    
+
     @FXML
     private void borrarProducto(ActionEvent event) {
         if (producto != null) {
@@ -124,7 +124,7 @@ public class ProductosAMController implements Initializable {
             }
         }
     }
-    
+
     private void configurarComboProductos(ProductoFX pro) {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS PRODUCTOS EN BASE AL TEXTO INTRODUCIDO"));
         filteredItems = new FilteredList<>(viewControl.getLogic().getProductos(), p -> true);
@@ -146,7 +146,7 @@ public class ProductosAMController implements Initializable {
             viewControl.getLogic().setProducto(null);
         }
     }
-    
+
     private void configurarComboIvas() {
         ObservableList ivas = FXCollections.observableArrayList("GENERAL", "REDUCIDO", "SUPERREDUCIDO");
         ivaCB.setItems(ivas);
@@ -157,7 +157,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-    
+
     private void configurarTxtPrecio() {
         precioTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(precioTXT, 6));
         precioTXT.setTextFormatter(MetodosEstaticos.soloDecimales());
@@ -175,7 +175,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-    
+
     private void configurarTxtNombre() {
         nombreTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(nombreTXT, 59));
         nombreTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -188,7 +188,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-    
+
     private void configurarTxtDescripcion() {
         descripcionTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(descripcionTXT, 254));
         descripcionTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -201,7 +201,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-    
+
     private void configurarGraficos() {
         Font font = new Font("Arial", 12);
         comLocAx.setTickLabelFont(font);
@@ -216,13 +216,13 @@ public class ProductosAMController implements Initializable {
         configurarTartas(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOSUBTOTAL.getSentencia(), producto.getCodProd()),
                 viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOTOTAL.getSentencia(), producto.getCodProd()));
     }
-    
+
     private void actualizarProducto(ProductoFX p) {
         if (viewControl.getLogic().actualizarMsg(p)) {
             refrescarVista();
         }
     }
-    
+
     private void configurarTxtFiltro() {
         txtFiltro.textProperty().addListener((obs, oldValue, newValue) -> {
             ProductoFX selected = cbElementos.getSelectionModel().getSelectedItem();
@@ -235,16 +235,19 @@ public class ProductosAMController implements Initializable {
             });
         });
     }
-    
+
     private void refrescarVista() {
         nombreTXT.setText(producto.getNombre());
         numCod.setText(producto.getCodProd() + "");
         precioTXT.setText(producto.getPrecio() + "");
         ivaCB.getSelectionModel().select(producto.getTipoIva());
         descripcionTXT.setText(producto.getDescripcion());
-        configurarGraficos();
+        configurarEvolutivo(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOEVOLUTIVO.getSentencia(), producto.getCodProd()));
+        configurarBarrasLocales(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOLOCALES.getSentencia(), producto.getCodProd()));
+        configurarTartas(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOSUBTOTAL.getSentencia(), producto.getCodProd()),
+                viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOTOTAL.getSentencia(), producto.getCodProd()));
     }
-    
+
     private void configurarBase(ObservableList<Node> base) {
         base.addListener(new InvalidationListener() {
             @Override
@@ -254,13 +257,13 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-    
+
     private void aceptarCambios() {
         if (!btnAceptarCambio.isVisible() && producto.comprobarCambios()) {
             viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, producto);
         }
     }
-    
+
     private void configurarEvolutivo(List<Object> evolutivo) {
         lineasEvolutivo.getData().clear();
         if (!evolutivo.isEmpty()) {
@@ -271,7 +274,7 @@ public class ProductosAMController implements Initializable {
             lineasEvolutivo.getData().add(series);
         }
     }
-    
+
     private void configurarBarrasLocales(List<Object> locales) {
         barrasComparativo.getData().clear();
         XYChart.Series data = new XYChart.Series();
@@ -283,7 +286,7 @@ public class ProductosAMController implements Initializable {
         }
         barrasComparativo.getData().add(data);
     }
-    
+
     private void configurarTartas(List<Object> totalProducto, List<Object> restoProductos) {
         if (!totalProducto.isEmpty()) {
             ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
@@ -297,12 +300,12 @@ public class ProductosAMController implements Initializable {
             tartaPorcentaje.getData().clear();
         }
     }
-    
+
     private void toolTipPie(PieChart.Data dato, Long tot) {
         Tooltip ttPie = new Tooltip("Cantidad: " + Math.round(dato.getPieValue())
                 + System.lineSeparator() + "Porcentaje: " + Math.round((100 * dato.getPieValue()) / tot) + "%");
         ttPie.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
         Tooltip.install(dato.getNode(), ttPie);
     }
-    
+
 }//fin de clase

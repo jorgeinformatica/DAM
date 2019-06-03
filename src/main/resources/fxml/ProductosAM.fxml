@@ -196,7 +196,7 @@
                <children>
                   <ScrollPane hbarPolicy="NEVER" prefHeight="490.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
                      <content>
-                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" prefHeight="485.0" title="Referencia respecto al resto de productos" />
+                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" prefHeight="485.0" title="\% REFERENCIAL TOTAL" />
                      </content>
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
@@ -204,7 +204,7 @@
                   </ScrollPane>
                   <ScrollPane hbarPolicy="ALWAYS" prefHeight="490.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <content>
-                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" prefHeight="485.0" title="Evolutivo de pedidos">
+                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" prefHeight="485.0" title="EVOLUTIVO PEDIDOS">
                            <xAxis>
                               <CategoryAxis fx:id="evoDiaAx" label="Dias" side="BOTTOM" />
                            </xAxis>
@@ -219,7 +219,7 @@
                   </ScrollPane>
                   <ScrollPane prefHeight="490.0" prefWidth="450.0" GridPane.columnIndex="2">
                      <content>
-                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" prefHeight="485.0" title="Comparativo de pedidos">
+                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" prefHeight="485.0" title="COMPARATIVO PEDIDOS">
                            <xAxis>
                               <CategoryAxis fx:id="comLocAx" label="Locales" side="BOTTOM" />
                            </xAxis>

@@ -11,6 +11,8 @@ import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import dam.proyecto.LogicController;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -29,11 +31,13 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.text.Font;
 
 /**
  * @author Jorge Sempere
@@ -59,13 +63,13 @@ public class LocalesController implements Initializable {
     @FXML
     private PieChart tartaPorcentaje;
     @FXML
-    private LineChart<?, ?> lineasEvolutivo;
+    private LineChart<Long, String> lineasEvolutivo;
     @FXML
     private NumberAxis evoPreAx;
     @FXML
     private CategoryAxis evoDiaAx;
     @FXML
-    private BarChart<?, ?> barrasComparativo;
+    private BarChart<Long, String> barrasComparativo;
     @FXML
     private NumberAxis comPreAx;
     @FXML
@@ -273,7 +277,18 @@ public class LocalesController implements Initializable {
     }
 
     private void configurarGraficos() {
-
+        Font font = new Font("Arial", 12);
+        comLocAx.setTickLabelFont(font);
+        comPreAx.setTickLabelFont(font);
+        evoDiaAx.setTickLabelFont(font);
+        evoPreAx.setTickLabelFont(font);
+        comLocAx.setTickLabelRotation(45);
+        evoDiaAx.setTickLabelRotation(45);
+        tartaPorcentaje.setStartAngle(110);
+        configurarEvolutivo(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOEVOLUTIVO.getSentencia(), local.getCodLocal()));
+        configurarBarrasLocales(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOLOCALES.getSentencia(), local.getCodLocal()));
+        configurarTartas(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOSUBTOTAL.getSentencia(), local.getCodLocal()),
+                viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOTOTAL.getSentencia(), local.getCodLocal()));
     }
 
     private void refrescarVista() {
@@ -315,6 +330,50 @@ public class LocalesController implements Initializable {
         if (!btnAceptarCambio.isVisible() && local.comprobarCambios()) {
             viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, local);
         }
+    }
+
+    private void configurarEvolutivo(List<Object> evo) {
+        lineasEvolutivo.getData().clear();
+        if (!evo.isEmpty()) {
+            XYChart.Series series = new XYChart.Series();
+            evo.stream().map((o) -> (Object[]) o).forEachOrdered((elem) -> {
+                series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(elem[1]), (Long) elem[0]));
+            });
+            lineasEvolutivo.getData().add(series);
+        }
+    }
+
+    private void configurarBarrasLocales(List<Object> locales) {
+        barrasComparativo.getData().clear();
+        XYChart.Series data = new XYChart.Series();
+        if (!locales.isEmpty()) {
+            for (Object loc : locales) {
+                Object[] elem = (Object[]) loc;
+                data.getData().add(new XYChart.Data<>((String) elem[1], (Long) elem[0]));
+            }
+        }
+        barrasComparativo.getData().add(data);
+    }
+
+    private void configurarTartas(List<Object> totalLocal, List<Object> restoLocales) {
+        if (!totalLocal.isEmpty()) {
+            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+            data.add(new PieChart.Data(local.getNombre(), ((Long) totalLocal.get(0)) == null ? 0 : (Long) totalLocal.get(0)));
+            data.add(new PieChart.Data("RESTO", (Long) restoLocales.get(0)));
+            tartaPorcentaje.setData(data);
+            tartaPorcentaje.getData().forEach((t) -> {
+                toolTipPie(t, ((Long) totalLocal.get(0)) == null ? 0 : (Long) totalLocal.get(0) + (Long) restoLocales.get(0));
+            });
+        } else {
+            tartaPorcentaje.getData().clear();
+        }
+    }
+
+    private void toolTipPie(PieChart.Data t, long valor) {
+        Tooltip ttPie = new Tooltip("Cantidad: " + Math.round(t.getPieValue())
+                + System.lineSeparator() + "Porcentaje: " + Math.round((100 * t.getPieValue()) / valor) + "%");
+        ttPie.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
+        Tooltip.install(t.getNode(), ttPie);
     }
 
 }//fin de la clase
