@@ -11,6 +11,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -193,33 +194,44 @@
                   <RowConstraints percentHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <PieChart fx:id="tartaPorcentaje" prefHeight="400.0" prefWidth="450.0" title="Referencia respecto al resto de productos" GridPane.columnIndex="2">
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="490.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
+                     <content>
+                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" prefHeight="485.0" title="Referencia respecto al resto de productos" />
+                     </content>
                      <GridPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
-                  </PieChart>
-                  <LineChart fx:id="lineasEvolutivo" prefWidth="450.0" title="Evolutivo de pedidos">
-                     <xAxis>
-                        <CategoryAxis fx:id="evoDiaAx" label="Dias" side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis fx:id="evoCanAx" label="Cantidad" minorTickCount="1" side="LEFT" tickLength="5.0" />
-                     </yAxis>
+                  </ScrollPane>
+                  <ScrollPane hbarPolicy="ALWAYS" prefHeight="490.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <content>
+                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" prefHeight="485.0" title="Evolutivo de pedidos">
+                           <xAxis>
+                              <CategoryAxis fx:id="evoDiaAx" label="Dias" side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis fx:id="evoCanAx" label="Cantidad" minorTickCount="1" side="LEFT" tickLength="5.0" />
+                           </yAxis>
+                        </LineChart>
+                     </content>
                      <GridPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets right="5.0" />
                      </GridPane.margin>
-                  </LineChart>
-                  <BarChart fx:id="barrasComparativo" prefWidth="450.0" title="Comparativo de pedidos" GridPane.columnIndex="1">
-                     <xAxis>
-                        <CategoryAxis fx:id="comLocAx" label="Locales" side="BOTTOM" />
-                     </xAxis>
-                     <yAxis>
-                        <NumberAxis fx:id="comCantAx" label="Cantidad" side="LEFT" />
-                     </yAxis>
+                  </ScrollPane>
+                  <ScrollPane prefHeight="490.0" prefWidth="450.0" GridPane.columnIndex="2">
+                     <content>
+                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" prefHeight="485.0" title="Comparativo de pedidos">
+                           <xAxis>
+                              <CategoryAxis fx:id="comLocAx" label="Locales" side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis fx:id="comCantAx" label="Cantidad" side="LEFT" />
+                           </yAxis>
+                        </BarChart>
+                     </content>
                      <GridPane.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        <Insets left="5.0" />
                      </GridPane.margin>
-                  </BarChart>
+                  </ScrollPane>
                </children>
                <VBox.margin>
                   <Insets />

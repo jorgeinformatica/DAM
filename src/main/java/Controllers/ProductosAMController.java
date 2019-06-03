@@ -32,12 +32,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.text.Font;
 
 /**
  * @author Jorge Sempere
  */
 public class ProductosAMController implements Initializable {
-
+    
     @FXML
     private TextField nombreTXT;
     @FXML
@@ -70,7 +71,7 @@ public class ProductosAMController implements Initializable {
     private ComboBox<ProductoFX> cbElementos;
     @FXML
     private Button btnAceptarCambio;
-
+    
     private AAController viewControl;
     private ProductoFX producto;
     private FilteredList<ProductoFX> filteredItems;
@@ -83,7 +84,7 @@ public class ProductosAMController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);
     }
-
+    
     public void init(ProductoFX pro, ObservableList<Node> base) {
         configurarTxtPrecio();
         configurarTxtNombre();
@@ -93,13 +94,13 @@ public class ProductosAMController implements Initializable {
         configurarTxtFiltro();
         configurarGraficos();
         configurarBase(base);
-
+        
     }
-
+    
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
-
+    
     @FXML
     private void nuevoProducto(ActionEvent event) {
         viewControl.getLogic().getHibControl().initTransaction();
@@ -114,7 +115,7 @@ public class ProductosAMController implements Initializable {
         viewControl.getLogic().getProductos().add(producto);
         cbElementos.getSelectionModel().select(producto);
     }
-
+    
     @FXML
     private void borrarProducto(ActionEvent event) {
         if (producto != null) {
@@ -123,7 +124,7 @@ public class ProductosAMController implements Initializable {
             }
         }
     }
-
+    
     private void configurarComboProductos(ProductoFX pro) {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS PRODUCTOS EN BASE AL TEXTO INTRODUCIDO"));
         filteredItems = new FilteredList<>(viewControl.getLogic().getProductos(), p -> true);
@@ -145,7 +146,7 @@ public class ProductosAMController implements Initializable {
             viewControl.getLogic().setProducto(null);
         }
     }
-
+    
     private void configurarComboIvas() {
         ObservableList ivas = FXCollections.observableArrayList("GENERAL", "REDUCIDO", "SUPERREDUCIDO");
         ivaCB.setItems(ivas);
@@ -156,7 +157,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarTxtPrecio() {
         precioTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(precioTXT, 6));
         precioTXT.setTextFormatter(MetodosEstaticos.soloDecimales());
@@ -174,7 +175,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarTxtNombre() {
         nombreTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(nombreTXT, 59));
         nombreTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -187,7 +188,7 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarTxtDescripcion() {
         descripcionTXT.lengthProperty().addListener(MetodosEstaticos.longMaxima(descripcionTXT, 254));
         descripcionTXT.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
@@ -200,20 +201,28 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void configurarGraficos() {
+        Font font = new Font("Arial", 12);
+        comLocAx.setTickLabelFont(font);
+        comCantAx.setTickLabelFont(font);
+        evoDiaAx.setTickLabelFont(font);
+        evoCanAx.setTickLabelFont(font);
+        comLocAx.setTickLabelRotation(45);
+        evoDiaAx.setTickLabelRotation(45);
+        tartaPorcentaje.setStartAngle(110);
         configurarEvolutivo(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOEVOLUTIVO.getSentencia(), producto.getCodProd()));
         configurarBarrasLocales(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOLOCALES.getSentencia(), producto.getCodProd()));
         configurarTartas(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOSUBTOTAL.getSentencia(), producto.getCodProd()),
                 viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOTOTAL.getSentencia(), producto.getCodProd()));
     }
-
+    
     private void actualizarProducto(ProductoFX p) {
         if (viewControl.getLogic().actualizarMsg(p)) {
             refrescarVista();
         }
     }
-
+    
     private void configurarTxtFiltro() {
         txtFiltro.textProperty().addListener((obs, oldValue, newValue) -> {
             ProductoFX selected = cbElementos.getSelectionModel().getSelectedItem();
@@ -226,7 +235,7 @@ public class ProductosAMController implements Initializable {
             });
         });
     }
-
+    
     private void refrescarVista() {
         nombreTXT.setText(producto.getNombre());
         numCod.setText(producto.getCodProd() + "");
@@ -235,7 +244,7 @@ public class ProductosAMController implements Initializable {
         descripcionTXT.setText(producto.getDescripcion());
         configurarGraficos();
     }
-
+    
     private void configurarBase(ObservableList<Node> base) {
         base.addListener(new InvalidationListener() {
             @Override
@@ -245,58 +254,55 @@ public class ProductosAMController implements Initializable {
             }
         });
     }
-
+    
     private void aceptarCambios() {
         if (!btnAceptarCambio.isVisible() && producto.comprobarCambios()) {
             viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, producto);
         }
     }
-
+    
     private void configurarEvolutivo(List<Object> evolutivo) {
-        lineasEvolutivo.setLegendVisible(false);
-        XYChart.Series series = new XYChart.Series();
-        evolutivo.stream().map((o) -> (Object[]) o).forEachOrdered((elem) -> {
-            series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(elem[1]), (Long) elem[0]));
-        });
         lineasEvolutivo.getData().clear();
-        lineasEvolutivo.getData().add(series);
-        
+        if (!evolutivo.isEmpty()) {
+            XYChart.Series series = new XYChart.Series();
+            evolutivo.stream().map((o) -> (Object[]) o).forEachOrdered((elem) -> {
+                series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(elem[1]), (Long) elem[0]));
+            });
+            lineasEvolutivo.getData().add(series);
+        }
     }
-
+    
     private void configurarBarrasLocales(List<Object> locales) {
-        barrasComparativo.setLegendVisible(false);
         barrasComparativo.getData().clear();
+        XYChart.Series data = new XYChart.Series();
         if (!locales.isEmpty()) {
             for (Object loc : locales) {
                 Object[] elem = (Object[]) loc;
-                XYChart.Series data = new XYChart.Series();
-                data.setName((String) elem[1]);
                 data.getData().add(new XYChart.Data<>((String) elem[1], (Long) elem[0]));
-                barrasComparativo.getData().add(data);
             }
         }
+        barrasComparativo.getData().add(data);
     }
-
+    
     private void configurarTartas(List<Object> totalProducto, List<Object> restoProductos) {
         if (!totalProducto.isEmpty()) {
-            tartaPorcentaje.setLegendVisible(false);
             ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-            data.add(new PieChart.Data(producto.getNombre(), (Long) totalProducto.get(0)));
-            data.add(new PieChart.Data("Resto", (Long) restoProductos.get(0)));
+            data.add(new PieChart.Data(producto.getNombre(), ((Long) totalProducto.get(0)) == null ? 0 : (Long) totalProducto.get(0)));
+            data.add(new PieChart.Data("RESTO", (Long) restoProductos.get(0)));
             tartaPorcentaje.setData(data);
             tartaPorcentaje.getData().forEach((t) -> {
-                toolTipPie(t, (Long) totalProducto.get(0) + (Long) restoProductos.get(0));
+                toolTipPie(t, ((Long) totalProducto.get(0)) == null ? 0 : (Long) totalProducto.get(0) + (Long) restoProductos.get(0));
             });
         } else {
             tartaPorcentaje.getData().clear();
         }
     }
-
+    
     private void toolTipPie(PieChart.Data dato, Long tot) {
-        Tooltip ttPie = new Tooltip("Cantidad: " + dato.getPieValue()
+        Tooltip ttPie = new Tooltip("Cantidad: " + Math.round(dato.getPieValue())
                 + System.lineSeparator() + "Porcentaje: " + Math.round((100 * dato.getPieValue()) / tot) + "%");
         ttPie.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
         Tooltip.install(dato.getNode(), ttPie);
     }
-
+    
 }//fin de clase
