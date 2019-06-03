@@ -2,14 +2,17 @@ package Controllers;
 
 import Beans.CiudadConcp;
 import Beans.Direccion;
+import Beans.LineaPedido;
 import Beans.Local;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
 import BeansFX.LocalFX;
+import BeansFX.PedidoFX;
 import BeansFX.ProvinciaFX;
 import Utils.Constantes;
 import Utils.MetodosEstaticos;
 import dam.proyecto.LogicController;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -63,13 +66,13 @@ public class LocalesController implements Initializable {
     @FXML
     private PieChart tartaPorcentaje;
     @FXML
-    private LineChart<Long, String> lineasEvolutivo;
+    private LineChart<BigDecimal, String> lineasEvolutivo;
     @FXML
     private NumberAxis evoPreAx;
     @FXML
     private CategoryAxis evoDiaAx;
     @FXML
-    private BarChart<Long, String> barrasComparativo;
+    private BarChart<BigDecimal, String> barrasComparativo;
     @FXML
     private NumberAxis comPreAx;
     @FXML
@@ -85,6 +88,7 @@ public class LocalesController implements Initializable {
     private FilteredList<CodigoPostalFX> filterCP;
     private FilteredList<LocalFX> filterLocal;
     private ObservableList<LocalFX> listaLocal;
+    private ObservableList<PedidoFX> listaPedidos;
 
     /**
      * @param url
@@ -112,6 +116,7 @@ public class LocalesController implements Initializable {
     private void initValues() {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         listaLocal = FXCollections.observableArrayList();
+        listaPedidos = FXCollections.observableArrayList();
         FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getCondicion())).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
@@ -285,10 +290,9 @@ public class LocalesController implements Initializable {
         comLocAx.setTickLabelRotation(45);
         evoDiaAx.setTickLabelRotation(45);
         tartaPorcentaje.setStartAngle(110);
-        configurarEvolutivo(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOEVOLUTIVO.getSentencia(), local.getCodLocal()));
-        configurarBarrasLocales(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOLOCALES.getSentencia(), local.getCodLocal()));
-        configurarTartas(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOSUBTOTAL.getSentencia(), local.getCodLocal()),
-                viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOTOTAL.getSentencia(), local.getCodLocal()));
+        configurarEvolutivo();
+        configurarBarrasLocales();
+        configurarTarta();
     }
 
     private void refrescarVista() {
@@ -332,46 +336,68 @@ public class LocalesController implements Initializable {
         }
     }
 
-    private void configurarEvolutivo(List<Object> evo) {
+    private void configurarEvolutivo() {
         lineasEvolutivo.getData().clear();
-        if (!evo.isEmpty()) {
-            XYChart.Series series = new XYChart.Series();
-            evo.stream().map((o) -> (Object[]) o).forEachOrdered((elem) -> {
-                series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(elem[1]), (Long) elem[0]));
-            });
-            lineasEvolutivo.getData().add(series);
+        XYChart.Series series = new XYChart.Series();
+        for (PedidoFX pedFX : listaPedidos) {
+            BigDecimal valor = BigDecimal.ZERO;
+            if (Objects.equals(pedFX.getLocal().getCodLocal(), local.getCodLocal())) {
+                for (Object obj : pedFX.getLineasPedido()) {
+                    LineaPedido lin = (LineaPedido) obj;
+                    valor = valor.add(lin.getProducto().getPrecio().multiply(new BigDecimal((int) lin.getCantidad())));
+                }
+                series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(pedFX.getFechaEntrega()), valor));
+            }
         }
     }
 
-    private void configurarBarrasLocales(List<Object> locales) {
-        barrasComparativo.getData().clear();
+    private void configurarBarrasLocales() {
         XYChart.Series data = new XYChart.Series();
-        if (!locales.isEmpty()) {
-            for (Object loc : locales) {
-                Object[] elem = (Object[]) loc;
-                data.getData().add(new XYChart.Data<>((String) elem[1], (Long) elem[0]));
+        for (LocalFX locFX : listaLocal) {
+            BigDecimal valor = BigDecimal.ZERO;
+            for (PedidoFX pedFX : listaPedidos) {
+                if (Objects.equals(pedFX.getLocal().getCodLocal(), locFX.getCodLocal())) {
+                    for (Object obj : pedFX.getLineasPedido()) {
+                        LineaPedido lin = (LineaPedido) obj;
+                        valor = valor.add(lin.getProducto().getPrecio().multiply(new BigDecimal((int) lin.getCantidad())));
+                    }
+                }
             }
+            data.getData().add(new XYChart.Data<>(locFX.getNombre(), valor));
         }
+
         barrasComparativo.getData().add(data);
     }
 
-    private void configurarTartas(List<Object> totalLocal, List<Object> restoLocales) {
-        if (!totalLocal.isEmpty()) {
-            ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
-            data.add(new PieChart.Data(local.getNombre(), ((Long) totalLocal.get(0)) == null ? 0 : (Long) totalLocal.get(0)));
-            data.add(new PieChart.Data("RESTO", (Long) restoLocales.get(0)));
-            tartaPorcentaje.setData(data);
-            tartaPorcentaje.getData().forEach((t) -> {
-                toolTipPie(t, ((Long) totalLocal.get(0)) == null ? 0 : (Long) totalLocal.get(0) + (Long) restoLocales.get(0));
-            });
-        } else {
-            tartaPorcentaje.getData().clear();
+    private void configurarTarta() {
+        ObservableList<PieChart.Data> data = FXCollections.observableArrayList();
+        BigDecimal subTotal = BigDecimal.ZERO;
+        BigDecimal valor = BigDecimal.ZERO;
+        for (PedidoFX pedFX : listaPedidos) {
+            if (Objects.equals(pedFX.getLocal().getCodLocal(), local.getCodLocal())) {
+                for (Object obj : pedFX.getLineasPedido()) {
+                    LineaPedido lin = (LineaPedido) obj;
+                    valor = valor.add(lin.getProducto().getPrecio().multiply(new BigDecimal((int) lin.getCantidad())));
+                }
+            } else {
+                for (Object obj : pedFX.getLineasPedido()) {
+                    LineaPedido lin = (LineaPedido) obj;
+                    subTotal = subTotal.add(lin.getProducto().getPrecio().multiply(new BigDecimal((int) lin.getCantidad())));
+                }
+            }
         }
+        data.add(new PieChart.Data(local.getNombre(), valor.doubleValue()));
+        data.add(new PieChart.Data("RESTO", subTotal.doubleValue()));
+        tartaPorcentaje.setData(data);
+        BigDecimal total = subTotal.add(valor);
+        tartaPorcentaje.getData().forEach((t) -> {
+            toolTipPie(t, total);
+        });
     }
 
-    private void toolTipPie(PieChart.Data t, long valor) {
-        Tooltip ttPie = new Tooltip("Cantidad: " + Math.round(t.getPieValue())
-                + System.lineSeparator() + "Porcentaje: " + Math.round((100 * t.getPieValue()) / valor) + "%");
+    private void toolTipPie(PieChart.Data t, BigDecimal valor) {
+        Tooltip ttPie = new Tooltip("Valor: " + Math.round(t.getPieValue()) + " €"
+                + System.lineSeparator() + "Porcentaje: " + Math.round((100 * t.getPieValue()) / valor.doubleValue()) + "%");
         ttPie.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
         Tooltip.install(t.getNode(), ttPie);
     }
