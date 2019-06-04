@@ -64,6 +64,8 @@ public class DashboardController implements Initializable {
     private FilteredList<ProductoFX> filterProducto;
     private ObservableList<DashboardContainer> listaCont;
     private Date fecha;
+    @FXML
+    private Button btnRefresco;
 
     /**
      * @param url
@@ -77,9 +79,15 @@ public class DashboardController implements Initializable {
             init();
         });
         dpFecha.setValue(LocalDate.now());
+        tvCuadro.setId("dashboard-table");
     }
 
-    void init() {
+    @FXML
+    private void refrescar(ActionEvent event) {
+        init();
+    }
+
+    public void init() {
         listaCont = FXCollections.observableArrayList();
         listaPedido = FXCollections.observableArrayList();
         FXCollections.observableList(viewControl.getLogic().getHibControl()

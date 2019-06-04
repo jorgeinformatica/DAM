@@ -1,0 +1,7 @@
+#dashboard-table{
+    -fx-font-size: 14px;
+    -fx-font-family: "Noto Sans";
+    -fx-background-color: #000000;
+    -fx-alignment: CENTER;
+    -fx-font-weight: bold;
+}

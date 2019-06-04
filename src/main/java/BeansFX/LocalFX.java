@@ -179,7 +179,7 @@ public class LocalFX extends BaseFX {
 
     @Override
     public String toString() {
-        return "Local: " + getNombre();
+        return getNombre();
     }
 
 }//fin de clase

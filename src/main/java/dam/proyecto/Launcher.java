@@ -51,7 +51,8 @@ public class Launcher extends Application {
             Parent root = loader.load();
             viewController = loader.<AAController>getController();
             scene = new Scene(root);
-            scene.getStylesheets().add("/styles/Styles.css");
+            scene.getStylesheets().add("/styles/Buttons.css");
+            scene.getStylesheets().add("/styles/Base.css");
             new LogicController(viewController);
         } catch (IOException ex) {
             System.err.println("NO SE HA ENCONTRADO EL FXML");

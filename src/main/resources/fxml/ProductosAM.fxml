@@ -194,17 +194,17 @@
                   <RowConstraints percentHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="490.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
+                  <ScrollPane hbarPolicy="NEVER" prefHeight="470.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
                      <content>
-                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" prefHeight="485.0" title="\% REFERENCIAL TOTAL" />
+                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" prefHeight="460.0" title="\% REFERENCIAL TOTAL" />
                      </content>
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
                   </ScrollPane>
-                  <ScrollPane hbarPolicy="ALWAYS" prefHeight="490.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                  <ScrollPane hbarPolicy="ALWAYS" prefHeight="470.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <content>
-                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" prefHeight="485.0" title="EVOLUTIVO PEDIDOS">
+                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" prefHeight="460.0" title="EVOLUTIVO PEDIDOS">
                            <xAxis>
                               <CategoryAxis fx:id="evoDiaAx" label="Dias" side="BOTTOM" />
                            </xAxis>
@@ -217,9 +217,9 @@
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </ScrollPane>
-                  <ScrollPane prefHeight="490.0" prefWidth="450.0" GridPane.columnIndex="2">
+                  <ScrollPane hbarPolicy="ALWAYS" prefHeight="470.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="2">
                      <content>
-                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" prefHeight="485.0" title="COMPARATIVO PEDIDOS">
+                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" prefHeight="460.0" title="COMPARATIVO PEDIDOS">
                            <xAxis>
                               <CategoryAxis fx:id="comLocAx" label="Locales" side="BOTTOM" />
                            </xAxis>

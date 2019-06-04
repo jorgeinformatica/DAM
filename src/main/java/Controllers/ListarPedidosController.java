@@ -7,6 +7,7 @@ import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
 import BeansFX.ProductoFX;
 import Utils.Constantes;
+import Utils.MetodosEstaticos;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Set;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
@@ -63,13 +65,13 @@ public class ListarPedidosController implements Initializable {
     private FilteredList<PedidoFX> filterPedidos;
     private ListarPedidosColumns tableController;
 
+
     /**
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
     }
 
     void init() {
@@ -87,17 +89,16 @@ public class ListarPedidosController implements Initializable {
         });
         filterPedidos = new FilteredList<>(listaPedidos, p -> true);
         pedidoTC.setCellValueFactory(pedido -> pedido.getValue().numPedProperty());
-        fechaPedidoTC.setCellValueFactory(pedido -> pedido.getValue().fechaPedProperty());
-        fechaEntregaTC.setCellValueFactory(pedido -> pedido.getValue().fechaEntregaProperty());
         localTC.setCellValueFactory(pedido -> pedido.getValue().localProperty());
         estadoPedidoTC.setCellValueFactory(pedido -> pedido.getValue().estadoProperty());
         productoTC.setCellValueFactory(linea -> linea.getValue().productoProperty());
         cantidadTC.setCellValueFactory(linea -> linea.getValue().cantidadProperty());
+        tableController.doColumnFEPedido(fechaEntregaTC);
+        tableController.doColumnFPPedido(fechaPedidoTC);
         tableController.doColumnLineasPedido(lineaTC);
         tableController.doColumnEstadoPedido(estadoLineaTC);
         tableController.doColumnActionPedido(accionesPedidosTC);
         tableController.doColumnActionsPedido(accionesLineasTC);
-        pedidosTV.getItems().addAll(filterPedidos);
         lineasTV.getItems().addAll(listaLineas);
     }
 
@@ -123,19 +124,13 @@ public class ListarPedidosController implements Initializable {
                 if (nV == null || nV.isEmpty()) {
                     return true;
                 }
-                String letras = nV.toLowerCase();
-                if (String.valueOf(pedido.getLocal().getCodLocal()).contains(letras)) {
-                    return true;
-                }
-                if (new SimpleDateFormat("dd/MM/yyyy").format(pedido.getFechaPed()).contains(letras)) {
-                    return true;
-                }
-                if (new SimpleDateFormat("dd/MM/yyyy").format(pedido.getFechaEntrega()).contains(letras)) {
-                    return true;
-                }
-                return String.valueOf(pedido.getNumPed()).contains(letras);
+                String letras = nV.toUpperCase();
+                return pedido.getLocal().getNombre().contains(letras);
             });
         });
+        SortedList<PedidoFX> listaOrdenada = new SortedList<>(filterPedidos);
+        listaOrdenada.comparatorProperty().bind(pedidosTV.comparatorProperty());
+        pedidosTV.setItems(listaOrdenada);
     }
 
     private void configurarPedidosTV() {

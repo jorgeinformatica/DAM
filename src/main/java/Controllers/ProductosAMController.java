@@ -75,6 +75,7 @@ public class ProductosAMController implements Initializable {
     private AAController viewControl;
     private ProductoFX producto;
     private FilteredList<ProductoFX> filteredItems;
+    private SimpleDateFormat sdf;
 
     /**
      * @param url
@@ -83,6 +84,7 @@ public class ProductosAMController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);
+        sdf = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     public void init(ProductoFX pro, ObservableList<Node> base) {
@@ -269,7 +271,7 @@ public class ProductosAMController implements Initializable {
         if (!evolutivo.isEmpty()) {
             XYChart.Series series = new XYChart.Series();
             evolutivo.stream().map((o) -> (Object[]) o).forEachOrdered((elem) -> {
-                series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(elem[1]), (Long) elem[0]));
+                series.getData().add(new XYChart.Data<>(sdf.format(elem[1]), (Long) elem[0]));
             });
             lineasEvolutivo.getData().add(series);
         }

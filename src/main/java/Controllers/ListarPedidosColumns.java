@@ -4,6 +4,7 @@ import BeansFX.LineaPedidoFX;
 import BeansFX.PedidoFX;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
+import java.text.SimpleDateFormat;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -27,10 +28,12 @@ public class ListarPedidosColumns {
 
     private final ListarPedidosController parentController;
     private final ObservableList<String> estados;
+    private SimpleDateFormat sdf;
 
     public ListarPedidosColumns(ListarPedidosController parentController) {
         this.parentController = parentController;
         estados = FXCollections.observableArrayList("EN PRODUCCION", "PREPARADO", "ENTREGADO", "ANULADO");
+        sdf = new SimpleDateFormat("dd-MM-yyyy");
     }
 
     @SuppressWarnings("Convert2Lambda")
@@ -112,6 +115,58 @@ public class ListarPedidosColumns {
                             });
                             btn.setTooltip(new Tooltip("Ver en detalle el producto"));
                             HBox h = new HBox(5, btn);
+                            h.alignmentProperty().setValue(Pos.CENTER);
+                            setGraphic(h);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+    }
+
+    @SuppressWarnings("Convert2Lambda")
+    public void doColumnFEPedido(TableColumn accionesTC) {
+        accionesTC.setCellValueFactory(new PropertyValueFactory<>("ProductoFX"));
+        accionesTC.setCellFactory(new Callback<TableColumn<PedidoFX, Void>, TableCell<PedidoFX, Void>>() {
+            @Override
+            public TableCell<PedidoFX, Void> call(TableColumn<PedidoFX, Void> param) {
+                TableCell<PedidoFX, Void> cell = new TableCell<PedidoFX, Void>() {
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            PedidoFX pedido = getTableView().getItems().get(getIndex());
+                            Label lb = new Label(sdf.format(pedido.getFechaEntrega()));
+                            HBox h = new HBox(1, lb);
+                            h.alignmentProperty().setValue(Pos.CENTER);
+                            setGraphic(h);
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
+    }
+
+    @SuppressWarnings("Convert2Lambda")
+    public void doColumnFPPedido(TableColumn accionesTC) {
+        accionesTC.setCellValueFactory(new PropertyValueFactory<>("ProductoFX"));
+        accionesTC.setCellFactory(new Callback<TableColumn<PedidoFX, Void>, TableCell<PedidoFX, Void>>() {
+            @Override
+            public TableCell<PedidoFX, Void> call(TableColumn<PedidoFX, Void> param) {
+                TableCell<PedidoFX, Void> cell = new TableCell<PedidoFX, Void>() {
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            PedidoFX pedido = getTableView().getItems().get(getIndex());
+                            Label lb = new Label(sdf.format(pedido.getFechaPed()));
+                            HBox h = new HBox(1, lb);
                             h.alignmentProperty().setValue(Pos.CENTER);
                             setGraphic(h);
                         }
