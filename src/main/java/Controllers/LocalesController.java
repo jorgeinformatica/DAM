@@ -4,6 +4,7 @@ import Beans.CiudadConcp;
 import Beans.Direccion;
 import Beans.LineaPedido;
 import Beans.Local;
+import Beans.Pedido;
 import BeansFX.CiudadFX;
 import BeansFX.CodigoPostalFX;
 import BeansFX.LocalFX;
@@ -117,6 +118,9 @@ public class LocalesController implements Initializable {
         infoFiltro.setTooltip(new Tooltip("FILTRA LOS LOCALES EN BASE AL TEXTO INTRODUCIDO"));
         listaLocal = FXCollections.observableArrayList();
         listaPedidos = FXCollections.observableArrayList();
+        FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Pedido.class, Constantes.HQLCondicion.NEUTRO.getCondicion())).forEach((Object ped) -> {
+            listaPedidos.add(new PedidoFX((Pedido) ped));
+        });
         FXCollections.observableList(viewControl.getLogic().getHibControl().getList(Local.class, Constantes.HQLCondicion.ESTADO.getCondicion())).forEach((Object lo) -> {
             listaLocal.add(new LocalFX((Local) lo));
         });
@@ -304,6 +308,8 @@ public class LocalesController implements Initializable {
         cbCiudad.getSelectionModel().select(local.getDireccion().getRelCpCiu().getCiudad());
         filterCP.setPredicate(p -> true);
         cbCP.getSelectionModel().select(local.getDireccion().getRelCpCiu().getCodigoPostal());
+        configurarTarta();
+        configurarEvolutivo();
     }
 
     private void actualizarLocal(LocalFX lo) {
@@ -349,6 +355,7 @@ public class LocalesController implements Initializable {
                 series.getData().add(new XYChart.Data<>(new SimpleDateFormat("dd-MM-yyyy").format(pedFX.getFechaEntrega()), valor));
             }
         }
+        lineasEvolutivo.getData().add(series);
     }
 
     private void configurarBarrasLocales() {
