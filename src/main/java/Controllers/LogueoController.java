@@ -51,7 +51,7 @@ public class LogueoController implements Initializable {
                 aviso.setHeaderText(null);
                 aviso.showAndWait();
                 viewControl.getBarra().setVisible(true);
-        //        viewControl.getStage().setFullScreen(true);
+                viewControl.getStage().setFullScreen(true);
                 viewControl.getBase().getChildren().remove(viewControl.getLogic().getRoot());
                 viewControl = null;
             } else {

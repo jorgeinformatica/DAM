@@ -43,7 +43,7 @@
                   <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="0.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints maxHeight="40.0" minHeight="40.0" percentHeight="0.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints vgrow="ALWAYS" />
                </rowConstraints>
                <children>
                   <Button mnemonicParsing="false" onAction="#nuevoProducto" prefWidth="120.0" text="NUEVO" GridPane.columnIndex="1">
@@ -105,7 +105,7 @@
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="150.0" percentWidth="0.0" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints minHeight="50.0" percentHeight="0.0" vgrow="SOMETIMES" />
+                  <RowConstraints />
                </rowConstraints>
                <children>
                   <Label alignment="CENTER" contentDisplay="BOTTOM" prefWidth="120.0" text="PRECIO" GridPane.columnIndex="3">
@@ -177,39 +177,39 @@
             </HBox>
             <Separator prefWidth="200.0" />
             <Label text="Análisis del producto">
-               <padding>
-                  <Insets bottom="10.0" top="10.0" />
-               </padding>
                <font>
                   <Font name="Noto Sans Bold" size="18.0" />
                </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
             </Label>
             <GridPane alignment="CENTER">
                <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
                   <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="0.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
                </columnConstraints>
                <rowConstraints>
-                  <RowConstraints percentHeight="0.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ScrollPane hbarPolicy="NEVER" prefHeight="470.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
+                  <ScrollPane hbarPolicy="NEVER" maxHeight="425.0" maxWidth="500.0" minHeight="350.0" minWidth="400.0" prefHeight="375.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
                      <content>
-                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" prefHeight="460.0" title="\% REFERENCIAL TOTAL" />
+                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" maxHeight="425.0" maxWidth="500.0" minHeight="350.0" minWidth="400.0" prefHeight="375.0" prefWidth="450.0" title="\% REFERENCIAL TOTAL" />
                      </content>
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />
                      </GridPane.margin>
                   </ScrollPane>
-                  <ScrollPane hbarPolicy="ALWAYS" prefHeight="470.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                  <ScrollPane hbarPolicy="ALWAYS" maxHeight="425.0" maxWidth="500.0" minHeight="350.0" minWidth="400.0" prefHeight="375.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                      <content>
-                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" prefHeight="460.0" title="EVOLUTIVO PEDIDOS">
+                        <LineChart fx:id="lineasEvolutivo" alternativeColumnFillVisible="true" animated="false" axisSortingPolicy="NONE" legendVisible="false" maxHeight="425.0" maxWidth="500.0" minHeight="350.0" minWidth="400.0" prefHeight="375.0" prefWidth="450.0" title="EVOLUTIVO PEDIDOS">
                            <xAxis>
-                              <CategoryAxis fx:id="evoDiaAx" label="Dias" side="BOTTOM" />
+                              <CategoryAxis fx:id="evoDiaAx" label="FECHA" side="BOTTOM" />
                            </xAxis>
                            <yAxis>
-                              <NumberAxis fx:id="evoCanAx" label="Cantidad" minorTickCount="1" side="LEFT" tickLength="5.0" />
+                              <NumberAxis fx:id="evoCanAx" label="CANTIDAD" minorTickCount="1" side="LEFT" tickLength="5.0" />
                            </yAxis>
                         </LineChart>
                      </content>
@@ -217,14 +217,14 @@
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </ScrollPane>
-                  <ScrollPane hbarPolicy="ALWAYS" prefHeight="470.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="2">
+                  <ScrollPane hbarPolicy="ALWAYS" maxHeight="425.0" maxWidth="500.0" minHeight="350.0" minWidth="400.0" prefHeight="375.0" prefWidth="450.0" vbarPolicy="NEVER" GridPane.columnIndex="2">
                      <content>
-                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" prefHeight="460.0" title="COMPARATIVO PEDIDOS">
+                        <BarChart fx:id="barrasComparativo" alternativeColumnFillVisible="true" animated="false" barGap="5.0" legendVisible="false" maxHeight="425.0" maxWidth="500.0" minHeight="350.0" minWidth="400.0" prefHeight="375.0" prefWidth="450.0" title="COMPARATIVO PEDIDOS">
                            <xAxis>
-                              <CategoryAxis fx:id="comLocAx" label="Locales" side="BOTTOM" />
+                              <CategoryAxis fx:id="comLocAx" label="LOCAL" side="BOTTOM" />
                            </xAxis>
                            <yAxis>
-                              <NumberAxis fx:id="comCantAx" label="Cantidad" side="LEFT" />
+                              <NumberAxis fx:id="comCantAx" label="CANTIDAD" side="LEFT" />
                            </yAxis>
                         </BarChart>
                      </content>
@@ -234,7 +234,7 @@
                   </ScrollPane>
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="5.0" right="5.0" />
                </VBox.margin>
             </GridPane>
          </children>
