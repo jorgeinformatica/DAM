@@ -159,10 +159,12 @@ public class DashboardController implements Initializable {
     }
 
     private void configurarBoton(DashboardContainer dC, ProductoFX prod, Button btn) {
-        String[] split = dC.getCantidad(prod.getCodProd()).split("|");
+        String[] split = dC.getCantidad(prod.getCodProd()).split("[|]");
         if (split[0].equals("0")) {
             btn.setId(Constantes.Estados.ENPRODUCCION.getId());
-        } else {
+        } else if(!split[0].equals(split[1])){
+            btn.setId(Constantes.Estados.PREPARADOPARCIAL.getId());
+        }else{
             btn.setId(Constantes.Estados.PREPARADO.getId());
         }
     }

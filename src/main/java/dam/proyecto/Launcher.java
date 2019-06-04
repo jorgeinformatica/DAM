@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import org.fxmisc.cssfx.CSSFX;
 
 /**
  * @author Jorge Sempere Jimenez
@@ -40,7 +39,6 @@ public class Launcher extends Application {
         primaryStage.setOnHiding((WindowEvent event) -> {
             MetodosEstaticos.SalirApp(primaryStage);
         });
-        CSSFX.start();
     }
 
     @Override

@@ -6,6 +6,7 @@ package Utils;
 public class Constantes {
 
     public enum Estados {
+        PREPARADOPARCIAL("PARCIAL", "btn-preparado-parcial"),
         ENPRODUCCION("INCOMPLETO", "btn-produccion"),
         PREPARADO("PREPARADO", "btn-preparado"),
         ENTREGADO("ENTREGADO", "btn-entregado"),
@@ -31,7 +32,7 @@ public class Constantes {
         NEUTRO(" 1 = 1 "),
         PEDIDO(" elemento.local.estado = 1 "),
         CENTRALREF(" elemento.ciudad.codCiudad = 265 AND elemento.codigoPostal.codPostal= '03802' "),
-        ESTADO(" elemento.estado = 1" );
+        ESTADO(" elemento.estado = 1");
         private final String condicion;
 
         private HQLCondicion(String condicion) {
@@ -43,7 +44,7 @@ public class Constantes {
         }
     }
 
-    public enum HQLSentencia{
+    public enum HQLSentencia {
         PRODUCTOTOTAL("SELECT sum(LP.cantidad) AS total "
                 + "FROM LineaPedido LP join LP.producto PRO WHERE PRO.codProd != :id"),
         PRODUCTOSUBTOTAL("SELECT sum(LP.cantidad) AS total "
@@ -64,5 +65,5 @@ public class Constantes {
             return sentencia;
         }
     }
-    
+
 }//fin de clase
