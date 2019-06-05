@@ -66,4 +66,17 @@ public class Constantes {
         }
     }
 
+    public enum CSSId {
+        TABLEVIEWID("dashboard-table");
+        private final String id;
+
+        private CSSId(String id) {
+            this.id = id;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+    }
 }//fin de clase

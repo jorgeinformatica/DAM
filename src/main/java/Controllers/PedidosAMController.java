@@ -100,6 +100,7 @@ public class PedidosAMController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);
+        lineasTV.setId(Constantes.CSSId.TABLEVIEWID.getId());
     }
 
     public void init(PedidoFX ped, ObservableList<Node> base) {

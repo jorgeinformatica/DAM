@@ -210,8 +210,8 @@ public class ProductosAMController implements Initializable {
         comCantAx.setTickLabelFont(font);
         evoDiaAx.setTickLabelFont(font);
         evoCanAx.setTickLabelFont(font);
-        comLocAx.setTickLabelRotation(45);
-        evoDiaAx.setTickLabelRotation(45);
+        comLocAx.setTickLabelRotation(-45);
+        evoDiaAx.setTickLabelRotation(-45);
         tartaPorcentaje.setStartAngle(110);
         configurarEvolutivo(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOEVOLUTIVO.getSentencia(), producto.getCodProd()));
         configurarBarrasLocales(viewControl.getLogic().getHibControl().getList(Constantes.HQLSentencia.PRODUCTOLOCALES.getSentencia(), producto.getCodProd()));
@@ -274,6 +274,7 @@ public class ProductosAMController implements Initializable {
                 series.getData().add(new XYChart.Data<>(sdf.format(elem[1]), (Long) elem[0]));
             });
             lineasEvolutivo.getData().add(series);
+            toolTipBar(lineasEvolutivo.getData());
         }
     }
 
@@ -287,6 +288,7 @@ public class ProductosAMController implements Initializable {
             }
         }
         barrasComparativo.getData().add(data);
+        toolTipBar(barrasComparativo.getData());
     }
 
     private void configurarTartas(List<Object> totalProducto, List<Object> restoProductos) {
@@ -310,4 +312,14 @@ public class ProductosAMController implements Initializable {
         Tooltip.install(dato.getNode(), ttPie);
     }
 
+    private void toolTipBar(ObservableList<XYChart.Series<Long, String>> datos) {
+        datos.forEach((series) -> {
+            series.getData().forEach((data) -> {
+                Tooltip ttBar = new Tooltip();
+                ttBar.setText("Cantidad: " + String.valueOf(data.getYValue()));
+                ttBar.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
+                Tooltip.install(data.getNode(), ttBar);
+            });
+        });
+    }
 }//fin de clase

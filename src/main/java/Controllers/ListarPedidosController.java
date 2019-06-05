@@ -7,9 +7,7 @@ import BeansFX.LocalFX;
 import BeansFX.PedidoFX;
 import BeansFX.ProductoFX;
 import Utils.Constantes;
-import Utils.MetodosEstaticos;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -65,13 +63,14 @@ public class ListarPedidosController implements Initializable {
     private FilteredList<PedidoFX> filterPedidos;
     private ListarPedidosColumns tableController;
 
-
     /**
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        pedidosTV.setId(Constantes.CSSId.TABLEVIEWID.getId());
+        lineasTV.setId(Constantes.CSSId.TABLEVIEWID.getId());
     }
 
     void init() {

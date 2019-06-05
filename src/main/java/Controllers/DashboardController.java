@@ -79,7 +79,8 @@ public class DashboardController implements Initializable {
             init();
         });
         dpFecha.setValue(LocalDate.now());
-        tvCuadro.setId("dashboard-table");
+        tvCuadro.setId(Constantes.CSSId.TABLEVIEWID.getId());
+        btnRefresco.setId(Constantes.Estados.ENTREGADO.getId());
     }
 
     @FXML

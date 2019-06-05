@@ -226,9 +226,9 @@
                   <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
-                  <ScrollPane hbarPolicy="ALWAYS" maxHeight="425.0" maxWidth="450.0" minHeight="375.0" minWidth="350.0" prefHeight="400.0" prefWidth="400.0" vbarPolicy="NEVER" GridPane.columnIndex="2">
+                  <ScrollPane hbarPolicy="ALWAYS" maxHeight="500.0" maxWidth="500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="400.0" vbarPolicy="NEVER" GridPane.columnIndex="2">
                      <content>
-                        <BarChart fx:id="barrasComparativo" animated="false" barGap="5.0" categoryGap="20.0" legendVisible="false" maxHeight="400.0" maxWidth="450.0" minHeight="325.0" minWidth="350.0" prefHeight="350.0" prefWidth="400.0" title="COMPARATIVO VALOR">
+                        <BarChart fx:id="barrasComparativo" animated="false" barGap="5.0" categoryGap="20.0" legendVisible="false" maxHeight="500.0" maxWidth="900.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" title="COMPARATIVO VALOR">
                            <xAxis>
                               <CategoryAxis fx:id="comLocAx" label="LOCALES" side="BOTTOM" />
                            </xAxis>
@@ -241,9 +241,9 @@
                         <Insets left="5.0" />
                      </GridPane.margin>
                   </ScrollPane>
-                  <ScrollPane hbarPolicy="ALWAYS" maxHeight="425.0" maxWidth="450.0" minHeight="375.0" minWidth="350.0" prefHeight="400.0" prefWidth="400.0" vbarPolicy="NEVER">
+                  <ScrollPane hbarPolicy="ALWAYS" maxHeight="500.0" maxWidth="500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="400.0" vbarPolicy="NEVER">
                      <content>
-                        <LineChart fx:id="lineasEvolutivo" animated="false" axisSortingPolicy="NONE" legendVisible="false" maxHeight="400.0" maxWidth="450.0" minHeight="325.0" minWidth="350.0" prefHeight="350.0" prefWidth="400.0" title="EVOLUTIVO PEDIDOS">
+                        <LineChart fx:id="lineasEvolutivo" animated="false" axisSortingPolicy="NONE" legendVisible="false" maxHeight="500.0" maxWidth="900.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="600.0" title="EVOLUTIVO PEDIDOS">
                            <xAxis>
                               <CategoryAxis fx:id="evoDiaAx" label="FECHA" side="BOTTOM" />
                            </xAxis>
@@ -256,9 +256,9 @@
                         <Insets right="5.0" />
                      </GridPane.margin>
                   </ScrollPane>
-                  <ScrollPane hbarPolicy="NEVER" maxHeight="425.0" maxWidth="450.0" minHeight="375.0" minWidth="350.0" prefHeight="400.0" prefWidth="400.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
+                  <ScrollPane hbarPolicy="NEVER" maxHeight="500.0" maxWidth="500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="400.0" vbarPolicy="NEVER" GridPane.columnIndex="1">
                      <content>
-                        <PieChart fx:id="tartaPorcentaje" legendVisible="false" maxHeight="400.0" maxWidth="450.0" minHeight="325.0" minWidth="350.0" prefHeight="350.0" prefWidth="400.0" title="\% PESO LOCALES" />
+                        <PieChart fx:id="tartaPorcentaje" animated="false" legendVisible="false" maxHeight="500.0" maxWidth="500.0" minHeight="300.0" minWidth="300.0" prefHeight="400.0" prefWidth="400.0" title="\% PESO LOCALES" />
                      </content>
                      <GridPane.margin>
                         <Insets left="5.0" right="5.0" />

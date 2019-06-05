@@ -181,10 +181,10 @@
                   </Label>
                   <TableView fx:id="lineasTV" VBox.vgrow="ALWAYS">
                      <columns>
-                        <TableColumn fx:id="lineaTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="LINEA" />
+                        <TableColumn fx:id="lineaTC" maxWidth="100.0" minWidth="50.0" prefWidth="75.0" text="LINEA" />
                         <TableColumn fx:id="productoTC" maxWidth="300.0" minWidth="100.0" prefWidth="200.0" text="PRODUCTO" />
-                        <TableColumn fx:id="cantidadTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="CANTIDAD" />
-                        <TableColumn fx:id="estadoTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="ESTADO" />
+                        <TableColumn fx:id="cantidadTC" maxWidth="100.0" minWidth="50.0" prefWidth="75.0" text="CANTIDAD" />
+                        <TableColumn fx:id="estadoTC" maxWidth="175.0" minWidth="75.0" prefWidth="125.0" text="ESTADO" />
                         <TableColumn fx:id="accionesTC" maxWidth="150.0" minWidth="50.0" prefWidth="100.0" text="ACCIONES" />
                      </columns>
                      <VBox.margin>

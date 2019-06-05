@@ -16,7 +16,6 @@ import dam.proyecto.LogicController;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -291,8 +290,8 @@ public class LocalesController implements Initializable {
         comPreAx.setTickLabelFont(font);
         evoDiaAx.setTickLabelFont(font);
         evoPreAx.setTickLabelFont(font);
-        comLocAx.setTickLabelRotation(45);
-        evoDiaAx.setTickLabelRotation(45);
+        comLocAx.setTickLabelRotation(-45);
+        evoDiaAx.setTickLabelRotation(-45);
         tartaPorcentaje.setStartAngle(110);
         configurarEvolutivo();
         configurarBarrasLocales();
@@ -356,6 +355,7 @@ public class LocalesController implements Initializable {
             }
         }
         lineasEvolutivo.getData().add(series);
+        toolTipBar(lineasEvolutivo.getData());
     }
 
     private void configurarBarrasLocales() {
@@ -372,8 +372,8 @@ public class LocalesController implements Initializable {
             }
             data.getData().add(new XYChart.Data<>(locFX.getNombre(), valor));
         }
-
         barrasComparativo.getData().add(data);
+        toolTipBar(barrasComparativo.getData());
     }
 
     private void configurarTarta() {
@@ -407,6 +407,17 @@ public class LocalesController implements Initializable {
                 + System.lineSeparator() + "Porcentaje: " + Math.round((100 * t.getPieValue()) / valor.doubleValue()) + "%");
         ttPie.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
         Tooltip.install(t.getNode(), ttPie);
+    }
+
+    private void toolTipBar(ObservableList<XYChart.Series<BigDecimal, String>> datos) {
+        datos.forEach((series) -> {
+            series.getData().forEach((data) -> {
+                Tooltip ttBar = new Tooltip();
+                ttBar.setText("Valor: " + String.valueOf(data.getYValue()) + "€");
+                ttBar.setStyle("-fx-font: 12 arial;-fx-background-color: black; -fx-text-fill: whitesmoke;");
+                Tooltip.install(data.getNode(), ttBar);
+            });
+        });
     }
 
 }//fin de la clase

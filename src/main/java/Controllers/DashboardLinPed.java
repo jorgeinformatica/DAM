@@ -1,6 +1,7 @@
 package Controllers;
 
 import BeansFX.LineaPedidoFX;
+import Utils.Constantes;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -19,7 +20,7 @@ import javafx.util.Callback;
  * @author Jorge Sempere Jimenez
  */
 public class DashboardLinPed implements Initializable {
-
+    
     @FXML
     private TableView<LineaPedidoFX> tvLineas;
     @FXML
@@ -30,14 +31,14 @@ public class DashboardLinPed implements Initializable {
     private TableColumn<LineaPedidoFX, Short> tcCantidad;
     @FXML
     private TableColumn<LineaPedidoFX, String> tcEstado;
-
+    
     private ObservableList<LineaPedidoFX> lineas;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        tvLineas.setId(Constantes.CSSId.TABLEVIEWID.getId());
     }
-
+    
     public void init(ObservableList<LineaPedidoFX> lineas) {
         this.lineas = lineas;
         doColumnLineasPedido(ltcLinea);
@@ -46,7 +47,7 @@ public class DashboardLinPed implements Initializable {
         tcEstado.setCellValueFactory(linea -> linea.getValue().estadoProperty());
         tvLineas.getItems().addAll(lineas);
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
     public void doColumnLineasPedido(TableColumn lineasTC) {
         lineasTC.setCellValueFactory(new PropertyValueFactory<>("LineaPedidoFX"));
@@ -71,5 +72,5 @@ public class DashboardLinPed implements Initializable {
             }
         });
     }
-
+    
 }//fin de clase

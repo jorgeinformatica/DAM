@@ -1,6 +1,7 @@
 package Controllers;
 
 import BeansFX.ProductoFX;
+import Utils.Constantes;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ import javafx.util.Callback;
  * @author Jorge Sempere
  */
 public class ListarProductosController implements Initializable {
-
+    
     @FXML
     private TextField txtBuscar;
     @FXML
@@ -40,13 +41,14 @@ public class ListarProductosController implements Initializable {
     private TableColumn<ProductoFX, String> ivaTC;
     @FXML
     private TableColumn<ProductoFX, String> descripcionTC;
-
+    
     private AAController viewControl;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
-
+        productosTV.setId(Constantes.CSSId.TABLEVIEWID.getId());
+    }    
+    
     public void init() {
         nombreTC.setCellValueFactory(producto -> producto.getValue().nombreProperty());
         precioTC.setCellValueFactory(producto -> producto.getValue().precioProperty());
@@ -68,11 +70,11 @@ public class ListarProductosController implements Initializable {
         listaOrdenada.comparatorProperty().bind(productosTV.comparatorProperty());
         productosTV.setItems(listaOrdenada);
     }
-
+    
     void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
-
+    
     @SuppressWarnings("Convert2Lambda")
     private void doColumnActionsProducto(TableColumn accionesTC) {
         accionesTC.setCellValueFactory(new PropertyValueFactory<>("ProductoFX"));
@@ -103,5 +105,5 @@ public class ListarProductosController implements Initializable {
             }
         });
     }
-
+    
 }//fin de clase
