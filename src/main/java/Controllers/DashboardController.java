@@ -250,6 +250,9 @@ public class DashboardController implements Initializable {
                 }
             }
             Alert aviso = new Alert(AlertType.INFORMATION);
+            aviso.setGraphic(null);
+            aviso.setHeaderText(null);
+            aviso.setTitle("Lista de lineas asociadas");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/LineasPedido.fxml"));
             try {
                 aviso.getDialogPane().setContent(loader.load());
