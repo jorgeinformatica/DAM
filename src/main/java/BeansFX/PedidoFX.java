@@ -150,7 +150,7 @@ public class PedidoFX extends BaseFX {
     
     @Override
     public String toString() {
-        return "Numero: " + getNumPed() + " [" + new SimpleDateFormat("dd/MM/yyyy").format(getFechaPed()) + "]";
+        return new SimpleDateFormat("dd-MMMM-yyyy").format(getFechaEntrega());
     }
     
 }//fin de clase

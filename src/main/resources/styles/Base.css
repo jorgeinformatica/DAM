@@ -1,3 +1,9 @@
+#Base{
+    -fx-background-image: url("../images/logotipo.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: bottom right;
+}
+
 #dashboard-table{
     -fx-font-size: 14px;
     -fx-font-family: "Noto Sans";
@@ -23,9 +29,9 @@
 
 .scroll-bar:vertical .track-background,
 .scroll-bar:horizontal .track-background {
-   -fx-background-color: transparent;
-   -fx-background-insets: 0;
-   -fx-background-radius: 2em;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 2em;
 }
 
 .scroll-bar:vertical .increment-button ,
@@ -63,12 +69,12 @@
 }
 
 .scroll-bar{
-   -fx-background-color: transparent;
-   -fx-background-radius: 2em;
-   -fx-focus-color: transparent;
-   -fx-faint-focus-color: transparent;
+    -fx-background-color: transparent;
+    -fx-background-radius: 2em;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .scroll-bar:vertical:focused {
-   -fx-background-color: transparent;
+    -fx-background-color: transparent;
 }

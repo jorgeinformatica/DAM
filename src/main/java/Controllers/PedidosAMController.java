@@ -92,6 +92,7 @@ public class PedidosAMController implements Initializable {
     private ObservableList<LocalFX> listaLocal;
     private FilteredList<LocalFX> filterLocal;
     private PedidosAMColumns tableController;
+    private SimpleDateFormat sdf;
 
     /**
      * @param url
@@ -101,6 +102,7 @@ public class PedidosAMController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);
         lineasTV.setId(Constantes.CSSId.TABLEVIEWID.getId());
+        sdf = new SimpleDateFormat("dd-MMMM-yyyy");
     }
 
     public void init(PedidoFX ped, ObservableList<Node> base) {
@@ -205,7 +207,7 @@ public class PedidosAMController implements Initializable {
                 refrescarVista();
             } else {
                 Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Ya existe un pedido para la fecha idicada,"
-                        + System.lineSeparator() + "añade ahi lo que deseas.", ButtonType.OK);
+                        + System.lineSeparator() + "añade ahí lo que deseas.", ButtonType.OK);
                 aviso.showAndWait();
                 pedido = recorrerPedidos(pedidoTempo);
                 refrescarVista();
@@ -217,12 +219,12 @@ public class PedidosAMController implements Initializable {
     }
 
     private void configurarTxtFiltroLocal() {
-        txtFiltroLocales.textProperty().addListener((obs, oldValue, newValue) -> {
+        txtFiltroLocales.textProperty().addListener((obs, oV, nV) -> {
             LocalFX selected = cbLocales.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
-                if (selected == null || !selected.getDireccion().getNombre().toUpperCase().equals(newValue.toUpperCase())) {
-                    filterLocal.setPredicate(item -> {
-                        return ((LocalFX) item).getDireccion().getNombre().toUpperCase().contains(newValue.toUpperCase());
+                if (selected == null || !selected.getNombre().toUpperCase().equalsIgnoreCase(nV.toUpperCase())) {
+                    filterLocal.setPredicate(loc -> {
+                        return ((LocalFX) loc).getNombre().toUpperCase().contains(nV.toUpperCase());
                     });
                 }
             });
@@ -230,12 +232,12 @@ public class PedidosAMController implements Initializable {
     }
 
     private void configurarTxtFiltroPedido() {
-        txtFiltroPedidos.textProperty().addListener((obs, oldValue, newValue) -> {
+        txtFiltroPedidos.textProperty().addListener((obs, oV, nV) -> {
             PedidoFX selected = cbPedidos.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
-                if (selected == null || !selected.getFechaPed().toString().equals(newValue)) {
-                    filterPedido.setPredicate(item -> {
-                        return ((PedidoFX) item).getFechaPed().toString().contains(newValue);
+                if (selected == null || !selected.getFechaEntrega().toString().equalsIgnoreCase(nV)) {
+                    filterPedido.setPredicate(ped -> {
+                        return sdf.format(((PedidoFX) ped).getFechaEntrega()).contains(nV);
                     });
                 }
             });
@@ -272,6 +274,7 @@ public class PedidosAMController implements Initializable {
                     if (nV != null) {
                         local = nV;
                         limpiarNodos();
+                        pedido = cbPedidos.getSelectionModel().isEmpty() ? null : cbPedidos.getItems().get(0);
                         refrescarVista();
                         if (oV != null) {
                             actualizarPedido(pedido);
@@ -361,12 +364,6 @@ public class PedidosAMController implements Initializable {
                 base.removeListener(this);
             }
         });
-    }
-
-    private void aceptarCambios() {
-        if (!btnAceptarCambio.isVisible() && pedido.comprobarCambios()) {
-            viewControl.getLogic().aceptarCambiosBtn(btnAceptarCambio, pedido);
-        }
     }
 
     private Pedido comprobarFechaPed(Date value) {

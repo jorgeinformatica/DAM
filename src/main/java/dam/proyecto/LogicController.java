@@ -1,6 +1,5 @@
 package dam.proyecto;
 
-import Beans.BaseBean;
 import Beans.Ciudad;
 import Beans.CiudadConcp;
 import Beans.CodigoPostal;
@@ -34,7 +33,6 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;

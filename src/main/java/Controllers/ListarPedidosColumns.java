@@ -113,7 +113,7 @@ public class ListarPedidosColumns {
                                 parentController.getViewControl().getLogic().setPedido(pedido);
                                 parentController.getViewControl().getmItModPed().fire();
                             });
-                            btn.setTooltip(new Tooltip("Ver en detalle el producto"));
+                            btn.setTooltip(new Tooltip("Ver en detalle el pedido"));
                             HBox h = new HBox(5, btn);
                             h.alignmentProperty().setValue(Pos.CENTER);
                             setGraphic(h);

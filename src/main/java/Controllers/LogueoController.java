@@ -21,7 +21,7 @@ public class LogueoController implements Initializable {
     private TextField txtUser;
     @FXML
     private PasswordField txtPass;
-    
+
     private AAController viewControl;
 
     @Override
@@ -53,6 +53,7 @@ public class LogueoController implements Initializable {
                 viewControl.getBarra().setVisible(true);
                 viewControl.getStage().setFullScreen(true);
                 viewControl.getBase().getChildren().remove(viewControl.getLogic().getRoot());
+                viewControl.getBase().setId("Base");
                 viewControl = null;
             } else {
                 Alert aviso = new Alert(Alert.AlertType.INFORMATION, "Datos incorrectos, vuelva a intentarlo", ButtonType.OK);
@@ -74,6 +75,7 @@ public class LogueoController implements Initializable {
 
     public void setViewControl(AAController viewControl) {
         this.viewControl = viewControl;
+        viewControl.getBase().setId("No-Base");
     }
 
 }//fin de la clase
