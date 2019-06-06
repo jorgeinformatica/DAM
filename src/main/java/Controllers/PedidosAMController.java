@@ -233,14 +233,12 @@ public class PedidosAMController implements Initializable {
 
     private void configurarTxtFiltroPedido() {
         txtFiltroPedidos.textProperty().addListener((obs, oV, nV) -> {
-            PedidoFX selected = cbPedidos.getSelectionModel().getSelectedItem();
-            Platform.runLater(() -> {
-                if (selected == null || !selected.getFechaEntrega().toString().equalsIgnoreCase(nV)) {
+                if (!cbPedidos.getItems().isEmpty()) {
                     filterPedido.setPredicate(ped -> {
                         return sdf.format(((PedidoFX) ped).getFechaEntrega()).contains(nV);
                     });
+                    cbPedidos.getSelectionModel().selectFirst();
                 }
-            });
         });
     }
 
