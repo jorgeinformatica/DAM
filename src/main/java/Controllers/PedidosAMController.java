@@ -226,6 +226,7 @@ public class PedidosAMController implements Initializable {
                     filterLocal.setPredicate(loc -> {
                         return ((LocalFX) loc).getNombre().toUpperCase().contains(nV.toUpperCase());
                     });
+                    cbLocales.getSelectionModel().selectFirst();
                 }
             });
         });

@@ -275,10 +275,11 @@ public class LocalesController implements Initializable {
         txtFiltro.textProperty().addListener((obs, oldValue, newValue) -> {
             LocalFX selected = cbLocales.getSelectionModel().getSelectedItem();
             Platform.runLater(() -> {
-                if (selected == null || !selected.getDireccion().getNombre().toUpperCase().equals(newValue.toUpperCase())) {
+                if (selected == null || !selected.getNombre().toUpperCase().equals(newValue.toUpperCase())) {
                     filterLocal.setPredicate(item -> {
-                        return ((LocalFX) item).getDireccion().getNombre().toUpperCase().contains(newValue.toUpperCase());
+                        return ((LocalFX) item).getNombre().toUpperCase().contains(newValue.toUpperCase());
                     });
+                    cbLocales.getSelectionModel().selectFirst();
                 }
             });
         });

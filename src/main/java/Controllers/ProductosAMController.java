@@ -233,6 +233,7 @@ public class ProductosAMController implements Initializable {
                     filteredItems.setPredicate(item -> {
                         return ((ProductoFX) item).getNombre().contains(newValue.toUpperCase());
                     });
+                    cbElementos.getSelectionModel().selectFirst();
                 }
             });
         });

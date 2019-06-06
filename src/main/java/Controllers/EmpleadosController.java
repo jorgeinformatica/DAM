@@ -281,6 +281,7 @@ public class EmpleadosController implements Initializable {
                     filterEmpleados.setPredicate(item -> {
                         return ((EmpleadoFX) item).toString().toUpperCase().contains(newValue.toUpperCase());
                     });
+                    cbEmpleados.getSelectionModel().selectFirst();
                 }
             });
         });
