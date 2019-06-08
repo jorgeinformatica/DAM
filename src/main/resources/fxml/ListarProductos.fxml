@@ -31,11 +31,11 @@
       </Label>
       <TableView fx:id="productosTV" prefHeight="500.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
         <columns>
-            <TableColumn fx:id="accionesTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="ACCIONES" />
-            <TableColumn fx:id="nombreTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="NOMBRE" />
-          <TableColumn fx:id="precioTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="PRECIO" />
-          <TableColumn fx:id="ivaTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="IVA" />
-            <TableColumn fx:id="descripcionTC" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="DESCRIPCION" />
+            <TableColumn fx:id="accionesTC" editable="false" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="ACCIONES" />
+            <TableColumn fx:id="nombreTC" editable="false" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="NOMBRE" />
+          <TableColumn fx:id="precioTC" editable="false" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="PRECIO" />
+          <TableColumn fx:id="ivaTC" editable="false" maxWidth="1.7976931348623157E308" prefWidth="150.0" text="IVA" />
+            <TableColumn fx:id="descripcionTC" editable="false" maxWidth="1.7976931348623157E308" prefWidth="150.0" sortable="false" text="DESCRIPCION" />
         </columns>
          <VBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

@@ -14,7 +14,7 @@
                 <Menu fx:id="Productos" mnemonicParsing="false" text="Productos">
                   <items>
                     <MenuItem fx:id="mItListProd" mnemonicParsing="false" onAction="#mitList" text="Listar Productos" />
-                        <MenuItem fx:id="mItModProd" mnemonicParsing="false" onAction="#mitModProd" text="Añadir/Modificar" />
+                        <MenuItem fx:id="mItModProd" mnemonicParsing="false" onAction="#mitModProd" text="Añadir/Modificar Productos" />
                   </items>
                 </Menu>
                   <MenuItem fx:id="mItUser" mnemonicParsing="false" onAction="#mitUser" text="Cambiar Usuario" />

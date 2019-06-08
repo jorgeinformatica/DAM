@@ -37,6 +37,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -102,6 +103,7 @@ public class DashboardController implements Initializable {
         doColumnTotalProducto(tcTotal);
         tvCuadro.getItems().clear();
         tvCuadro.getItems().addAll(filterProducto);
+        configurarLineas();
     }
 
     void setViewControl(AAController aThis) {
@@ -163,9 +165,9 @@ public class DashboardController implements Initializable {
         String[] split = dC.getCantidad(prod.getCodProd()).split("[|]");
         if (split[0].equals("0")) {
             btn.setId(Constantes.Estados.ENPRODUCCION.getId());
-        } else if(!split[0].equals(split[1])){
+        } else if (!split[0].equals(split[1])) {
             btn.setId(Constantes.Estados.PREPARADOPARCIAL.getId());
-        }else{
+        } else {
             btn.setId(Constantes.Estados.PREPARADO.getId());
         }
     }
@@ -366,6 +368,22 @@ public class DashboardController implements Initializable {
             fecha = MetodosEstaticos.ToDate(dpFecha.getValue());
         });
         dpFecha.setValue(LocalDate.now());
+    }
+
+    private void configurarLineas() {
+        tvCuadro.setRowFactory((p) -> {
+            TableRow<ProductoFX> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
+                    if (row.getId().equals("activo")) {
+                        row.setId("pasivo");
+                    } else {
+                        row.setId("activo");
+                    }
+                }
+            });
+            return row;
+        });
     }
 
 }//fin de la clase

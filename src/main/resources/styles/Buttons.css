@@ -4,8 +4,8 @@
     -fx-background-radius: 3,2,2,2;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
-    -fx-pref-height:30;
-    -fx-pref-width:70;
+    -fx-pref-height:40;
+    -fx-pref-width:80;
 }
 
 #btn-produccion:hover {
@@ -24,8 +24,8 @@
     -fx-background-radius: 3,2,2,2;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
-    -fx-pref-height:30;
-    -fx-pref-width:70;
+    -fx-pref-height:40;
+    -fx-pref-width:80;
 }
 
 #btn-preparado:hover {
@@ -44,8 +44,8 @@
     -fx-background-radius: 3,2,2,2;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
-    -fx-pref-height:30;
-    -fx-pref-width:70;
+    -fx-pref-height:40;
+    -fx-pref-width:80;
 }
 
 #btn-preparado-parcial:hover {
@@ -64,8 +64,8 @@
     -fx-background-radius: 3,2,2,2;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
-    -fx-pref-height:30;
-    -fx-pref-width:70;
+    -fx-pref-height:40;
+    -fx-pref-width:80;
 }
 
 #btn-entregado:hover {
@@ -84,8 +84,8 @@
     -fx-background-radius: 3,2,2,2;
     -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.4) , 5, 0.0 , 0 , 1 );
     -fx-text-fill: #ffffff;
-    -fx-pref-height:30;
-    -fx-pref-width:70;
+    -fx-pref-height:40;
+    -fx-pref-width:80;
 }
 
 #btn-anulado:hover {
@@ -97,3 +97,7 @@
     -fx-padding: 4 6 4 6;
     -fx-background-insets: 2 0 0 0,2 0 4 0, 2 0 4 0, 2 0 4 0;
 }
+
+#activo{-fx-background-color: blue}
+
+#pasivo{-fx-background-color: white}
