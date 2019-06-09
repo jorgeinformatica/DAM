@@ -86,9 +86,9 @@ public class HibernateController {
     }
 
     /**
-     * @param query
-     * @param condition
-     * @return
+     * @param query Corresponde a la sentencia que se va a lanzar
+     * @param condition corresponde al valor asociado al parametro 'id'
+     * @return es la lista de resultados
      */
     public List<Object> getList(String query, Object condition) {
         return session.createQuery(query).setParameter("id", condition).list();
