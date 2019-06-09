@@ -2,6 +2,7 @@ package Controllers;
 
 import BeansFX.LineaPedidoFX;
 import BeansFX.PedidoFX;
+import Utils.Constantes;
 import de.jensd.fx.glyphs.GlyphsDude;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import java.text.SimpleDateFormat;
@@ -27,12 +28,10 @@ import javafx.util.Callback;
 public class ListarPedidosColumns {
 
     private final ListarPedidosController parentController;
-    private final ObservableList<String> estados;
     private SimpleDateFormat sdf;
 
     public ListarPedidosColumns(ListarPedidosController parentController) {
         this.parentController = parentController;
-        estados = FXCollections.observableArrayList("EN PRODUCCION", "PREPARADO", "ENTREGADO", "ANULADO");
         sdf = new SimpleDateFormat("dd-MM-yyyy");
     }
 
@@ -75,7 +74,11 @@ public class ListarPedidosColumns {
                             setGraphic(null);
                         } else {
                             LineaPedidoFX linea = getTableView().getItems().get(getIndex());
-                            ComboBox<String> cbEstate = new ComboBox<>(estados);
+                            ComboBox<String> cbEstate = new ComboBox<>(FXCollections.observableArrayList(
+                                    Constantes.Estados.ENTREGADO.getNom(),
+                                    Constantes.Estados.PREPARADO.getNom(),
+                                    Constantes.Estados.ENPRODUCCION.getNom(),
+                                    Constantes.Estados.ANULADO.getNom()));
                             HBox h = new HBox(1, cbEstate);
                             cbEstate.getSelectionModel().select(linea.getEstado());
                             cbEstate.focusedProperty().addListener((ObservableValue<? extends Boolean> o, Boolean oV, Boolean nV) -> {
