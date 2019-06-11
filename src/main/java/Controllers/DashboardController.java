@@ -182,6 +182,7 @@ public class DashboardController implements Initializable {
                         viewControl.getLogic().getHibControl().UpdateElement(o);
                     }
                 }
+                viewControl.getLogic().getHibControl().refresco((Pedido) pedFX.getBean());
             }
         }
     }
@@ -205,6 +206,7 @@ public class DashboardController implements Initializable {
                         }
                     }
                 }
+                viewControl.getLogic().getHibControl().refresco((Pedido) pedFX.getBean());
             }
         }
     }
@@ -227,15 +229,17 @@ public class DashboardController implements Initializable {
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
                 String[] split = btn.getText().split("[|]");
-                if (Integer.valueOf(split[1]) < Integer.valueOf(result.get())) {
-                    int valor = Integer.valueOf(result.get()) - Integer.valueOf(split[1]);
-                    btn.setText(result.get() + "|" + result.get());
+                int parcial=Integer.valueOf(result.get())+Integer.valueOf(split[0]);
+                if (Integer.valueOf(split[1]) < parcial) {
+                    int valor = parcial - Integer.valueOf(split[1]);
+                    btn.setText(parcial + "|" + parcial);
                     marcarPreparado(dC, prod);
-                    lineaExtra(dC, prod, valor, Constantes.Estados.ENPRODUCCION.getNom());
+                    lineaExtra(dC, prod, valor, Constantes.Estados.PREPARADO.getNom());
                     btn.setId(Constantes.Estados.PREPARADO.getId());
                 } else {
-                    btn.setText(result.get() + "|" + split[1]);
+                    btn.setText(parcial + "|" + split[1]);
                     marcarPreparadoParcial(dC, prod, Integer.valueOf(result.get()));
+                    btn.setId(Constantes.Estados.PREPARADOPARCIAL.getId());
                 }
             }
         });
@@ -244,7 +248,8 @@ public class DashboardController implements Initializable {
             ObservableList<LineaPedidoFX> lineas = FXCollections.observableArrayList();
             for (PedidoFX pedFX : listaPedido) {
                 if (pedFX.getLocal().getNombre().equalsIgnoreCase(dC.getNombre())) {
-                    for (Object linea : pedFX.getLineasPedido()) {
+                    viewControl.getLogic().getHibControl().refresco((Pedido) pedFX.getBean());
+                    for (Object linea : ((Pedido)pedFX.getBean()).getLineaPedidos()) {
                         if (Objects.equals(((LineaPedido) linea).getProducto().getCodProd(), prod.getCodProd())) {
                             lineas.add(new LineaPedidoFX((LineaPedido) linea));
                         }
