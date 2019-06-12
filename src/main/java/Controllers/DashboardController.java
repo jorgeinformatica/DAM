@@ -103,7 +103,6 @@ public class DashboardController implements Initializable {
         doColumnTotalProducto(tcTotal);
         tvCuadro.getItems().clear();
         tvCuadro.getItems().addAll(filterProducto);
-        configurarLineas();
     }
 
     void setViewControl(AAController aThis) {
@@ -373,22 +372,6 @@ public class DashboardController implements Initializable {
             fecha = MetodosEstaticos.ToDate(dpFecha.getValue());
         });
         dpFecha.setValue(LocalDate.now());
-    }
-
-    private void configurarLineas() {
-        tvCuadro.setRowFactory((p) -> {
-            TableRow<ProductoFX> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY) {
-                    if (row.getId().equals("activo")) {
-                        row.setId("pasivo");
-                    } else {
-                        row.setId("activo");
-                    }
-                }
-            });
-            return row;
-        });
     }
 
 }//fin de la clase
