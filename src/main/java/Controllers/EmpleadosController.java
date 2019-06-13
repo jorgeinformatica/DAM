@@ -1,5 +1,6 @@
 package Controllers;
 
+import dam.proyecto.AAController;
 import Beans.CiudadConcp;
 import Beans.Direccion;
 import Beans.Empleado;
@@ -90,7 +91,7 @@ public class EmpleadosController implements Initializable {
         btnAceptarCambio.setVisible(false);
     }
 
-    void init(ObservableList<Node> base) {
+    public void init(ObservableList<Node> base) {
         initValues();
         configurarTxtDni();
         configurarTxtNom();
@@ -129,7 +130,7 @@ public class EmpleadosController implements Initializable {
         cbCP.setItems(filterCP.sorted());
     }
 
-    void setViewControl(AAController aThis) {
+    public void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
 

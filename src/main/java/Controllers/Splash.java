@@ -1,4 +1,4 @@
-package Utils;
+package Controllers;
 
 import java.io.IOException;
 import javafx.application.Preloader;

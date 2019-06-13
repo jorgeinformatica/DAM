@@ -1,5 +1,6 @@
 package Controllers;
 
+import dam.proyecto.AAController;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -18,11 +19,11 @@ public class ConfiguracionController implements Initializable {
        
     }
 
-    void init() {
+    public void init() {
 
     }
 
-    void setViewControl(AAController aThis) {
+    public void setViewControl(AAController aThis) {
     }
 
 }//fin de clase

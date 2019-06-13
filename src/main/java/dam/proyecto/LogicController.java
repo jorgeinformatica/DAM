@@ -14,7 +14,6 @@ import BeansFX.EmpleadoFX;
 import BeansFX.PedidoFX;
 import BeansFX.ProductoFX;
 import BeansFX.ProvinciaFX;
-import Controllers.AAController;
 import Controllers.LogueoController;
 import Hibernate.HibernateController;
 import Utils.Constantes;

@@ -1,5 +1,6 @@
 package Controllers;
 
+import dam.proyecto.AAController;
 import Beans.LineaPedido;
 import Beans.Pedido;
 import BeansFX.LineaPedidoFX;
@@ -73,7 +74,7 @@ public class ListarPedidosController implements Initializable {
         lineasTV.setId(Constantes.CSSId.TABLEVIEWID.getId());
     }
 
-    void init() {
+    public void init() {
         initValues();
         configurarPedidosTV();
         configurarTxtBuscar();
@@ -101,7 +102,7 @@ public class ListarPedidosController implements Initializable {
         lineasTV.getItems().addAll(listaLineas);
     }
 
-    void setViewControl(AAController aThis) {
+    public void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
 

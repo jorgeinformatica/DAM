@@ -1,5 +1,6 @@
 package Controllers;
 
+import dam.proyecto.AAController;
 import Beans.Producto;
 import BeansFX.ProductoFX;
 import Utils.Constantes;
@@ -99,7 +100,7 @@ public class ProductosAMController implements Initializable {
 
     }
 
-    void setViewControl(AAController aThis) {
+    public void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
 

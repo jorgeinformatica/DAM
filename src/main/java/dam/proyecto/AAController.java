@@ -1,6 +1,14 @@
-package Controllers;
+package dam.proyecto;
 
-import dam.proyecto.LogicController;
+import Controllers.ConfiguracionController;
+import Controllers.DashboardController;
+import Controllers.EmpleadosController;
+import Controllers.ListarPedidosController;
+import Controllers.ListarProductosController;
+import Controllers.LocalesController;
+import Controllers.LogueoController;
+import Controllers.PedidosAMController;
+import Controllers.ProductosAMController;
 import Utils.MetodosEstaticos;
 import java.net.URL;
 import java.util.ResourceBundle;

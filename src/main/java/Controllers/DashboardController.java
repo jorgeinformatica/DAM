@@ -1,5 +1,6 @@
 package Controllers;
 
+import dam.proyecto.AAController;
 import Beans.LineaPedido;
 import Beans.Pedido;
 import Beans.Producto;
@@ -37,7 +38,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -105,7 +105,7 @@ public class DashboardController implements Initializable {
         tvCuadro.getItems().addAll(filterProducto);
     }
 
-    void setViewControl(AAController aThis) {
+    public void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
 

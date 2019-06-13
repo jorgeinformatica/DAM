@@ -1,5 +1,6 @@
 package Controllers;
 
+import dam.proyecto.AAController;
 import Beans.LineaPedido;
 import Beans.Local;
 import Beans.Pedido;
@@ -140,7 +141,7 @@ public class PedidosAMController implements Initializable {
         tableController.doColumnActionsPedido(accionesTC);
     }
 
-    void setViewControl(AAController aThis) {
+    public void setViewControl(AAController aThis) {
         viewControl = aThis;
     }
 
