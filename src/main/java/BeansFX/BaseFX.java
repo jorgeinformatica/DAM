@@ -1,31 +1,17 @@
 package BeansFX;
 
 import Beans.BaseBean;
-import javafx.beans.property.ObjectProperty;
 
 /**
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public abstract class BaseFX {
 
-    protected ObjectProperty<BaseFX> beanFX;
     protected BaseBean bean;
 
     public abstract boolean comprobarCambios();
 
     public abstract void sinCambios();
-
-    public BaseFX getBeanFX() {
-        return beanFX.get();
-    }
-
-    public void setBeanFX(BaseFX productofx) {
-        this.beanFX.set(productofx);
-    }
-
-    public ObjectProperty<BaseFX> beanFXProperty() {
-        return beanFX;
-    }
 
     public BaseBean getBean() {
         return bean;
@@ -35,4 +21,4 @@ public abstract class BaseFX {
         this.bean = bean;
     }
 
-}//fin de la clase
+}//fin de clase

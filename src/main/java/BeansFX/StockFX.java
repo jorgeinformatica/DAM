@@ -26,7 +26,6 @@ public class StockFX extends BaseFX {
         this.local = new SimpleObjectProperty<>();
         this.producto = new SimpleObjectProperty<>();
         this.cantidad = new SimpleObjectProperty<>();
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public StockFX(Stock stock) {
@@ -34,7 +33,6 @@ public class StockFX extends BaseFX {
         this.local = new SimpleObjectProperty<>(stock.getLocal());
         this.producto = new SimpleObjectProperty<>(stock.getProducto());
         this.cantidad = new SimpleObjectProperty<>(stock.getCantidad());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = stock;
     }
 

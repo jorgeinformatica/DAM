@@ -5,7 +5,6 @@ import Beans.LineaTicket;
 import Beans.Producto;
 import Beans.Stock;
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.Set;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
@@ -42,7 +41,6 @@ public class ProductoFX extends BaseFX {
     private BooleanProperty estado;
 
     public ProductoFX() {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.codProd = new SimpleObjectProperty<>();
         this.nombre = new SimpleStringProperty();
         this.tipoIva = new SimpleStringProperty();
@@ -55,7 +53,6 @@ public class ProductoFX extends BaseFX {
     }
 
     public ProductoFX(Producto producto) {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.codProd = new SimpleObjectProperty<>(producto.getCodProd());
         this.nombre = new SimpleStringProperty(producto.getNombre());
         this.tipoIva = new SimpleStringProperty(producto.getTipoIva());

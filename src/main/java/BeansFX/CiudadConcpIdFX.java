@@ -11,17 +11,17 @@ import javafx.beans.property.StringProperty;
  */
 public class CiudadConcpIdFX extends BaseFX {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<Short> codCiudad;
+    @SuppressWarnings("FieldMayBeFinal")
     private StringProperty codPostal;
 
     public CiudadConcpIdFX() {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.codCiudad = new SimpleObjectProperty<>();
         this.codPostal = new SimpleStringProperty();
     }
 
     public CiudadConcpIdFX(CiudadConcpId cccpId) {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.codCiudad = new SimpleObjectProperty<>(cccpId.getCodCiudad());
         this.codPostal = new SimpleStringProperty(cccpId.getCodPostal());
         this.bean = cccpId;

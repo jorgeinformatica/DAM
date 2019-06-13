@@ -39,7 +39,6 @@ public class PedidoFX extends BaseFX {
         this.fechaEntrega = new SimpleObjectProperty<>();
         this.estado = new SimpleStringProperty();
         this.lineasPedido = new SimpleSetProperty<>(FXCollections.observableSet());
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
     
     public PedidoFX(Pedido pedido) {
@@ -49,7 +48,6 @@ public class PedidoFX extends BaseFX {
         this.fechaEntrega = new SimpleObjectProperty<>(pedido.getFechaEntrega());
         this.estado = new SimpleStringProperty(pedido.getEstado());
         this.lineasPedido = new SimpleSetProperty<>(FXCollections.observableSet(pedido.getLineaPedidos()));
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = pedido;
     }
     

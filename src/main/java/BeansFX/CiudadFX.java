@@ -26,14 +26,12 @@ public class CiudadFX extends BaseFX{
     public CiudadFX() {
         this.codCiudad = new SimpleObjectProperty<>();
         this.nombre = new SimpleStringProperty();
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet());
     }
 
     public CiudadFX(Ciudad ciudad) {
         this.codCiudad = new SimpleObjectProperty<>(ciudad.getCodCiudad());
         this.nombre = new SimpleStringProperty(ciudad.getNombre());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet(ciudad.getCiudadConcps()));
         this.bean=ciudad;
     }

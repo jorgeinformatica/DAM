@@ -39,7 +39,6 @@ public class TicketFX extends BaseFX {
         this.tipoTicket = new SimpleStringProperty();
         this.precioTotal = new SimpleObjectProperty<>();
         this.lineaTickets = new SimpleSetProperty<>(FXCollections.observableSet());
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public TicketFX(Ticket ticket) {
@@ -49,7 +48,6 @@ public class TicketFX extends BaseFX {
         this.tipoTicket = new SimpleStringProperty(ticket.getTipoTicket());
         this.precioTotal = new SimpleObjectProperty<>(ticket.getPrecioTotal());
         this.lineaTickets = new SimpleSetProperty<>(FXCollections.observableSet());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean=ticket;
     }
 

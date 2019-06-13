@@ -46,7 +46,6 @@ public class EmpleadoFX extends BaseFX {
         this.telefono = new SimpleStringProperty();
         this.email = new SimpleStringProperty();
         this.estado = new SimpleBooleanProperty();
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public EmpleadoFX(Empleado empleado) {
@@ -60,7 +59,6 @@ public class EmpleadoFX extends BaseFX {
         this.telefono = new SimpleStringProperty(empleado.getTelefono());
         this.email = new SimpleStringProperty(empleado.getEmail());
         this.estado = new SimpleBooleanProperty(empleado.getEstado());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = empleado;
     }
 

@@ -47,7 +47,6 @@ public class LocalFX extends BaseFX {
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet());
         this.tickets = new SimpleSetProperty<>(FXCollections.observableSet());
         this.stocks = new SimpleSetProperty<>(FXCollections.observableSet());
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public LocalFX(Local local) {
@@ -59,7 +58,6 @@ public class LocalFX extends BaseFX {
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet(local.getEmpleados()));
         this.tickets = new SimpleSetProperty<>(FXCollections.observableSet(local.getTickets()));
         this.stocks = new SimpleSetProperty<>(FXCollections.observableSet(local.getStocks()));
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = local;
     }
 

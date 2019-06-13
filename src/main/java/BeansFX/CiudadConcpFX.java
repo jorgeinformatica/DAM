@@ -2,7 +2,6 @@ package BeansFX;
 
 import Beans.Ciudad;
 import Beans.CiudadConcp;
-import Beans.CiudadConcpId;
 import Beans.CodigoPostal;
 import Beans.Direccion;
 import Beans.Provincia;
@@ -19,14 +18,17 @@ import javafx.collections.FXCollections;
  */
 public class CiudadConcpFX extends BaseFX {
 
+    @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<CiudadConcpIdFX> id;
+    @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<CiudadFX> ciudad;
+    @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<CodigoPostalFX> codigoPostal;
+    @SuppressWarnings("FieldMayBeFinal")
     private ObjectProperty<ProvinciaFX> provincia;
     private SetProperty<Direccion> direcciones;
 
     public CiudadConcpFX() {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.id = new SimpleObjectProperty<>();
         this.ciudad = new SimpleObjectProperty<>();
         this.codigoPostal = new SimpleObjectProperty<>();
@@ -35,7 +37,6 @@ public class CiudadConcpFX extends BaseFX {
     }
 
     public CiudadConcpFX(CiudadConcp cccp) {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.id = new SimpleObjectProperty<>(new CiudadConcpIdFX(cccp.getId()));
         this.ciudad = new SimpleObjectProperty<>(new CiudadFX(cccp.getCiudad()));
         this.codigoPostal = new SimpleObjectProperty<>(new CodigoPostalFX(cccp.getCodigoPostal()));

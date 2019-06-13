@@ -111,7 +111,10 @@ public class LogicController {
     }
 
     public boolean setUser(String user, String pass) {
-        Object objeto = hibControl.searchElement(Empleado.class, " dni like '" + pass + "' AND telefono=" + user);
+        Object objeto = hibControl.searchElement(Empleado.class,
+                " dni like '" + pass
+                + "' AND telefono=" + user
+                + " AND " + Constantes.HQLCondicion.ESTADO.getCondicion());
         if (objeto != null) {
             usuario = new EmpleadoFX((Empleado) objeto);
             return true;

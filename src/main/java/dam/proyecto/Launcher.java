@@ -1,5 +1,6 @@
 package dam.proyecto;
 
+import Utils.Splash;
 import Controllers.AAController;
 import Utils.MetodosEstaticos;
 import com.sun.javafx.application.LauncherImpl;

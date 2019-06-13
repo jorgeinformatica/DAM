@@ -38,7 +38,6 @@ public class DireccionFX extends BaseFX {
         this.numero = new SimpleObjectProperty<>();
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet());
         this.locales = new SimpleSetProperty<>(FXCollections.observableSet());
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public DireccionFX(Direccion direccion) {
@@ -48,7 +47,6 @@ public class DireccionFX extends BaseFX {
         this.numero = new SimpleObjectProperty<>(direccion.getNumero());
         this.empleados = new SimpleSetProperty<>(FXCollections.observableSet());
         this.locales = new SimpleSetProperty<>(FXCollections.observableSet());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = direccion;
     }
 

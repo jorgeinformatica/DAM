@@ -4,7 +4,7 @@
 
     <groupId>DAM</groupId>
     <artifactId>Proyecto</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>0.2-ALFA</version>
     <packaging>jar</packaging>
 
     <name>Proyecto</name>
@@ -131,11 +131,6 @@
             <groupId>de.jensd</groupId>
             <artifactId>fontawesomefx</artifactId>
             <version>8.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fxmisc.cssfx</groupId>
-            <artifactId>cssfx</artifactId>
-            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>

@@ -24,14 +24,12 @@ public class ProvinciaFX extends BaseFX {
     private SetProperty<CiudadConcp> ciudadConcp;
 
     public ProvinciaFX() {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet());
         this.nombre = new SimpleStringProperty();
         this.codProvincia = new SimpleObjectProperty<>();
     }
 
     public ProvinciaFX(Provincia provincia) {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.ciudadConcp = new SimpleSetProperty<>(FXCollections.observableSet(provincia.getCiudadConcps()));
         this.codProvincia = new SimpleObjectProperty<>(provincia.getCodProv());
         this.nombre = new SimpleStringProperty(provincia.getNombre());

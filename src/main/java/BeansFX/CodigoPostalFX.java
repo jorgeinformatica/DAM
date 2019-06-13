@@ -4,7 +4,6 @@ import Beans.CiudadConcp;
 import Beans.CodigoPostal;
 import java.util.Set;
 import javafx.beans.property.SetProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -21,13 +20,11 @@ public class CodigoPostalFX extends BaseFX {
     private SetProperty<CiudadConcp> relCpCiu;
 
     public CodigoPostalFX() {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.codPostal = new SimpleStringProperty();
         this.relCpCiu = new SimpleSetProperty<>(FXCollections.observableSet());
     }
 
     public CodigoPostalFX(CodigoPostal cp) {
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.codPostal = new SimpleStringProperty(cp.getCodPostal());
         this.relCpCiu = new SimpleSetProperty<>(FXCollections.observableSet(cp.getCiudadConcps()));
         this.bean = cp;

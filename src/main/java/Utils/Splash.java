@@ -1,4 +1,4 @@
-package dam.proyecto;
+package Utils;
 
 import java.io.IOException;
 import javafx.application.Preloader;
@@ -25,7 +25,6 @@ public class Splash extends Preloader {
             System.err.println("NO SE HA ENCONTRADO EL FXML");
         }
         Scene scene = new Scene(root);
-        scene.getStylesheets().add("/styles/Styles.css");
         return scene;
     }
 

@@ -17,13 +17,11 @@ public class StockIdFX extends BaseFX {
     public StockIdFX() {
         this.codLocal = new SimpleObjectProperty<>();
         this.codProd = new SimpleObjectProperty<>();
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public StockIdFX(StockId stockId) {
         this.codLocal = new SimpleObjectProperty<>(stockId.getCodLocal());
         this.codProd = new SimpleObjectProperty<>(stockId.getCodProd());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean=stockId;
     }
 

@@ -25,7 +25,6 @@ public class LineaTicketFX extends BaseFX {
         this.producto = new SimpleObjectProperty<>();
         this.ticket = new SimpleObjectProperty<>();
         this.cantidad = new SimpleObjectProperty<>();
-        this.beanFX = new SimpleObjectProperty<>(this);
     }
 
     public LineaTicketFX(LineaTicket lineaTicket) {
@@ -33,7 +32,6 @@ public class LineaTicketFX extends BaseFX {
         this.producto = new SimpleObjectProperty<>(lineaTicket.getProducto());
         this.ticket = new SimpleObjectProperty<>(lineaTicket.getTicket());
         this.cantidad = new SimpleObjectProperty<>(lineaTicket.getCantidad());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.bean = lineaTicket;
     }
 

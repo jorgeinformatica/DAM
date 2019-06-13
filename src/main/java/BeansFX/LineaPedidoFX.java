@@ -33,7 +33,6 @@ public class LineaPedidoFX extends BaseFX {
         this.producto = new SimpleObjectProperty<>();
         this.cantidad = new SimpleObjectProperty<>();
         this.estado = new SimpleStringProperty();
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.esEditable = new SimpleBooleanProperty(false);
     }
 
@@ -43,7 +42,6 @@ public class LineaPedidoFX extends BaseFX {
         this.producto = new SimpleObjectProperty<>(new ProductoFX(lineaPedido.getProducto()));
         this.cantidad = new SimpleObjectProperty<>(lineaPedido.getCantidad());
         this.estado = new SimpleStringProperty(lineaPedido.getEstado());
-        this.beanFX = new SimpleObjectProperty<>(this);
         this.esEditable = new SimpleBooleanProperty(false);
         this.bean = lineaPedido;
     }
