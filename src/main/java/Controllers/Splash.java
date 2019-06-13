@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public class Splash extends Preloader {
 
@@ -51,4 +51,4 @@ public class Splash extends Preloader {
             Splash.stage.close();
         }
     }
-}//fin de la clase
+}//fin de clase

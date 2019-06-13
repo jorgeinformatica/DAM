@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 /**
- * @author Jorge Sempere
+ * @author Jorge Sempere Jimenez
  */
 public class HibernateUtil {
 
@@ -20,4 +20,4 @@ public class HibernateUtil {
         }
         return SESSIONFACTORY;
     }
-}//fin de la clase
+}//fin de clase
