@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
-        <action>
+        <action><!--Parametros de ejecucion de la aplicacion cuando le damos a 'Run'-->
             <actionName>run</actionName>
             <goals>
                 <goal>clean</goal>
@@ -11,7 +11,7 @@
                 <runfx.args>-jar "${project.build.directory}/${project.build.finalName}.jar"</runfx.args>
             </properties>
         </action>
-        <action>
+        <action><!--Parametros de ejecucion de la aplicacion cuando le damos a 'Debug'-->
             <actionName>debug</actionName>
             <goals>
                 <goal>clean</goal>

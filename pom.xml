@@ -20,7 +20,7 @@
 
     <build>
         <plugins>
-            <plugin>
+            <plugin><!--Plugin que permite visualiza las versiones de un plugin y dependencias-->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>2.7</version>
@@ -28,7 +28,7 @@
                     <generateBackupPoms>false</generateBackupPoms>
                 </configuration>
             </plugin>  
-            <plugin>
+            <plugin><!--Plugin que gestiona las dependencias-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.1.1</version>
@@ -47,29 +47,35 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <plugin><!--Plugin encargado de generar el ejecutable-->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
                 <executions>
                     <execution>
                         <id>unpack-dependencies</id>
-                        
                         <phase>package</phase>
                         <goals>
                             <goal>exec</goal>
                         </goals>
                         <configuration>
+                            <!--El ejecutable se ha renombrado, anteriormente era 'javafxpackager'-->
                             <executable>${java.home}/../bin/javapackager</executable>
                             <arguments>
+                                <!--Argumento para generar el jar-->
                                 <argument>-createjar</argument>
+                                <!--Argumento para no convertir los ficheros CSS-->
                                 <argument>-nocss2bin</argument>
+                                <!--Argumento para indicar el nombre de la clase a ejecutar, que es 'Launcher'-->
                                 <argument>-appclass</argument>
                                 <argument>${mainClass}</argument>
+                                <!--Argumento para indicar el directorio base donde estan las clases, que es '/DAM'-->
                                 <argument>-srcdir</argument>
                                 <argument>${project.build.directory}/classes</argument>
+                                <!--Argumento para indicar el directorio objetivo del .jar , que es '/target'-->
                                 <argument>-outdir</argument>
                                 <argument>${project.build.directory}</argument>
+                                <!--Argumento para indicar el nombre del .jar , que es 'Proyecto-0.2-ALFA'-->
                                 <argument>-outfile</argument>
                                 <argument>${project.build.finalName}.jar</argument>
                             </arguments>
@@ -80,33 +86,23 @@
                         <goals>
                             <goal>exec</goal>                            
                         </goals>
-                        <configuration>
+                        <configuration><!--Indica directorio de java y los argumentos para la ejecucion, si los hubiera-->
                             <executable>${java.home}/bin/java</executable>
                             <commandlineArgs>${runfx.args}</commandlineArgs>
                         </configuration>
                     </execution>
                 </executions>  
             </plugin>
-            <plugin>
+            <plugin><!--Plugin encargado de compilar todo-->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.6.2</version>
-                <configuration>
+                <configuration><!--Definida la version 8 de Java-->
                     <source>1.8</source>
                     <target>1.8</target>
                     <compilerArguments>
                         <bootclasspath>${sun.boot.class.path}${path.separator}${java.home}/lib/jfxrt.jar</bootclasspath>
                     </compilerArguments>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.1</version>
-                <configuration>
-                    <additionalClasspathElements>
-                        <additionalClasspathElement>${java.home}/lib/jfxrt.jar</additionalClasspathElement>
-                    </additionalClasspathElements>
                 </configuration>
             </plugin>
         </plugins>
@@ -115,7 +111,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>4.3.1.Final</version>
+            <version>4.3.11.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
@@ -125,7 +121,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.15</version>
+            <version>8.0.16</version>
         </dependency>
         <dependency>
             <groupId>de.jensd</groupId>
