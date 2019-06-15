@@ -20,5 +20,5 @@ public abstract class BaseFX {
     public void setBean(BaseBean bean) {
         this.bean = bean;
     }
-
+    
 }//fin de clase

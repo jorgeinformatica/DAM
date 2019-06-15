@@ -14,20 +14,15 @@ import javafx.stage.Stage;
  * @author Jorge Sempere Jimenez
  */
 public class Splash extends Preloader {
-
     private static Stage stage;
-
     private Scene createPreloaderScene() {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/fxml/Splash.fxml"));
-        } catch (IOException ex) {
-            System.err.println("NO SE HA ENCONTRADO EL FXML");
-        }
+        } catch (IOException ex) {System.err.println("NO SE HA ENCONTRADO EL FXML");}
         Scene scene = new Scene(root);
         return scene;
     }
-
     @Override
     public void start(Stage stage) {
         Splash.stage = new Stage();
@@ -38,17 +33,11 @@ public class Splash extends Preloader {
         Splash.stage.setAlwaysOnTop(true);
         Splash.stage.show();
     }
-
     @Override
     public void handleStateChangeNotification(StateChangeNotification scn) {
-        if (scn.getType() == StateChangeNotification.Type.BEFORE_START) {
-            stage.hide();
-        }
+        if (scn.getType() == StateChangeNotification.Type.BEFORE_START) {stage.hide();}
     }
-
     public static void hide() {
-        if (Splash.stage != null) {
-            Splash.stage.close();
-        }
+        if (Splash.stage != null) {Splash.stage.close();}
     }
 }//fin de clase

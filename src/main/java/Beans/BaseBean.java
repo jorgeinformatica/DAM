@@ -8,5 +8,4 @@ import BeansFX.BaseFX;
 public interface BaseBean {
 
     public void actualizarDatos(BaseFX o);
-
 }//fin de clase

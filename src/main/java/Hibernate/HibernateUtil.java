@@ -20,4 +20,5 @@ public class HibernateUtil {
         }
         return SESSIONFACTORY;
     }
+    
 }//fin de clase
