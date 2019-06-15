@@ -18,14 +18,9 @@ public class Constantes {
             this.nom = nom;
             this.id = id;
         }
-
-        public String getNom() {
-            return nom;
-        }
-
-        public String getId() {
-            return id;
-        }
+        public String getNom() {return nom;}
+        
+        public String getId() {return id;}
     }
 
     public enum HQLCondicion {
@@ -35,13 +30,9 @@ public class Constantes {
         ESTADO(" elemento.estado = 1");
         private final String condicion;
 
-        private HQLCondicion(String condicion) {
-            this.condicion = condicion;
-        }
-
-        public String getCondicion() {
-            return condicion;
-        }
+        private HQLCondicion(String condicion) {this.condicion = condicion;}
+        
+        public String getCondicion() {return condicion;}
     }
 
     public enum HQLSentencia {

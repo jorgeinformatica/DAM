@@ -59,8 +59,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <!--El ejecutable se ha renombrado, anteriormente era 'javafxpackager'-->
-                            <executable>${java.home}/../bin/javapackager</executable>
+                            <executable>${java.home}/../bin/javapackager</executable><!--El lanzador se ha renombrado, anteriormente era 'javafxpackager'-->
                             <arguments>
                                 <!--Argumento para generar el jar-->
                                 <argument>-createjar</argument>

@@ -25,7 +25,9 @@ public class PropertiesUtil {
     private PropertiesUtil() {
         prop = new Properties();
     }
-
+/**
+ * @return HashMap devuelve un map con las configuraciones de la aplicación.
+ */
     public HashMap getStatus() {
         HashMap map = new HashMap();
         Enumeration<Object> keys;
@@ -44,7 +46,9 @@ public class PropertiesUtil {
         }
         return map;
     }
-
+/**
+ * @param map El map con los parametros de configuracion de la aplicación
+ */
     public void setStatus(HashMap map) {
         try {
             map.forEach((k, v) -> prop.setProperty((String) k, (String) v));
@@ -54,4 +58,4 @@ public class PropertiesUtil {
         }
     }
 
-}//fin de la clase 
+}//fin de clase 

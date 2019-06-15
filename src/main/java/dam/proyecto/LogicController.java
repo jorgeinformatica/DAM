@@ -167,7 +167,6 @@ public class LogicController {
 
     /**
      * Cambia el "panel" en la escene
-     *
      * @param loader es el "cargador" del nodo a asignar a la scene principal
      */
     public void setNodo(FXMLLoader loader) {
@@ -195,7 +194,8 @@ public class LogicController {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setTitle(null);
                 alert.setHeaderText(null);
-                alert.setContentText("Han cambiado las características de: \"" + elem.toString() + "\"" + System.lineSeparator() + "¿Quiere actualizarlo?");
+                alert.setContentText("Han cambiado las características de: \"" + elem.toString() + "\"" +
+                        System.lineSeparator() + "¿Quiere actualizarlo?");
                 alert.initOwner(viewControl.getStage());
                 Optional<ButtonType> resol = alert.showAndWait();
                 if (resol.get() == ButtonType.OK) {
@@ -243,13 +243,17 @@ public class LogicController {
         }
         return false;
     }
-
+/**
+ * 
+ * @param btn El boton al que asignarle el evento y definir caracteristicas esteticas
+ * @param bean La entidad sujeta a actualizacion
+ */
     public void aceptarCambiosBtn(Button btn, BaseFX bean) {
         btn.setVisible(true);
         Timeline flash = new Timeline(
-                new KeyFrame(Duration.seconds(0), evt -> btn.setStyle(" -fx-text-fill: rgba(183, 28, 28,0)")),
-                new KeyFrame(Duration.seconds(0.50), evt -> btn.setStyle(" -fx-text-fill: rgba(183, 28, 28,0.5)")),
-                new KeyFrame(Duration.seconds(1), evt -> btn.setStyle(" -fx-text-fill: rgba(183, 28, 28,1)"))
+                new KeyFrame(Duration.seconds(0), evt -> btn.setStyle(" -fx-text-fill: rgba(200, 28, 28,0)")),
+                new KeyFrame(Duration.seconds(0.50), evt -> btn.setStyle(" -fx-text-fill: rgba(200, 28, 28,0.5)")),
+                new KeyFrame(Duration.seconds(1), evt -> btn.setStyle(" -fx-text-fill: rgba(200, 28, 28,1)"))
         );
         flash.setCycleCount(Animation.INDEFINITE);
         flash.play();
