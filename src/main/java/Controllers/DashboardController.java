@@ -68,10 +68,6 @@ public class DashboardController implements Initializable {
     @FXML
     private Button btnRefresco;
 
-    /**
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fecha = Date.from(Instant.now());

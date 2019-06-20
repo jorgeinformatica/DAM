@@ -95,10 +95,6 @@ public class PedidosAMController implements Initializable {
     private PedidosAMColumns tableController;
     private SimpleDateFormat sdf;
 
-    /**
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);

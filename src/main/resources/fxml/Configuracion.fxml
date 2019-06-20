@@ -1,11 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
-
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ConfiguracionController">
    <children>
-      <Label alignment="CENTER" text="Configuracion" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" VBox.vgrow="NEVER">
+               <children>
+                  <ToggleButton fx:id="tbLocal" mnemonicParsing="false" onAction="#viewLocales" prefHeight="30.0" prefWidth="110.0" text="LOCALES" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Noto Sans Bold" size="14.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="tbProducto" mnemonicParsing="false" onAction="#viewProductos" prefHeight="30.0" prefWidth="110.0" text="PRODUCTOS" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Noto Sans Bold" size="14.0" />
+                     </font>
+                  </ToggleButton>
+                  <ToggleButton fx:id="tbRepo" mnemonicParsing="false" onAction="#viewReporting" prefHeight="30.0" prefWidth="110.0" text="REPORTING" HBox.hgrow="ALWAYS">
+                     <HBox.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Noto Sans Bold" size="14.0" />
+                     </font>
+                  </ToggleButton>
+               </children>
+            </HBox>
+            <WebView fx:id="ww" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

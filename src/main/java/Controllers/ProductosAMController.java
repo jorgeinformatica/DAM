@@ -78,10 +78,6 @@ public class ProductosAMController implements Initializable {
     private FilteredList<ProductoFX> filteredItems;
     private SimpleDateFormat sdf;
 
-    /**
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);

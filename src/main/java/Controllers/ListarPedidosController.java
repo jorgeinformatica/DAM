@@ -64,10 +64,6 @@ public class ListarPedidosController implements Initializable {
     private FilteredList<PedidoFX> filterPedidos;
     private ListarPedidosColumns tableController;
 
-    /**
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         pedidosTV.setId(Constantes.CSSId.TABLEVIEWID.getId());

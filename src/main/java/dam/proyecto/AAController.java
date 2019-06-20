@@ -67,7 +67,7 @@ public class AAController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        mItConfig.setVisible(false);
+     //   mItConfig.setVisible(false);
     }
     
     @FXML

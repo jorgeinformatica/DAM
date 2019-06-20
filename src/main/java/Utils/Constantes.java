@@ -18,9 +18,14 @@ public class Constantes {
             this.nom = nom;
             this.id = id;
         }
-        public String getNom() {return nom;}
-        
-        public String getId() {return id;}
+
+        public String getNom() {
+            return nom;
+        }
+
+        public String getId() {
+            return id;
+        }
     }
 
     public enum HQLCondicion {
@@ -30,9 +35,13 @@ public class Constantes {
         ESTADO(" elemento.estado = 1");
         private final String condicion;
 
-        private HQLCondicion(String condicion) {this.condicion = condicion;}
-        
-        public String getCondicion() {return condicion;}
+        private HQLCondicion(String condicion) {
+            this.condicion = condicion;
+        }
+
+        public String getCondicion() {
+            return condicion;
+        }
     }
 
     public enum HQLSentencia {
@@ -67,6 +76,22 @@ public class Constantes {
 
         public String getId() {
             return id;
+        }
+
+    }
+
+    public enum Qlik {
+        LOCALES("http://localhost:4848/single/?appid=D%3A%5CqlikDocuments%5CSense%5CApps%5CAn%C3%A1lisis.qvf&sheet=e3644f10-c61a-4059-a7a5-d5aeaa0e7c4d&opt=currsel%2Cctxmenu&select=clearall"),
+        PRODUCTOS("http://localhost:4848/single/?appid=D%3A%5CqlikDocuments%5CSense%5CApps%5CAn%C3%A1lisis.qvf&sheet=5033ea1c-618f-46cb-8239-bb1e949f8326&opt=currsel%2Cctxmenu&select=clearalle"),
+        REPORTING("http://localhost:4848/single/?appid=D%3A%5CqlikDocuments%5CSense%5CApps%5CAn%C3%A1lisis.qvf&sheet=809cc475-21e3-4469-bd21-382efb4f9abd&opt=currsel%2Cctxmenu&select=clearall");
+        private final String url;
+
+        private Qlik(String url) {
+            this.url = url;
+        }
+
+        public String getUrl() {
+            return url;
         }
 
     }

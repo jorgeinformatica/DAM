@@ -91,10 +91,6 @@ public class LocalesController implements Initializable {
     private ObservableList<LocalFX> listaLocal;
     private ObservableList<PedidoFX> listaPedidos;
 
-    /**
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);

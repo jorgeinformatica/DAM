@@ -82,10 +82,6 @@ public class EmpleadosController implements Initializable {
     private ObservableList<EmpleadoFX> listaEmpleados;
     private ObservableList<LocalFX> listaLocal;
 
-    /**
-     * @param url
-     * @param rb
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnAceptarCambio.setVisible(false);
